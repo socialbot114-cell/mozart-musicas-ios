@@ -18,7 +18,7 @@ jobs:
         run: python3 ios/Scripts/validate_catalog.py
 
   build:
-    runs-on: macos-14
+    runs-on: macos-26
     needs: catalog
     steps:
       - uses: actions/checkout@v4
