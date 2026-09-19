@@ -17,14 +17,18 @@ targets:
     sources:
       - path: MusicasParaEstudar
         excludes: [Resources]
-    resources:
       - path: MusicasParaEstudar/Resources/Assets.xcassets
+        buildPhase: resources
       - path: MusicasParaEstudar/Resources/Audio
         type: folder
+        buildPhase: resources
       - path: Catalog
         type: folder
+        buildPhase: resources
       - path: Privacy/PrivacyInfo.xcprivacy
+        buildPhase: resources
       - path: LaunchScreen.storyboard
+        buildPhase: resources
     settings:
       INFOPLIST_KEY_CFBundleDisplayName: Músicas para Estudar
       GENERATE_INFOPLIST_FILE: NO
