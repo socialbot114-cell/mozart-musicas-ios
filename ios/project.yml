@@ -29,7 +29,7 @@ targets:
       INFOPLIST_KEY_CFBundleDisplayName: Músicas para Estudar
       GENERATE_INFOPLIST_FILE: NO
       INFOPLIST_FILE: Privacy/Info.plist
-      PRIVACY_MANIFEST_FILE: Resources/PrivacyInfo.xcprivacy
+      PRIVACY_MANIFEST_FILE: MusicasParaEstudar/Resources/PrivacyInfo.xcprivacy
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       TARGETED_DEVICE_FAMILY: "1,2"
   MusicasParaEstudarTests:
