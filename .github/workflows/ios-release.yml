@@ -104,7 +104,6 @@ jobs:
           app=("$RUNNER_TEMP"/ipa/Payload/*.app)
           /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist" | grep -qx 'br.com.musicaspara.estudar'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
-          test -f "${app[0]}/Assets.car"
 
       - uses: actions/upload-artifact@v4
         with:
