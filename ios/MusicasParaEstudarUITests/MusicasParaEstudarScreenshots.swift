@@ -21,21 +21,28 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
     }
 
     private func openExplore(_ app: XCUIApplication) {
-        let tabBarButton = app.tabBars.buttons["Explorar"]
-        if tabBarButton.waitForExistence(timeout: 3) {
-            tabBarButton.tap()
-        } else {
-            app.buttons["Explorar"].firstMatch.tap()
-        }
+        openSection(app, "Explorar")
         _ = app.buttons["chip.Todos"].waitForExistence(timeout: 3)
     }
 
     private func openHome(_ app: XCUIApplication) {
-        let tabBarButton = app.tabBars.buttons["Início"]
+        openSection(app, "Início")
+    }
+
+    private func openSection(_ app: XCUIApplication, _ name: String) {
+        let tabBarButton = app.tabBars.buttons[name]
         if tabBarButton.waitForExistence(timeout: 3) {
             tabBarButton.tap()
-        } else {
-            app.buttons["Início"].firstMatch.tap()
+            return
+        }
+        let cell = app.cells.containing(.staticText, identifier: name).firstMatch
+        if cell.waitForExistence(timeout: 3) {
+            cell.tap()
+            return
+        }
+        let text = app.staticTexts[name].firstMatch
+        if text.waitForExistence(timeout: 3) {
+            text.tap()
         }
     }
 
