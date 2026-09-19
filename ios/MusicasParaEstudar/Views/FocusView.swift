@@ -10,17 +10,16 @@ struct FocusView: View {
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        NavigationStack { VStack(spacing: 22) {
+        VStack(spacing: 22) {
             Text("Foco").font(.largeTitle.bold())
             Text(String(format: "%02d:%02d", remaining / 60, remaining % 60)).font(.system(size: 56, weight: .light, design: .rounded)).monospacedDigit().accessibilityLabel("Tempo restante: \(remaining / 60) minutos e \(remaining % 60) segundos")
             Picker("Duração da sessão", selection: $minutes) { ForEach([25, 50, 90], id: \.self) { Text("\($0) min").tag($0) } }.pickerStyle(.segmented).disabled(running).onChange(of: minutes) { _, value in remaining = value * 60 }
-            Button(running ? "Pausar" : "Começar") { toggleTimer() }.buttonStyle(.borderedProminent).accessibilityHint(running ? "Pausa a contagem regressiva" : "Inicia a contagem regressiva")
+            Button(running ? "Pausar" : "Começar") { toggleTimer() }.buttonStyle(.borderedProminent).tint(AppTheme.accent).accessibilityHint(running ? "Pausa a contagem regressiva" : "Inicia a contagem regressiva")
             Text("\(store.completedMinutes) minutos estudados · \(store.sessions) sessões").foregroundStyle(.secondary)
         }.padding().navigationTitle("Foco")
             .onAppear { restoreTimer() }
             .onChange(of: scenePhase) { _, phase in if phase == .active { restoreTimer() } }
             .onReceive(timer) { now in if running { updateRemaining(at: now) } }
-        }
     }
 
     private func toggleTimer() {

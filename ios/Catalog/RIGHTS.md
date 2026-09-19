@@ -4,6 +4,4 @@ Only records in `catalog.json` under `tracks` are bundled. Playback accepts only
 
 Development validation reports unverified recordings without treating them as licensed. Distribution validation (`python3 Scripts/validate_catalog.py --distribution`) fails if any bundled recording is not approved; the release workflow runs this gate before signing or uploading.
 
-The current catalog is intentionally empty. Existing audio candidates were removed from both iOS and Android because filenames, catalog labels, and composition public-domain status do not prove rights to the specific recording or its redistribution.
-
-To approve a recording, preserve the exact work and performer facts from the source, add territory and verification date, calculate the hash, and run both validator modes. Approval must be based on actual rights evidence; catalog metadata and composition age are not evidence of recording rights.
+The bundled catalog contains 50 approved recordings. Every approved recording preserves the exact work and performer facts from its source, includes territory and verification date, and carries a SHA-256 hash of the bundled file. Approval is based on actual rights evidence; catalog metadata and composition age alone are not evidence of recording rights.

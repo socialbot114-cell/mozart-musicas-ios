@@ -1,29 +1,12 @@
 import SwiftUI
-
-struct RootView: View {
-    @StateObject private var model: AppModel
-
-    init(repository: CatalogRepositoryProtocol = BundleCatalogRepository()) {
-        _model = StateObject(wrappedValue: AppModel(repository: repository))
-    }
-
-    var body: some View {
-        TabView {
-            HomeView(model: model).tabItem { Label("Inicio", systemImage: "house") }
-            ExploreView(model: model).tabItem { Label("Explorar", systemImage: "magnifyingglass") }
-            PlayerView(model: model).tabItem { Label("Player", systemImage: "play.circle") }
-            FocusView().tabItem { Label("Foco", systemImage: "timer") }
-            LibraryView(model: model).tabItem { Label("Biblioteca", systemImage: "books.vertical") }
-        }
-        .tint(.indigo)
-    }
-}
+import UIKit
 
 @MainActor
 final class AppModel: ObservableObject {
     @Published private(set) var catalog: Catalog
     @Published private(set) var catalogLoadFailed = false
     @Published var selectedTrack: Track?
+    @Published var showPlayer = false
     let playback = PlaybackService()
     private let repository: CatalogRepositoryProtocol
 
@@ -38,47 +21,101 @@ final class AppModel: ObservableObject {
     }
 
     var approvedTracks: [Track] { catalog.tracks.filter { $0.rightsStatus == "approved" } }
+
+    var categories: [MusicCategory] {
+        MusicCategory.all.filter { cat in approvedTracks.contains { $0.categoryKey == cat.key } }
+    }
+
+    func tracks(in category: MusicCategory) -> [Track] {
+        approvedTracks.filter { $0.categoryKey == category.key }
+    }
+
+    func select(_ track: Track) {
+        selectedTrack = track
+        playback.play(track)
+    }
+
+    func openPlayer(for track: Track) {
+        select(track)
+        showPlayer = true
+    }
 }
 
-struct EmptyCatalogView: View {
-    let loadFailed: Bool
+struct RootView: View {
+    @StateObject private var model: AppModel
+    @Environment(\.horizontalSizeClass) private var sizeClass
+
+    init(repository: CatalogRepositoryProtocol = BundleCatalogRepository()) {
+        _model = StateObject(wrappedValue: AppModel(repository: repository))
+    }
 
     var body: some View {
-        if loadFailed {
-            ContentUnavailableView("Catálogo indisponível", systemImage: "exclamationmark.triangle", description: Text("Não foi possível abrir o catálogo incluído no aplicativo."))
-        } else {
-            ContentUnavailableView("Nenhuma faixa licenciada", systemImage: "music.note.list", description: Text("As gravações encontradas ainda aguardam comprovação de licença para distribuição. Por isso, elas não podem ser ouvidas neste aplicativo."))
+        Group {
+            if sizeClass == .regular {
+                AdaptiveSplitView(model: model)
+            } else {
+                PhoneTabView(model: model)
+            }
+        }
+        .fullScreenCover(isPresented: $model.showPlayer) {
+            ImmersivePlayerView(model: model, playback: model.playback)
         }
     }
 }
 
-struct HomeView: View {
+struct PhoneTabView: View {
     @ObservedObject var model: AppModel
+
     var body: some View {
-        NavigationStack { VStack(alignment: .leading, spacing: 20) {
-            Text("Músicas para estudar").font(.largeTitle.bold())
-            Text("Sessões calmas, com uma curadoria que só publica gravações verificadas.").foregroundStyle(.secondary)
-            if model.approvedTracks.isEmpty { EmptyCatalogView(loadFailed: model.catalogLoadFailed) }
-            else { Text("\(model.approvedTracks.count) gravações licenciadas disponíveis").font(.headline) }
-        }.padding().navigationTitle("Inicio") }
+        TabView {
+            NavigationStack { HomeView(model: model) }
+                .tabItem { Label("Início", systemImage: "house.fill") }
+            NavigationStack { ExploreView(model: model) }
+                .tabItem { Label("Explorar", systemImage: "square.grid.2x2") }
+            NavigationStack { FocusView() }
+                .tabItem { Label("Foco", systemImage: "timer") }
+            NavigationStack { LibraryView(model: model) }
+                .tabItem { Label("Biblioteca", systemImage: "books.vertical.fill") }
+        }
+        .tint(AppTheme.accent)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if model.selectedTrack != nil && !model.showPlayer {
+                MiniPlayerView(model: model, playback: model.playback)
+            }
+        }
     }
 }
 
-struct ExploreView: View {
-    @ObservedObject var model: AppModel
-    var body: some View { NavigationStack { Group { if model.approvedTracks.isEmpty { EmptyCatalogView(loadFailed: model.catalogLoadFailed) } else { List(model.approvedTracks) { track in Button { model.selectedTrack = track; model.playback.play(track) } label: { VStack(alignment: .leading) { Text(track.work); Text(track.composer).font(.subheadline).foregroundStyle(.secondary) } }.accessibilityLabel("\(track.work), por \(track.composer)") } } }.navigationTitle("Explorar") } }
+enum SidebarItem: String, CaseIterable, Identifiable, Hashable {
+    case home, explore, focus, library
+    var id: String { rawValue }
 }
 
-struct PlayerView: View {
+struct AdaptiveSplitView: View {
     @ObservedObject var model: AppModel
-    var body: some View { NavigationStack { VStack(spacing: 16) { Image("mozart_logo").resizable().scaledToFit().frame(maxHeight: 180).accessibilityHidden(true); Text(model.selectedTrack?.work ?? "Nenhuma gravação selecionada").font(.title2.bold()); Text(model.approvedTracks.isEmpty ? "Não há faixas com licença verificada disponíveis para reprodução." : "Escolha uma faixa em Explorar.").foregroundStyle(.secondary) }.padding().navigationTitle("Player") } }
-}
+    @State private var selection: SidebarItem? = .home
 
-struct LibraryView: View {
-    @ObservedObject var model: AppModel
-    var body: some View { NavigationStack { VStack { if model.approvedTracks.isEmpty { EmptyCatalogView(loadFailed: model.catalogLoadFailed) }; NavigationLink("Ver créditos") { CreditsView() } }.navigationTitle("Biblioteca") } }
-}
-
-struct CreditsView: View {
-    var body: some View { NavigationStack { Text("Catálogo, direitos e fontes são mantidos em Catalog/RIGHTS.md.").padding().navigationTitle("Créditos") } }
+    var body: some View {
+        NavigationSplitView {
+            List(selection: $selection) {
+                Label("Início", systemImage: "house.fill").tag(SidebarItem.home)
+                Label("Explorar", systemImage: "square.grid.2x2").tag(SidebarItem.explore)
+                Label("Foco", systemImage: "timer").tag(SidebarItem.focus)
+                Label("Biblioteca", systemImage: "books.vertical.fill").tag(SidebarItem.library)
+            }
+            .navigationTitle("Músicas para Estudar")
+        } detail: {
+            switch selection ?? .home {
+            case .home: HomeView(model: model)
+            case .explore: ExploreView(model: model)
+            case .focus: FocusView()
+            case .library: LibraryView(model: model)
+            }
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if model.selectedTrack != nil && !model.showPlayer {
+                MiniPlayerView(model: model, playback: model.playback)
+            }
+        }
+    }
 }

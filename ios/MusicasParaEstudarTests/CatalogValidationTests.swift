@@ -30,7 +30,7 @@ final class CatalogValidationTests: XCTestCase {
 
     func testUnapprovedTrackCannotBePlayed() async {
         let service = await PlaybackService()
-        let track = Track(id: "unverified", composer: "Wolfgang Amadeus Mozart", work: "Unknown", recording: "Unknown", rightsStatus: "unverified", audioPath: "Audio/missing.mp3", sourceUrl: nil, sha256: nil, license: nil, blockedReason: "unverified")
+        let track = Track(id: "unverified", composer: "Wolfgang Amadeus Mozart", work: "Unknown", durationSeconds: nil, recording: "Unknown", rightsStatus: "unverified", audioPath: "Audio/missing.mp3", sourceUrl: nil, sha256: nil, license: nil, blockedReason: "unverified")
         await service.play(track)
         let playing = await service.isPlaying
         XCTAssertFalse(playing)
