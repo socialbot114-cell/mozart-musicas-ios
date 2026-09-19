@@ -3,6 +3,7 @@ package br.com.musicaspara.estudar
 import android.os.Bundle
 import android.os.SystemClock
 import android.app.Application
+import android.content.res.AssetManager
 import android.content.ComponentName
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -80,6 +81,7 @@ import androidx.media3.common.Player
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.google.common.util.concurrent.MoreExecutors
+import org.json.JSONObject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -153,7 +155,37 @@ class FocusSessionViewModel(private val state: SavedStateHandle) : ViewModel() {
     }
 }
 
-private val catalog = emptyList<Track>()
+private lateinit var catalog: List<Track>
+
+private fun loadCatalog(assets: AssetManager): List<Track> {
+    return runCatching {
+        val json = assets.open("catalogo.json").bufferedReader().use { it.readText() }
+        val tracks = JSONObject(json).getJSONArray("faixas")
+        buildList {
+            repeat(tracks.length()) { index ->
+                val item = tracks.getJSONObject(index)
+                val category = when (item.optString("categoria")) {
+                    "barroco" -> "Barroco"
+                    "brasil" -> "Brasileira"
+                    "classica_leitura" -> "Clássica"
+                    else -> "Piano"
+                }
+                val slug = item.getString("slug")
+                add(Track(
+                    composer = item.getString("compositor"),
+                    title = item.getString("obra"),
+                    category = category,
+                    note = item.optString("duracao_min").ifBlank { "" } + " min",
+                    audioResource = "audio_${item.getString("categoria")}_$slug"
+                ))
+            }
+        }.ifEmpty { fallbackCatalog() }
+    }.getOrElse { fallbackCatalog() }
+}
+
+private fun fallbackCatalog() = listOf(
+    Track("J. S. Bach", "Goldberg Variations", "Barroco", "", null)
+)
 
 private val composers = listOf(
     ComposerProfile("Johann Sebastian Bach", "1685–1750", "Alemanha", "Barroco", "Bach uniu contraponto, dança e tradição litúrgica em uma obra de precisão extraordinária.", listOf("Variações Goldberg", "O Cravo Bem Temperado", "Suítes para Violoncelo"), R.drawable.artist_bach),
@@ -184,7 +216,7 @@ class AudioPlayerViewModel(application: Application) : AndroidViewModel(applicat
         val future = MediaController.Builder(application, token).buildAsync()
         future.addListener({
             if (!future.isCancelled) {
-                player = future.get()
+                player = runCatching { future.get() }.getOrNull()
                 player?.addListener(object : Player.Listener {
                     override fun onIsPlayingChanged(isPlayingNow: Boolean) { isPlaying = isPlayingNow }
                     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) { currentResource = mediaItem?.mediaId }
@@ -198,6 +230,7 @@ class AudioPlayerViewModel(application: Application) : AndroidViewModel(applicat
         val controller = player ?: return
         if (currentResource != resource) {
             val id = resourceId(resource)
+            if (id == 0) return
             controller.setMediaItem(MediaItem.Builder().setMediaId(resource).setUri("android.resource://${getApplication<Application>().packageName}/$id").build())
             currentResource = resource
             controller.prepare()
@@ -209,12 +242,14 @@ class AudioPlayerViewModel(application: Application) : AndroidViewModel(applicat
 
     override fun onCleared() { player?.release() }
 
-    private fun resourceId(name: String): Int = error("Recurso de áudio não cadastrado: $name")
+    private fun resourceId(name: String): Int = getApplication<Application>().resources
+        .getIdentifier(name, "raw", getApplication<Application>().packageName)
 }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        catalog = loadCatalog(assets)
         setContent { StudyMusicApp() }
     }
 }
@@ -244,7 +279,7 @@ class StudyStatsViewModel(application: Application) : AndroidViewModel(applicati
 @Composable
 private fun StudyMusicApp() {
     var screen by remember { mutableIntStateOf(0) }
-    var selectedTrack by remember { mutableStateOf(catalog[3]) }
+    var selectedTrack by remember { mutableStateOf(catalog.first()) }
     val focusSession: FocusSessionViewModel = viewModel()
     val audioPlayer: AudioPlayerViewModel = viewModel()
     val studyStats: StudyStatsViewModel = viewModel()
@@ -380,14 +415,14 @@ private fun HomeScreen(modifier: Modifier, selectedTrack: Track, onTrackSelect: 
         item { SectionTitle("Escolha seu momento") }
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                MomentCard("Piano para\nestudar", "Piano", Modifier.weight(1f)) { onTrackSelect(catalog.first { it.category == "Piano" }) }
-                MomentCard("Barroco para\nconcentração", "Barroco", Modifier.weight(1f)) { onTrackSelect(catalog.first { it.category == "Barroco" }) }
+                MomentCard("Piano para\nestudar", "Piano", Modifier.weight(1f)) { onTrackSelect(catalog.firstOrNull { it.category == "Piano" } ?: catalog.first()) }
+                MomentCard("Barroco para\nconcentração", "Barroco", Modifier.weight(1f)) { onTrackSelect(catalog.firstOrNull { it.category == "Barroco" } ?: catalog.first()) }
             }
         }
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                MomentCard("Clássica para\nleitura", "Leitura", Modifier.weight(1f)) { onTrackSelect(catalog.first { it.category == "Clássica" }) }
-                MomentCard("Brasil\ninstrumental", "Brasil", Modifier.weight(1f)) { onTrackSelect(catalog.first { it.category == "Brasileira" }) }
+                MomentCard("Clássica para\nleitura", "Leitura", Modifier.weight(1f)) { onTrackSelect(catalog.firstOrNull { it.category == "Clássica" } ?: catalog.first()) }
+                MomentCard("Brasil\ninstrumental", "Brasil", Modifier.weight(1f)) { onTrackSelect(catalog.firstOrNull { it.category == "Brasileira" } ?: catalog.first()) }
             }
         }
         item { SectionTitle("Continue ouvindo") }
