@@ -30,6 +30,7 @@ targets:
       - path: LaunchScreen.storyboard
         buildPhase: resources
     settings:
+      PRODUCT_BUNDLE_IDENTIFIER: br.com.musicaspara.estudar
       INFOPLIST_KEY_CFBundleDisplayName: Músicas para Estudar
       GENERATE_INFOPLIST_FILE: NO
       INFOPLIST_FILE: Privacy/Info.plist
