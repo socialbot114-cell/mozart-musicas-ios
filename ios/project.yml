@@ -19,6 +19,8 @@ targets:
         excludes: [Resources]
     resources:
       - path: MusicasParaEstudar/Resources/Assets.xcassets
+      - path: MusicasParaEstudar/Resources/Audio
+        type: folder
       - path: Catalog
         type: folder
       - path: Privacy/PrivacyInfo.xcprivacy
