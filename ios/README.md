@@ -2,7 +2,7 @@
 
 Generated with XcodeGen for App Store ID `6813681353` and bundle `br.com.musicaspara.estudar`.
 
-The app intentionally ships no audio. `Catalog/catalog.json` contains a blocked Mozart candidate until recording rights, source, and SHA-256 are verified. Artwork from `reffffs/mozart` is preview-only and is not evidence of audio rights.
+The product shell lists and plays only recordings marked `approved`. The recordings currently present in `Catalog/catalog.json` remain `unverified`; the distribution validator therefore blocks release. Composition age, filenames, hashes, and artwork are not evidence of recording rights.
 
 On macOS with XcodeGen installed:
 
@@ -10,3 +10,5 @@ On macOS with XcodeGen installed:
 xcodegen generate --spec ios/project.yml
 xcodebuild -project MusicasParaEstudar.xcodeproj -scheme MusicasParaEstudar test
 ```
+
+Run `python3 ios/Scripts/validate_catalog.py --distribution` from the repository root before creating any distributable archive.

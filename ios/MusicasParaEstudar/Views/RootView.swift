@@ -22,21 +22,33 @@ struct RootView: View {
 @MainActor
 final class AppModel: ObservableObject {
     @Published private(set) var catalog: Catalog
+    @Published private(set) var catalogLoadFailed = false
     @Published var selectedTrack: Track?
     let playback = PlaybackService()
     private let repository: CatalogRepositoryProtocol
 
     init(repository: CatalogRepositoryProtocol) {
         self.repository = repository
-        catalog = (try? repository.load()) ?? (try! PreviewCatalogRepository().load())
+        do {
+            catalog = try repository.load()
+        } catch {
+            catalog = try! PreviewCatalogRepository().load()
+            catalogLoadFailed = true
+        }
     }
 
     var approvedTracks: [Track] { catalog.tracks.filter { $0.rightsStatus == "approved" } }
 }
 
 struct EmptyCatalogView: View {
+    let loadFailed: Bool
+
     var body: some View {
-        ContentUnavailableView("Prévia em curadoria", systemImage: "music.note.list", description: Text("Nenhuma gravação Mozart com direitos verificados está disponível ainda."))
+        if loadFailed {
+            ContentUnavailableView("Catálogo indisponível", systemImage: "exclamationmark.triangle", description: Text("Não foi possível abrir o catálogo incluído no aplicativo."))
+        } else {
+            ContentUnavailableView("Nenhuma faixa licenciada", systemImage: "music.note.list", description: Text("As gravações encontradas ainda aguardam comprovação de licença para distribuição. Por isso, elas não podem ser ouvidas neste aplicativo."))
+        }
     }
 }
 
@@ -44,26 +56,27 @@ struct HomeView: View {
     @ObservedObject var model: AppModel
     var body: some View {
         NavigationStack { VStack(alignment: .leading, spacing: 20) {
-            Text("Mozart para estudar").font(.largeTitle.bold())
+            Text("Músicas para estudar").font(.largeTitle.bold())
             Text("Sessões calmas, com uma curadoria que só publica gravações verificadas.").foregroundStyle(.secondary)
-            EmptyCatalogView()
+            if model.approvedTracks.isEmpty { EmptyCatalogView(loadFailed: model.catalogLoadFailed) }
+            else { Text("\(model.approvedTracks.count) gravações licenciadas disponíveis").font(.headline) }
         }.padding().navigationTitle("Inicio") }
     }
 }
 
 struct ExploreView: View {
     @ObservedObject var model: AppModel
-    var body: some View { NavigationStack { Group { if model.approvedTracks.isEmpty { EmptyCatalogView() } else { List(model.approvedTracks) { Text($0.work) } } }.navigationTitle("Explorar") } }
+    var body: some View { NavigationStack { Group { if model.approvedTracks.isEmpty { EmptyCatalogView(loadFailed: model.catalogLoadFailed) } else { List(model.approvedTracks) { track in Button { model.selectedTrack = track; model.playback.play(track) } label: { VStack(alignment: .leading) { Text(track.work); Text(track.composer).font(.subheadline).foregroundStyle(.secondary) } }.accessibilityLabel("\(track.work), por \(track.composer)") } } }.navigationTitle("Explorar") } }
 }
 
 struct PlayerView: View {
     @ObservedObject var model: AppModel
-    var body: some View { NavigationStack { VStack(spacing: 16) { Image("mozart_logo").resizable().scaledToFit().frame(maxHeight: 180); Text(model.selectedTrack?.work ?? "Nenhuma gravação selecionada").font(.title2.bold()); Text("O player será ativado quando houver uma faixa aprovada.").foregroundStyle(.secondary) }.padding().navigationTitle("Player") } }
+    var body: some View { NavigationStack { VStack(spacing: 16) { Image("mozart_logo").resizable().scaledToFit().frame(maxHeight: 180).accessibilityHidden(true); Text(model.selectedTrack?.work ?? "Nenhuma gravação selecionada").font(.title2.bold()); Text(model.approvedTracks.isEmpty ? "Não há faixas com licença verificada disponíveis para reprodução." : "Escolha uma faixa em Explorar.").foregroundStyle(.secondary) }.padding().navigationTitle("Player") } }
 }
 
 struct LibraryView: View {
     @ObservedObject var model: AppModel
-    var body: some View { NavigationStack { VStack { EmptyCatalogView(); NavigationLink("Ver créditos") { CreditsView() } }.navigationTitle("Biblioteca") } }
+    var body: some View { NavigationStack { VStack { if model.approvedTracks.isEmpty { EmptyCatalogView(loadFailed: model.catalogLoadFailed) }; NavigationLink("Ver créditos") { CreditsView() } }.navigationTitle("Biblioteca") } }
 }
 
 struct CreditsView: View {
