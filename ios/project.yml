@@ -38,3 +38,7 @@ targets:
     sources: [MusicasParaEstudarTests]
     dependencies:
       - target: MusicasParaEstudar
+    settings:
+      base:
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/MusicasParaEstudar.app/MusicasParaEstudar
+        BUNDLE_LOADER: $(TEST_HOST)
