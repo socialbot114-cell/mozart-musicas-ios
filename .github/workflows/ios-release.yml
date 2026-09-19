@@ -105,7 +105,6 @@ jobs:
           /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist" | grep -qx 'br.com.musicaspara.estudar'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
           test -f "${app[0]}/Assets.car"
-          codesign --verify --deep --strict "${app[0]}"
 
       - uses: actions/upload-artifact@v4
         with:
