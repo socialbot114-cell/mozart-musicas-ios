@@ -1,0 +1,138 @@
+== iniciado Thu Sep 17 11:11:13 -03 2026 ==
+===== CATEGORIA barroco =====
+
+=== barroco (15 obras) ===
+  [+] j_s_bach_preludio_do_cravo_bem_temperado.mp3  4.2min  PD:CC0
+  [+] j_s_bach_suite_para_violoncelo.mp3  3.7min  PD:Public domain
+  -- FALTA: J. S. Bach — Concerto de Brandemburgo (sem licenca PD/CC0 (15 achados, ex.: File:Bach - Brandenburg Concerto.No.1 in F Major- II. Adagio))
+  [+] j_s_bach_partita_para_violino.mp3  13.0min  PD:Public domain
+  -- FALTA: J. S. Bach — Suíte Francesa (sem licenca PD/CC0 (15 achados, ex.: File:Bach-french-suite-3-Courante.ogg))
+  [+] j_s_bach_suite_inglesa.mp3  19.1min  PD:CC0
+  [+] j_s_bach_invencao_a_duas_vozes.mp3  1.0min  PD:Public domain
+  [+] j_s_bach_tocata_para_orgao.mp3  15.0min  PD:Public domain
+  -- FALTA: Antonio Vivaldi — As Quatro Estações: Primavera (sem licenca PD/CC0 (15 achados, ex.: File:11 - Vivaldi Winter mvt 2 Largo - John Harrison violin.))
+  -- FALTA: Antonio Vivaldi — As Quatro Estações: Verão (sem licenca PD/CC0 (15 achados, ex.: File:11 - Vivaldi Winter mvt 2 Largo - John Harrison violin.))
+  -- FALTA: Antonio Vivaldi — As Quatro Estações: Outono (sem licenca PD/CC0 (15 achados, ex.: File:11 - Vivaldi Winter mvt 2 Largo - John Harrison violin.))
+[mp3float @ 0x1a18aac0] Header missing
+[aist#0:0/mp3 @ 0x1a154780] [dec:mp3float @ 0x1a189fc0] Error submitting packet to decoder: Invalid data found when processing input
+  [+] antonio_vivaldi_as_quatro_estacoes_inverno.mp3  3.3min  PD:Public domain
+  -- FALTA: Antonio Vivaldi — Gloria (sem licenca PD/CC0 (4 achados, ex.: File:09 - Gloria.ogg))
+
+=== RESUMO ===
+  barroco: 9 faixas
+----- fim barroco (exit 0) -----
+===== CATEGORIA piano_estudar =====
+
+=== piano_estudar (15 obras) ===
+  [+] frederic_chopin_noturno.mp3  7.1min  PD:Public domain
+  -- FALTA: Frédéric Chopin — Prelúdio (sem licenca PD/CC0 (15 achados, ex.: File:Chopin - Prelude in A Op-28 No-7 (Piano Performance by ))
+  [+] frederic_chopin_estudo.mp3  2.8min  PD:Public domain
+  [+] frederic_chopin_valsa.mp3  5.1min  PD:Public domain
+  [+] frederic_chopin_mazurca.mp3  6.2min  PD:Public domain
+  [+] franz_schubert_impromptu.mp3  5.0min  PD:CC0
+  -- FALTA: Franz Schubert — Momento Musical (sem licenca PD/CC0 (2 achados, ex.: File:Inleiding Artis Quartett Wien (audio) 957.mp3))
+  -- ERRO: Franz Schubert — Sonata para Piano (falha no download)
+  [+] johannes_brahms_intermezzo.mp3  5.5min  PD:Public domain
+  -- FALTA: Gabriel Fauré — Noturno (sem licenca PD/CC0 (3 achados, ex.: File:Gaubert - Nocturne and Allegro.ogg))
+  [+] gabriel_faure_pavana.mp3  4.5min  PD:Public domain
+  [+] robert_schumann_cenas_infantis.mp3  14.0min  PD:Public domain
+  -- FALTA: Robert Schumann — Träumerei (nada encontrado)
+  [+] franz_liszt_consolacao.mp3  4.5min  PD:Public domain
+  [+] franz_liszt_liebestraum.mp3  4.0min  PD:Public domain
+
+=== RESUMO ===
+  piano_estudar: 10 faixas
+----- fim piano_estudar (exit 0) -----
+===== CATEGORIA piano_dormir =====
+
+=== piano_dormir (15 obras) ===
+  [+] erik_satie_gymnopedie.mp3  3.1min  PD:Public domain
+  [+] erik_satie_gnossienne.mp3  4.0min  PD:Public domain
+  -- FALTA: Claude Debussy — Arabesque (sem licenca PD/CC0 (6 achados, ex.: File:Claude Debussy - 2nd Arabesque (JMC, Han).oga))
+  -- ERRO: Claude Debussy — Rêverie (falha no download)
+  -- FALTA: Claude Debussy — Prelúdio (sem licenca PD/CC0 (15 achados, ex.: File:Claude Debussy - II Livre Prelude III... (...La puerta ))
+  [+] maurice_ravel_pavana_para_uma_infanta_defunta.mp3  4.5min  PD:Public domain
+[mp3float @ 0x17d5ec00] Header missing
+[aist#0:0/mp3 @ 0x17d78340] [dec:mp3float @ 0x17d5e140] Error submitting packet to decoder: Invalid data found when processing input
+  [+] franz_schubert_ave_maria.mp3  8.4min  PD:Public domain
+  -- FALTA: Johannes Brahms — Canção de Ninar (nada encontrado)
+  -- FALTA: Robert Schumann — Álbum para a Juventude (nada encontrado)
+[mp3float @ 0x337cefc0] Header missing
+[aist#0:0/mp3 @ 0x3379d240] [dec:mp3float @ 0x337ce540] Error submitting packet to decoder: Invalid data found when processing input
+  [+] felix_mendelssohn_sobre_asas_da_cancao.mp3  2.1min  PD:Public domain
+  [+] franz_liszt_consolacao_n_3.mp3  4.5min  PD:Public domain
+  -- FALTA: Gabriel Fauré — Siciliana (nada encontrado)
+  [+] ludwig_van_beethoven_sonata_ao_luar.mp3  8.2min  PD:Public domain
+
+=== RESUMO ===
+  piano_dormir: 9 faixas
+----- fim piano_dormir (exit 0) -----
+===== CATEGORIA classica_leitura =====
+
+=== classica_leitura (15 obras) ===
+  [+] wolfgang_a_mozart_sonata_para_piano.mp3  4.2min  PD:Public domain
+  -- ERRO: Wolfgang A. Mozart — Uma Pequena Serenata (falha no download)
+  [+] wolfgang_a_mozart_concerto_para_clarinete_adagio.mp3  6.9min  PD:Public domain
+  -- FALTA: Wolfgang A. Mozart — Divertimento para Cordas (sem licenca PD/CC0 (2 achados, ex.: File:Inleiding Barokorkest B'Rock (audio).mp3))
+  -- FALTA: Joseph Haydn — Quarteto Imperador (nada encontrado)
+  [+] joseph_haydn_sinfonia_surpresa.mp3  7.3min  PD:Public domain
+  -- FALTA: Joseph Haydn — Sonata para Piano (sem licenca PD/CC0 (11 achados, ex.: File:E minor sonata - Haydn (classroom draft).ogg))
+  [+] ludwig_van_beethoven_fur_elise.mp3  2.9min  PD:Public domain
+  [+] ludwig_van_beethoven_sonata_patetica_adagio.mp3  6.3min  PD:CC0
+  [+] ludwig_van_beethoven_romanza_para_violino.mp3  4.3min  PD:Public domain
+  [+] felix_mendelssohn_sonho_de_uma_noite_de_verao.mp3  13.0min  PD:Public domain
+  -- ERRO: Edvard Grieg — Peer Gynt: Manhã (falha no download)
+  [+] edvard_grieg_suite_holberg.mp3  4.4min  PD:Public domain
+  -- FALTA: Edward Elgar — Salut d'Amour (nada encontrado)
+  -- FALTA: Camille Saint-Saëns — O Cisne (sem licenca PD/CC0 (1 achados, ex.: File:JOHN MICHEL CELLO-SAINT SAENS CARNIVAL OF ANIMALS THE S))
+
+=== RESUMO ===
+  classica_leitura: 8 faixas
+----- fim classica_leitura (exit 0) -----
+===== CATEGORIA brasil =====
+
+=== brasil (15 obras) ===
+  [+] ernesto_nazareth_odeon.mp3  4.0min  PD:Public domain
+  [+] ernesto_nazareth_brejeiro.mp3  2.1min  PD:Public domain
+  -- FALTA: Ernesto Nazareth — Apanhei-te, Cavaquinho (nada encontrado)
+  -- FALTA: Chiquinha Gonzaga — Ó Abre Alas (sem licenca PD/CC0 (1 achados, ex.: File:Trio Capitu - Ó Abre Alas ogg.ogg))
+  -- FALTA: Chiquinha Gonzaga — Choro (nada encontrado)
+  [+] zequinha_de_abreu_tico_tico_no_fuba.mp3  3.1min  PD:Public domain
+  [+] joaquim_callado_choro_callado.mp3  3.5min  PD:Public domain
+  -- FALTA: Anacleto de Medeiros — Choro (Anacleto) (nada encontrado)
+  [+] carlos_gomes_o_guarani.mp3  7.2min  PD:Public domain
+  -- FALTA: Alberto Nepomuceno — Piano (Nepomuceno) (nada encontrado)
+  -- FALTA: Alexandre Levy — Piano (Levy) (nada encontrado)
+  -- FALTA: Leopoldo Miguez — Sinfonia (Miguez) (nada encontrado)
+  -- FALTA: Francisco Braga — Sinfonia (Braga) (nada encontrado)
+  -- FALTA: Glauco Velasquez — Música de Câmara (nada encontrado)
+  -- ERRO: Luciano Gallet — Piano (Gallet) (falha no download)
+
+=== RESUMO ===
+  brasil: 5 faixas
+----- fim brasil (exit 0) -----
+===== CATEGORIA foco_profundo =====
+
+=== foco_profundo (15 obras) ===
+  [+] j_s_bach_goldberg_aria.mp3  11.8min  PD:Public domain
+  [+] j_s_bach_suite_p_violoncelo_preludio.mp3  2.6min  PD:CC0
+  [+] erik_satie_gymnopedie_n_1.mp3  3.1min  PD:Public domain
+  [+] claude_debussy_clair_de_lune.mp3  8.3min  PD:Public domain
+  [+] frederic_chopin_noturno_op_9_n_2.mp3  8.3min  PD:Public domain
+  -- FALTA: Ludwig van Beethoven — Sonata ao Luar (1º mov.) (sem licenca PD/CC0 (4 achados, ex.: File:Beethoven Moonlight sonata sequenced.ogg))
+  [+] wolfgang_a_mozart_concerto_n_21_andante.mp3  8.5min  PD:Public domain
+  -- ERRO: Johann Pachelbel — Cânone em Ré (falha no download)
+  -- FALTA: Antonio Vivaldi — Concerto p/ Violão (largo) (nada encontrado)
+[mp3float @ 0x1b4f0c00] Header missing
+[aist#0:0/mp3 @ 0x1b50a340] [dec:mp3float @ 0x1b4f0140] Error submitting packet to decoder: Invalid data found when processing input
+  [+] franz_schubert_ave_maria.mp3  8.4min  PD:Public domain
+  [+] johannes_brahms_intermezzo_op_118.mp3  5.5min  PD:Public domain
+  -- FALTA: Gabriel Fauré — Pavana (sem licenca PD/CC0 (1 achados, ex.: File:Inleiding Chamber Orchestra of Europe olv. Antonio Papp))
+  [+] maurice_ravel_pavana_p_infanta_defunta.mp3  4.5min  PD:Public domain
+  -- FALTA: Edvard Grieg — Canção de Solveig (nada encontrado)
+  -- FALTA: Camille Saint-Saëns — Aquário (Carnaval dos Animais) (sem licenca PD/CC0 (2 achados, ex.: File:Camille Saint-Saëns - The Carnival of the Animals.ogg))
+
+=== RESUMO ===
+  foco_profundo: 9 faixas
+----- fim foco_profundo (exit 0) -----
+== concluido Thu Sep 17 12:39:49 -03 2026 ==

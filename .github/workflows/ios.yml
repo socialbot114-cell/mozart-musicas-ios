@@ -1,0 +1,36 @@
+name: Mozart iOS Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate rights-gated catalog
+        run: python3 ios/Scripts/validate_catalog.py
+
+  build:
+    runs-on: macos-14
+    needs: catalog
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate project
+        working-directory: ios
+        run: xcodegen generate
+      - name: Test
+        working-directory: ios
+        run: |
+          xcodebuild test \
+            -scheme MusicasParaEstudar \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "product": {"appStoreId": "6813681353", "bundleId": "br.com.musicaspara.estudar"},
+  "tracks": [],
+  "candidates": [
+    {
+      "id": "mozart-concerto-21-andante-unverified",
+      "composer": "Wolfgang Amadeus Mozart",
+      "work": "Piano Concerto No. 21, Andante",
+      "recording": "Existing Android file; not approved for iOS",
+      "rightsStatus": "blocked",
+      "audioPath": null,
+      "sourceUrl": null,
+      "sha256": null,
+      "blockedReason": "No verified recording license, source, or integrity hash supplied. Do not ship or play."
+    }
+  ]
+}

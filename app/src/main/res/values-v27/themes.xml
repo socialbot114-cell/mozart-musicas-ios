@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.MusicasParaEstudar" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">@color/night</item>
+        <item name="android:navigationBarColor">@color/ivory</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:statusBarColor">@color/ivory</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>
