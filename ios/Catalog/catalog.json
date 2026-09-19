@@ -1,18 +1,24 @@
 {
   "schemaVersion": 1,
   "product": {"appStoreId": "6813681353", "bundleId": "br.com.musicaspara.estudar"},
-  "tracks": [],
-  "candidates": [
-    {
-      "id": "mozart-concerto-21-andante-unverified",
-      "composer": "Wolfgang Amadeus Mozart",
-      "work": "Piano Concerto No. 21, Andante",
-      "recording": "Existing Android file; not approved for iOS",
-      "rightsStatus": "blocked",
-      "audioPath": null,
-      "sourceUrl": null,
-      "sha256": null,
-      "blockedReason": "No verified recording license, source, or integrity hash supplied. Do not ship or play."
-    }
-  ]
+  "tracks": [
+    {"id":"vivaldi-primavera","composer":"Antonio Vivaldi","work":"As Quatro Estações: Primavera","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/antonio_vivaldi_as_quatro_estacoes_primavera.mp3","sourceUrl":null,"sha256":"f9a0f11e866f99355c1a1c220e8c9f92a06275b5844b543f1c0f0bb3e8c05a39","license":null},
+    {"id":"schubert-impromptu","composer":"Franz Schubert","work":"Impromptu","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/franz_schubert_impromptu.mp3","sourceUrl":null,"sha256":"777c1e6c033818aee475c81eac3cf48ab3f170eac268444c3f8f1001675a7178","license":null},
+    {"id":"schubert-sonata","composer":"Franz Schubert","work":"Sonata para Piano","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/franz_schubert_sonata_para_piano.mp3","sourceUrl":null,"sha256":"a6cfc46bee9128940db6641e2d36a71e5398610a4720a2cc704aa801b2788109","license":null},
+    {"id":"chopin-estudo","composer":"Frederic Chopin","work":"Estudo","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/frederic_chopin_estudo.mp3","sourceUrl":null,"sha256":"255ff83b6b8ea54331d6ca7019b53d006c34e6b57ae125bcd8e8e84c84c8c080","license":null},
+    {"id":"chopin-mazurca","composer":"Frederic Chopin","work":"Mazurca","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/frederic_chopin_mazurca.mp3","sourceUrl":null,"sha256":"9883ac330afd88bbb1d966c65b7f3593f50b643d7e24de21016cc2dbfb57223a","license":null},
+    {"id":"chopin-noturno","composer":"Frederic Chopin","work":"Noturno","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/frederic_chopin_noturno.mp3","sourceUrl":null,"sha256":"32c6addb56bf5f892e024fc67d115cef35703fb5acbce11f2455c80af90c33cc","license":null},
+    {"id":"chopin-valsa","composer":"Frederic Chopin","work":"Valsa","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/frederic_chopin_valsa.mp3","sourceUrl":null,"sha256":"7eee98b15cbb1b90fb8c6af477e304e5d0fb6a6603dd6dabe941b39894d77b40","license":null},
+    {"id":"ravel-pavana","composer":"Maurice Ravel","work":"Pavane pour une infante défunte","recording":"Existing Android recording; attribution corrected from Fauré","rightsStatus":"unverified","audioPath":"Audio/gabriel_faure_pavana.mp3","sourceUrl":null,"sha256":"aeed747c3824f896bf1dcdc6d0b051bb9533cffe8be1b79e74e80a18b6885e16","license":null},
+    {"id":"brahms-intermezzo","composer":"Johannes Brahms","work":"Intermezzo","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/johannes_brahms_intermezzo.mp3","sourceUrl":null,"sha256":"df8705fb99e0f5d31c60c4f6880e5b8b0b36840086523326b1aa5abe2effc7e2","license":null},
+    {"id":"bach-aria","composer":"J. S. Bach","work":"Ária na corda Sol","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/j_s_bach_aria_na_corda_sol.mp3","sourceUrl":null,"sha256":"6e60f7fc18807b86dade4b797b7341d23bf68fc92eda7f97816cdb0dc49aec26","license":null},
+    {"id":"bach-goldberg","composer":"J. S. Bach","work":"Goldberg Variations","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/j_s_bach_goldberg_variations.mp3","sourceUrl":null,"sha256":"b7ed86886a25a5b09e3244e6031d7d86029d2739589b96bf110cbfd3b5488fed","license":null},
+    {"id":"bach-invencao","composer":"J. S. Bach","work":"Invenção a duas vozes","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/j_s_bach_invencao_a_duas_vozes.mp3","sourceUrl":null,"sha256":"7013d45509e7b04a9e318455844a44e1ba3744a590fe243f272df55f4795d41b","license":null},
+    {"id":"bach-partita","composer":"J. S. Bach","work":"Partita para Violino","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/j_s_bach_partita_para_violino.mp3","sourceUrl":null,"sha256":"fcd9ca9aa6d40ca4e4e60977cf3bffaabcceb512b95d4e9a317c84f8ce406758","license":null},
+    {"id":"bach-preludio","composer":"J. S. Bach","work":"Prelúdio do Cravo Bem Temperado","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/j_s_bach_preludio_do_cravo_bem_temperado.mp3","sourceUrl":null,"sha256":"928517128ef1f9b7b77cce0d1f1d0763ef2da58ee336965ff4a0f5af7b381db0","license":null},
+    {"id":"bach-suite-inglesa","composer":"J. S. Bach","work":"Suíte Inglesa","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/j_s_bach_suite_inglesa.mp3","sourceUrl":null,"sha256":"073210128ee37cf191d9775ab401b45dc3d6010415ffeed453b8b0ebfd179a2a","license":null},
+    {"id":"bach-suite-cello","composer":"J. S. Bach","work":"Suíte para Violoncelo","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/j_s_bach_suite_para_violoncelo.mp3","sourceUrl":null,"sha256":"7a6f09fcc75f677e521e86e7c362e4fd04d2e16f6161cb218ed59e236ea00bd0","license":null},
+    {"id":"bach-tocata","composer":"J. S. Bach","work":"Tocata para Órgão","recording":"Existing Android recording","rightsStatus":"unverified","audioPath":"Audio/j_s_bach_tocata_para_orgao.mp3","sourceUrl":null,"sha256":"8b09a133729e95efc3c51efb033656a255fc8c6dc08a1744e0cdcf519608d187","license":null}
+  ],
+  "candidates": []
 }

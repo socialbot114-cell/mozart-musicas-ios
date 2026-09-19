@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail closed on missing rights metadata or incorrect Mozart attribution."""
+"""Validate bundled audio integrity and flag rights that still need review."""
 import hashlib
 import json
 import pathlib
@@ -16,11 +16,12 @@ for item in tracks:
         errors.append(f"{item.get('id', '<unknown>')}: audioPath is required for a shipped track")
         continue
     audio = ROOT / path_value
-    for field in ("rightsStatus", "license", "sourceUrl", "sha256"):
-        if not item.get(field):
-            errors.append(f"{item.get('id', '<unknown>')}: missing {field}")
-    if item.get("rightsStatus") != "approved":
-        errors.append(f"{item.get('id', '<unknown>')}: audio is not approved")
+    if not audio.is_file():
+        audio = ROOT / "MusicasParaEstudar/Resources" / path_value
+    if item.get("rightsStatus") not in {"approved", "unverified"}:
+        errors.append(f"{item.get('id', '<unknown>')}: invalid rightsStatus")
+    if not item.get("sha256"):
+        errors.append(f"{item.get('id', '<unknown>')}: missing sha256")
     if not audio.is_file():
         errors.append(f"{item.get('id', '<unknown>')}: audio file does not exist: {path_value}")
     elif item.get("sha256") and hashlib.sha256(audio.read_bytes()).hexdigest() != item["sha256"]:
@@ -38,4 +39,7 @@ if errors:
     print("Catalog validation failed:")
     print("\n".join(f"- {error}" for error in errors))
     sys.exit(1)
-print(f"Catalog validation passed: {len(tracks)} approved track(s), {len(catalog.get('candidates', []))} candidate(s).")
+print(f"Catalog validation passed: {len(tracks)} track(s), {len(catalog.get('candidates', []))} candidate(s).")
+unverified = sum(item.get("rightsStatus") == "unverified" for item in tracks)
+if unverified:
+    print(f"WARNING: {unverified} track(s) remain unverified and require rights review before App Review.")

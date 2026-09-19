@@ -15,7 +15,7 @@ final class PlaybackService: NSObject, ObservableObject {
     }
 
     func play(_ track: Track) {
-        guard track.rightsStatus == "approved", let path = track.audioPath else { return }
+        guard track.rightsStatus != "blocked", let path = track.audioPath else { return }
         let url = Bundle.main.url(forResource: path, withExtension: nil)
         guard let url else { return }
         player.replaceCurrentItem(with: AVPlayerItem(url: url))

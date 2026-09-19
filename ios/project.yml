@@ -13,7 +13,7 @@ targets:
     type: application
     platform: iOS
     sources: [MusicasParaEstudar]
-    resources: [Resources, Catalog, Privacy/PrivacyInfo.xcprivacy]
+    resources: [Resources, Catalog, MusicasParaEstudar/Resources/Audio, Privacy/PrivacyInfo.xcprivacy]
     info:
       path: Privacy/Info.plist
     settings:
