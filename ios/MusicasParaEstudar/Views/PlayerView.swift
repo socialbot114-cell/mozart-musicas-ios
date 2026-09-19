@@ -5,6 +5,7 @@ struct ImmersivePlayerView: View {
     @ObservedObject var model: AppModel
     @ObservedObject var playback: PlaybackService
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
         Group {
@@ -44,7 +45,7 @@ struct ImmersivePlayerView: View {
             Spacer()
 
             CategoryArtwork(category: track.category)
-                .frame(width: 300, height: 300)
+                .frame(width: artworkSide, height: artworkSide)
                 .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
                 .shadow(color: track.category.colors[0].opacity(0.45), radius: 34, y: 20)
 
@@ -102,6 +103,10 @@ struct ImmersivePlayerView: View {
             get: { playback.currentTime },
             set: { playback.seek(to: $0) }
         )
+    }
+
+    private var artworkSide: CGFloat {
+        sizeClass == .regular ? 440 : 300
     }
 
     private func displayDuration(for track: Track) -> Double {

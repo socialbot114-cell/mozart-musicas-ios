@@ -7,31 +7,35 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
 
         capture(app, name: "musicas-para-estudar-home")
 
+        openExplore(app)
+        capture(app, name: "musicas-para-estudar-explorar")
+
+        openHome(app)
         let hero = app.buttons["hero.play"]
         if hero.waitForExistence(timeout: 4) {
             hero.tap()
             if app.buttons["player.toggle"].waitForExistence(timeout: 4) {
                 capture(app, name: "musicas-para-estudar-player")
-                let dismiss = app.buttons["player.dismiss"]
-                if dismiss.exists {
-                    dismiss.tap()
-                }
             }
         }
-
-        openExplore(app)
-        capture(app, name: "musicas-para-estudar-explorar")
     }
 
     private func openExplore(_ app: XCUIApplication) {
         let tabBarButton = app.tabBars.buttons["Explorar"]
         if tabBarButton.waitForExistence(timeout: 3) {
             tabBarButton.tap()
-            return
+        } else {
+            app.buttons["Explorar"].firstMatch.tap()
         }
-        let sidebarButton = app.buttons["Explorar"].firstMatch
-        if sidebarButton.waitForExistence(timeout: 3) {
-            sidebarButton.tap()
+        _ = app.buttons["chip.Todos"].waitForExistence(timeout: 3)
+    }
+
+    private func openHome(_ app: XCUIApplication) {
+        let tabBarButton = app.tabBars.buttons["Início"]
+        if tabBarButton.waitForExistence(timeout: 3) {
+            tabBarButton.tap()
+        } else {
+            app.buttons["Início"].firstMatch.tap()
         }
     }
 
