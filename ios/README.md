@@ -2,7 +2,7 @@
 
 Generated with XcodeGen for App Store ID `6813681353` and bundle `br.com.musicaspara.estudar`.
 
-The product shell lists and plays only recordings marked `approved`. The recordings currently present in `Catalog/catalog.json` remain `unverified`; the distribution validator therefore blocks release. Composition age, filenames, hashes, and artwork are not evidence of recording rights.
+The product shell lists and plays only recordings marked `approved`. The distributable catalog is currently empty because no bundled recording has verified redistribution evidence. Composition age, filenames, hashes, and artwork are not evidence of recording rights.
 
 On macOS with XcodeGen installed:
 

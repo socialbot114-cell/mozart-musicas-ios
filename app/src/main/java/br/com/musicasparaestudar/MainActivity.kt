@@ -153,32 +153,7 @@ class FocusSessionViewModel(private val state: SavedStateHandle) : ViewModel() {
     }
 }
 
-private val catalog = listOf(
-    Track("J. S. Bach", "Goldberg Variations", "Barroco", "Clareza e equilíbrio para longos blocos.", "j_s_bach_goldberg_variations"),
-    Track("Wolfgang A. Mozart", "Sonata para Piano n.º 16", "Clássica", "Leveza para leitura e revisão."),
-    Track("Ludwig van Beethoven", "Moonlight Sonata", "Piano", "Concentração com presença serena."),
-    Track("Frédéric Chopin", "Nocturne Op. 9 No. 2", "Piano", "Piano delicado para acompanhar seu ritmo.", "frederic_chopin_noturno"),
-    Track("Claude Debussy", "Clair de Lune", "Clássica", "Uma pausa luminosa entre os capítulos."),
-    Track("Erik Satie", "Gymnopédie No. 1", "Piano", "Minimalismo calmo para desacelerar."),
-    Track("Maurice Ravel", "Pavane pour une infante défunte", "Clássica", "Texturas suaves para leitura."),
-    Track("Ernesto Nazareth", "Odeon", "Brasileira", "Piano brasileiro com leveza."),
-    Track("Chiquinha Gonzaga", "Ó Abre Alas", "Brasileira", "Acervo brasileiro para curadoria futura."),
-    Track("Antonio Vivaldi", "As Quatro Estações: Primavera", "Barroco", "Energia organizada para exercícios.", "antonio_vivaldi_as_quatro_estacoes_primavera"),
-    Track("J. S. Bach", "Prelúdio do Cravo Bem Temperado", "Barroco", "Clareza para começar um bloco.", "j_s_bach_preludio_do_cravo_bem_temperado"),
-    Track("J. S. Bach", "Suíte para Violoncelo", "Barroco", "Linhas profundas para concentração.", "j_s_bach_suite_para_violoncelo"),
-    Track("J. S. Bach", "Ária na corda Sol", "Barroco", "Uma pausa musical serena.", "j_s_bach_aria_na_corda_sol"),
-    Track("J. S. Bach", "Partita para Violino", "Barroco", "Música para foco prolongado.", "j_s_bach_partita_para_violino"),
-    Track("J. S. Bach", "Suíte Inglesa", "Barroco", "Estrutura e ritmo para estudar.", "j_s_bach_suite_inglesa"),
-    Track("J. S. Bach", "Invenção a duas vozes", "Barroco", "Movimento leve para exercícios.", "j_s_bach_invencao_a_duas_vozes"),
-    Track("J. S. Bach", "Tocata para Órgão", "Barroco", "Som amplo para foco profundo.", "j_s_bach_tocata_para_orgao"),
-    Track("Frédéric Chopin", "Estudo", "Piano", "Piano para resolver desafios.", "frederic_chopin_estudo"),
-    Track("Frédéric Chopin", "Valsa", "Piano", "Movimento suave para leitura.", "frederic_chopin_valsa"),
-    Track("Frédéric Chopin", "Mazurca", "Piano", "Ritmo delicado para acompanhar ideias.", "frederic_chopin_mazurca"),
-    Track("Franz Schubert", "Impromptu", "Piano", "Piano expressivo sem distrações.", "franz_schubert_impromptu"),
-    Track("Franz Schubert", "Sonata para Piano", "Piano", "Uma sessão longa de concentração.", "franz_schubert_sonata_para_piano"),
-    Track("Johannes Brahms", "Intermezzo", "Piano", "Calma e profundidade.", "johannes_brahms_intermezzo"),
-    Track("Gabriel Fauré", "Pavana", "Clássica", "Texturas suaves para leitura.", "gabriel_faure_pavana")
-)
+private val catalog = emptyList<Track>()
 
 private val composers = listOf(
     ComposerProfile("Johann Sebastian Bach", "1685–1750", "Alemanha", "Barroco", "Bach uniu contraponto, dança e tradição litúrgica em uma obra de precisão extraordinária.", listOf("Variações Goldberg", "O Cravo Bem Temperado", "Suítes para Violoncelo"), R.drawable.artist_bach),
@@ -234,26 +209,7 @@ class AudioPlayerViewModel(application: Application) : AndroidViewModel(applicat
 
     override fun onCleared() { player?.release() }
 
-    private fun resourceId(name: String): Int = when (name) {
-        "antonio_vivaldi_as_quatro_estacoes_primavera" -> R.raw.antonio_vivaldi_as_quatro_estacoes_primavera
-        "franz_schubert_impromptu" -> R.raw.franz_schubert_impromptu
-        "franz_schubert_sonata_para_piano" -> R.raw.franz_schubert_sonata_para_piano
-        "frederic_chopin_estudo" -> R.raw.frederic_chopin_estudo
-        "frederic_chopin_mazurca" -> R.raw.frederic_chopin_mazurca
-        "frederic_chopin_noturno" -> R.raw.frederic_chopin_noturno
-        "frederic_chopin_valsa" -> R.raw.frederic_chopin_valsa
-        "gabriel_faure_pavana" -> R.raw.gabriel_faure_pavana
-        "j_s_bach_aria_na_corda_sol" -> R.raw.j_s_bach_aria_na_corda_sol
-        "j_s_bach_goldberg_variations" -> R.raw.j_s_bach_goldberg_variations
-        "j_s_bach_invencao_a_duas_vozes" -> R.raw.j_s_bach_invencao_a_duas_vozes
-        "j_s_bach_partita_para_violino" -> R.raw.j_s_bach_partita_para_violino
-        "j_s_bach_preludio_do_cravo_bem_temperado" -> R.raw.j_s_bach_preludio_do_cravo_bem_temperado
-        "j_s_bach_suite_inglesa" -> R.raw.j_s_bach_suite_inglesa
-        "j_s_bach_suite_para_violoncelo" -> R.raw.j_s_bach_suite_para_violoncelo
-        "j_s_bach_tocata_para_orgao" -> R.raw.j_s_bach_tocata_para_orgao
-        "johannes_brahms_intermezzo" -> R.raw.johannes_brahms_intermezzo
-        else -> error("Recurso de áudio não cadastrado: $name")
-    }
+    private fun resourceId(name: String): Int = error("Recurso de áudio não cadastrado: $name")
 }
 
 class MainActivity : ComponentActivity() {
