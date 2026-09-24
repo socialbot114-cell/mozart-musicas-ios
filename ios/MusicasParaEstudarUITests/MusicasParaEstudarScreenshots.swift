@@ -28,6 +28,7 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         let bachFilter = app.buttons["composer.bach"]
         XCTAssertTrue(bachFilter.waitForExistence(timeout: 4))
         bachFilter.tap()
+        capture(app, name: "musicas-para-estudar-composer-bach-selected")
 
         XCTAssertEqual(bachFilter.value as? String, "Selecionado")
         XCTAssertTrue(app.buttons["track.barroco__j_s_bach_goldberg_variations"].waitForExistence(timeout: 4))

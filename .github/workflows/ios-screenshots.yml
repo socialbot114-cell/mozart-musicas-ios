@@ -29,18 +29,23 @@ jobs:
       - name: Capture screenshots
         working-directory: ios
         run: |
-          set -euo pipefail
+          set -uo pipefail
+          result_bundle="$RUNNER_TEMP/musicas-para-estudar-${{ matrix.device.slug }}.xcresult"
           xcodebuild test \
             -project MusicasParaEstudar.xcodeproj \
             -scheme MusicasParaEstudar \
             -destination 'platform=iOS Simulator,name=${{ matrix.device.name }},OS=26.5' \
-            -resultBundlePath "$RUNNER_TEMP/musicas-para-estudar-${{ matrix.device.slug }}.xcresult" \
+            -resultBundlePath "$result_bundle" \
             -only-testing:MusicasParaEstudarUITests \
-            CODE_SIGNING_ALLOWED=NO
-          xcrun xcresulttool export attachments \
-            --path "$RUNNER_TEMP/musicas-para-estudar-${{ matrix.device.slug }}.xcresult" \
-            --output-path "$RUNNER_TEMP/musicas-para-estudar-screenshots-${{ matrix.device.slug }}"
+            CODE_SIGNING_ALLOWED=NO || test_status=$?
+          if [[ -d "$result_bundle" ]]; then
+            xcrun xcresulttool export attachments \
+              --path "$result_bundle" \
+              --output-path "$RUNNER_TEMP/musicas-para-estudar-screenshots-${{ matrix.device.slug }}" || test_status=${test_status:-$?}
+          fi
+          exit "${test_status:-0}"
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: musicas-para-estudar-ios-screenshots-${{ matrix.device.slug }}
           path: ${{ runner.temp }}/musicas-para-estudar-screenshots-${{ matrix.device.slug }}
