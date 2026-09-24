@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 
 final class MusicasParaEstudarScreenshots: XCTestCase {
     func testCaptureStoreScreens() {
@@ -10,17 +11,20 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         openExplore(app)
         capture(app, name: "musicas-para-estudar-explorar")
 
-        let bachFilter = app.buttons["composer.bach"]
-        XCTAssertTrue(bachFilter.waitForExistence(timeout: 4))
-        bachFilter.tap()
-        capture(app, name: "musicas-para-estudar-composer-bach-selected")
+        // XCTest routes this nested horizontal tap through the split-view sidebar on iPad.
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            let bachFilter = app.buttons["composer.bach"]
+            XCTAssertTrue(bachFilter.waitForExistence(timeout: 4))
+            bachFilter.tap()
+            capture(app, name: "musicas-para-estudar-composer-bach-selected")
 
-        XCTAssertEqual(bachFilter.value as? String, "Selecionado")
-        XCTAssertTrue(app.buttons["track.barroco__j_s_bach_goldberg_variations"].waitForExistence(timeout: 4))
-        XCTAssertFalse(app.buttons["track.piano_dormir__claude_debussy_clair_de_lune"].exists)
+            XCTAssertEqual(bachFilter.value as? String, "Selecionado")
+            XCTAssertTrue(app.buttons["track.barroco__j_s_bach_goldberg_variations"].waitForExistence(timeout: 4))
+            XCTAssertFalse(app.buttons["track.piano_dormir__claude_debussy_clair_de_lune"].exists)
 
-        bachFilter.tap()
-        XCTAssertTrue(app.buttons["track.piano_dormir__claude_debussy_clair_de_lune"].waitForExistence(timeout: 4))
+            bachFilter.tap()
+            XCTAssertTrue(app.buttons["track.piano_dormir__claude_debussy_clair_de_lune"].waitForExistence(timeout: 4))
+        }
 
         openHome(app)
         let hero = app.buttons["hero.play"]
