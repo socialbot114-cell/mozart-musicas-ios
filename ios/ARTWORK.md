@@ -4,7 +4,7 @@ The asset catalog contains a small, optimized derivative set for the iOS interfa
 
 | Asset | Source | Transformation | Use |
 | --- | --- | --- | --- |
-| `FocusArtwork` | `capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_00 (6).png` | Crop `(0, 20)–(640, 420)`, composite to the app's dark ink surface, JPEG 82, 720×450 | Foco Profundo artwork; crop removes the embedded English title |
+| `FocusArtwork` | `capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_00 (6).png` | Crop `(0, 800)–(640, 1200)`, composite to the app's dark ink surface, JPEG 82, 720×450 | Foco Profundo artwork; ink bottle and score crop removes the portrait and embedded English title |
 | `PianoEveningArtwork` | `capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_01 (7).png` | Crop `(600, 650)–(1200, 1250)`, composite to the app's dark ink surface, JPEG 82, 720×720 | Piano para Dormir artwork; crop removes the embedded English title |
 | `BachPortrait` | `compositores/ChatGPT Image 24 de set. de 2026, 15_16_25 (1).png` | Resize to 512×512, preserve transparency, optimized PNG | Composer filter |
 | `ChopinPortrait` | `compositores/ChatGPT Image 24 de set. de 2026, 15_16_26 (2).png` | Resize to 512×512, preserve transparency, optimized PNG | Composer filter |
