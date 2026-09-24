@@ -1,16 +1,16 @@
-# iOS artwork
+# iOS artwork library
 
-The asset catalog contains a small, optimized derivative set for the iOS interface. Original PNGs remain in `imgs capas/componentes novos/` and are not modified.
+The iOS asset catalog contains optimized derivatives of all 60 supplied artwork PNGs: **7.40 MiB** from 76.84 MiB of individual source PNGs. The 2.18 MiB contact sheet is not bundled, and originals in `imgs capas/componentes novos/` are not modified.
 
-| Asset | Source | Transformation | Use |
-| --- | --- | --- | --- |
-| `FocusArtwork` | `capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_00 (6).png` | Crop `(0, 800)–(640, 1200)`, composite to the app's dark ink surface, JPEG 82, 720×450 | Foco Profundo artwork; ink bottle and score crop removes the portrait and embedded English title |
-| `PianoEveningArtwork` | `capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_01 (7).png` | Crop `(600, 650)–(1200, 1250)`, composite to the app's dark ink surface, JPEG 82, 720×720 | Piano para Dormir artwork; crop removes the embedded English title |
-| `BachPortrait` | `compositores/ChatGPT Image 24 de set. de 2026, 15_16_25 (1).png` | Resize to 512×512, preserve transparency, optimized PNG | Composer filter |
-| `ChopinPortrait` | `compositores/ChatGPT Image 24 de set. de 2026, 15_16_26 (2).png` | Resize to 512×512, preserve transparency, optimized PNG | Composer filter |
-| `MozartPortrait` | `compositores/ChatGPT Image 24 de set. de 2026, 15_16_26 (3).png` | Resize to 512×512, preserve transparency, optimized PNG | Composer filter |
-| `BeethovenPortrait` | `compositores/ChatGPT Image 24 de set. de 2026, 15_16_27 (4).png` | Resize to 512×512, preserve transparency, optimized PNG | Composer filter |
+| Group | Count | Intended use | Derivative target |
+| --- | ---: | --- | --- |
+| Collection covers | 5 | Home collection cards and matching Explore filters; English lettering is cropped out and titles come from SwiftUI | 720 px, JPEG 82 |
+| Composer portraits | 10 | Explore composer carousel and corresponding track/mini-player/player artwork | 768 px, purple-gradient composite, optimized JPEG 86 |
+| Instruments and score items | 10 | Explore visual selector; instrument filtering only returns tracks matching catalog metadata/titles | 384 px, transparent optimized PNG |
+| Study objects | 10 | Selectable Focus ambience illustrations | 384 px, transparent optimized PNG |
+| Ornaments | 15 | Subtle accents across collection cards, category artwork, Focus and Player | 512 px; wide divider 768 px, transparent optimized PNG |
+| Player controls | 10 | Functional native buttons for play/pause, track navigation, shuffle, repeat, volume, favorites, queue and menu | 256 px, transparent optimized PNG |
 
-The two cover crops contain no embedded title; category names and descriptions are rendered as native, localized SwiftUI text. Composer names are also native text and remain accessible to VoiceOver.
+Every derivative is documented with its source path, semantic name, crop/resize, dimensions and byte size in `ARTWORK.json`. Run `python3 ios/Scripts/prepare_artwork.py` from the repository root (Pillow required) to regenerate the asset catalog from the original source folder. CI runs `python3 ios/Scripts/validate_artwork.py` and enforces the 12 MiB artwork budget.
 
-Source artwork was supplied in the project workspace. Its licensing/provenance evidence was not present in the source directory when audited and should be recorded before public distribution.
+The source filenames indicate generated artwork, but licensing/provenance evidence was not present in the source directory when audited. Record that evidence before public distribution.

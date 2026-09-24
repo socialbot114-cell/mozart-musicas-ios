@@ -1,0 +1,1208 @@
+{
+  "schemaVersion": 1,
+  "originalsModified": false,
+  "assetCount": 60,
+  "licenseReview": "The supplied directory did not contain license/provenance evidence; verify before public distribution.",
+  "assets": [
+    {
+      "asset": "FocusArtwork",
+      "filename": "focus_artwork.jpg",
+      "imageset": "FocusArtwork.imageset",
+      "group": "collections",
+      "title": "Foco Profundo",
+      "purpose": "Home hero and focus category; ink bottle and score crop without embedded lettering.",
+      "source": "imgs capas/componentes novos/capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_00 (6).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        720,
+        450
+      ],
+      "outputBytes": 52738,
+      "transform": "crop=[0, 800, 640, 1200]; composite=#171522; JPEG q82",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PianoEveningArtwork",
+      "filename": "piano_evening_artwork.jpg",
+      "imageset": "PianoEveningArtwork.imageset",
+      "group": "collections",
+      "title": "Piano e Chuva",
+      "purpose": "Piano para Dormir collection; keyboard detail crop without embedded lettering.",
+      "source": "imgs capas/componentes novos/capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_01 (7).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        720,
+        720
+      ],
+      "outputBytes": 79372,
+      "transform": "crop=[600, 650, 1200, 1250]; composite=#171522; JPEG q82",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "ChopinMidnightArtwork",
+      "filename": "chopin_midnight_artwork.jpg",
+      "imageset": "ChopinMidnightArtwork.imageset",
+      "group": "collections",
+      "title": "Noite com Chopin",
+      "purpose": "Explore collection; moonlit piano detail crop without embedded lettering.",
+      "source": "imgs capas/componentes novos/capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_01 (8).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        720,
+        720
+      ],
+      "outputBytes": 76618,
+      "transform": "crop=[600, 650, 1200, 1250]; composite=#171522; JPEG q82",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "MozartMorningArtwork",
+      "filename": "mozart_morning_artwork.jpg",
+      "imageset": "MozartMorningArtwork.imageset",
+      "group": "collections",
+      "title": "Manhã com Mozart",
+      "purpose": "Explore collection; morning city detail crop without embedded lettering.",
+      "source": "imgs capas/componentes novos/capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_01 (9).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        720,
+        720
+      ],
+      "outputBytes": 51372,
+      "transform": "crop=[650, 50, 1250, 650]; composite=#171522; JPEG q82",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "BeethovenPowerArtwork",
+      "filename": "beethoven_power_artwork.jpg",
+      "imageset": "BeethovenPowerArtwork.imageset",
+      "group": "collections",
+      "title": "Beethoven em Foco",
+      "purpose": "Explore collection; upper portrait crop without embedded lettering.",
+      "source": "imgs capas/componentes novos/capa thumbnails/ChatGPT Image 24 de set. de 2026, 15_30_02 (10).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        720,
+        720
+      ],
+      "outputBytes": 137089,
+      "transform": "crop=[100, 20, 730, 650]; composite=#171522; JPEG q82",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "BachPortrait",
+      "filename": "bach_portrait.jpg",
+      "imageset": "BachPortrait.imageset",
+      "group": "composers",
+      "title": "Bach",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_25 (1).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        768,
+        752
+      ],
+      "outputBytes": 100162,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "ChopinPortrait",
+      "filename": "chopin_portrait.jpg",
+      "imageset": "ChopinPortrait.imageset",
+      "group": "composers",
+      "title": "Chopin",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_26 (2).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        768,
+        765
+      ],
+      "outputBytes": 74952,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "MozartPortrait",
+      "filename": "mozart_portrait.jpg",
+      "imageset": "MozartPortrait.imageset",
+      "group": "composers",
+      "title": "Mozart",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_26 (3).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        768,
+        765
+      ],
+      "outputBytes": 97848,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "BeethovenPortrait",
+      "filename": "beethoven_portrait.jpg",
+      "imageset": "BeethovenPortrait.imageset",
+      "group": "composers",
+      "title": "Beethoven",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_27 (4).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        764,
+        768
+      ],
+      "outputBytes": 96575,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "VivaldiPortrait",
+      "filename": "vivaldi_portrait.jpg",
+      "imageset": "VivaldiPortrait.imageset",
+      "group": "composers",
+      "title": "Vivaldi",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_27 (5).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        768,
+        763
+      ],
+      "outputBytes": 113472,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "DebussyPortrait",
+      "filename": "debussy_portrait.jpg",
+      "imageset": "DebussyPortrait.imageset",
+      "group": "composers",
+      "title": "Debussy",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_28 (6).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        752,
+        768
+      ],
+      "outputBytes": 81175,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "SatiePortrait",
+      "filename": "satie_portrait.jpg",
+      "imageset": "SatiePortrait.imageset",
+      "group": "composers",
+      "title": "Satie",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_28 (7).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        754,
+        768
+      ],
+      "outputBytes": 75220,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "LisztPortrait",
+      "filename": "liszt_portrait.jpg",
+      "imageset": "LisztPortrait.imageset",
+      "group": "composers",
+      "title": "Liszt",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_29 (8).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        768,
+        762
+      ],
+      "outputBytes": 80462,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "TchaikovskyPortrait",
+      "filename": "tchaikovsky_portrait.jpg",
+      "imageset": "TchaikovskyPortrait.imageset",
+      "group": "composers",
+      "title": "Tchaikovsky",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_29 (9).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        768,
+        767
+      ],
+      "outputBytes": 81205,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "BrahmsPortrait",
+      "filename": "brahms_portrait.jpg",
+      "imageset": "BrahmsPortrait.imageset",
+      "group": "composers",
+      "title": "Brahms",
+      "purpose": "Explore and track artwork; portrait composited on a shared purple gradient with a native name and licensed-track count.",
+      "source": "imgs capas/componentes novos/compositores/ChatGPT Image 24 de set. de 2026, 15_16_29 (10).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        751,
+        768
+      ],
+      "outputBytes": 87976,
+      "transform": "alpha-crop; purple gradient composite; resize-max=768px; JPEG q86",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "GrandPiano",
+      "filename": "grand_piano.png",
+      "imageset": "GrandPiano.imageset",
+      "group": "instruments",
+      "title": "Piano de Cauda",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_36 (1).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        375
+      ],
+      "outputBytes": 150392,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PianoKeys",
+      "filename": "piano_keys.png",
+      "imageset": "PianoKeys.imageset",
+      "group": "instruments",
+      "title": "Teclas de Piano",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_37 (2).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        354
+      ],
+      "outputBytes": 124553,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Violin",
+      "filename": "violin.png",
+      "imageset": "Violin.imageset",
+      "group": "instruments",
+      "title": "Violino",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_37 (3).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        364,
+        384
+      ],
+      "outputBytes": 105962,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Cello",
+      "filename": "cello.png",
+      "imageset": "Cello.imageset",
+      "group": "instruments",
+      "title": "Violoncelo",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_38 (4).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        343,
+        384
+      ],
+      "outputBytes": 77138,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Trumpet",
+      "filename": "trumpet.png",
+      "imageset": "Trumpet.imageset",
+      "group": "instruments",
+      "title": "Trompete",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_38 (5).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        381,
+        384
+      ],
+      "outputBytes": 131085,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Flute",
+      "filename": "flute.png",
+      "imageset": "Flute.imageset",
+      "group": "instruments",
+      "title": "Flauta",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_39 (6).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        381,
+        384
+      ],
+      "outputBytes": 72905,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "RolledScore",
+      "filename": "rolled_score.png",
+      "imageset": "RolledScore.imageset",
+      "group": "instruments",
+      "title": "Partitura Enrolada",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_41 (7).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        370
+      ],
+      "outputBytes": 137677,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "OpenScore",
+      "filename": "open_score.png",
+      "imageset": "OpenScore.imageset",
+      "group": "instruments",
+      "title": "Partitura Aberta",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_41 (8).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        383,
+        384
+      ],
+      "outputBytes": 196285,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Headphones",
+      "filename": "headphones.png",
+      "imageset": "Headphones.imageset",
+      "group": "instruments",
+      "title": "Fones de Ouvido",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_41 (9).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        383
+      ],
+      "outputBytes": 160028,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "ConductorBaton",
+      "filename": "conductor_baton.png",
+      "imageset": "ConductorBaton.imageset",
+      "group": "instruments",
+      "title": "Batuta",
+      "purpose": "Explore artwork gallery; instrument filters match catalog work terms, while score/listening materials link to related study categories.",
+      "source": "imgs capas/componentes novos/inst musicas/ChatGPT Image 24 de set. de 2026, 15_18_42 (10).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        381
+      ],
+      "outputBytes": 35745,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "BooksStack",
+      "filename": "books_stack.png",
+      "imageset": "BooksStack.imageset",
+      "group": "study_objects",
+      "title": "Livros",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_24 (1).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        365
+      ],
+      "outputBytes": 214200,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "OpenStudyBook",
+      "filename": "open_study_book.png",
+      "imageset": "OpenStudyBook.imageset",
+      "group": "study_objects",
+      "title": "Livro Aberto",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_25 (2).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        341
+      ],
+      "outputBytes": 122254,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Pencil",
+      "filename": "pencil.png",
+      "imageset": "Pencil.imageset",
+      "group": "study_objects",
+      "title": "Lápis",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_27 (3).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        383,
+        384
+      ],
+      "outputBytes": 70710,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "CoffeeCup",
+      "filename": "coffee_cup.png",
+      "imageset": "CoffeeCup.imageset",
+      "group": "study_objects",
+      "title": "Café",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_27 (4).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        370,
+        384
+      ],
+      "outputBytes": 139960,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Laptop",
+      "filename": "laptop.png",
+      "imageset": "Laptop.imageset",
+      "group": "study_objects",
+      "title": "Notebook",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_28 (5).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        370
+      ],
+      "outputBytes": 122571,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "DeskLamp",
+      "filename": "desk_lamp.png",
+      "imageset": "DeskLamp.imageset",
+      "group": "study_objects",
+      "title": "Luminária",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_28 (6).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        384,
+        380
+      ],
+      "outputBytes": 97323,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "StudyPlant",
+      "filename": "study_plant.png",
+      "imageset": "StudyPlant.imageset",
+      "group": "study_objects",
+      "title": "Planta",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_29 (7).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        373,
+        384
+      ],
+      "outputBytes": 174108,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Moon",
+      "filename": "moon.png",
+      "imageset": "Moon.imageset",
+      "group": "study_objects",
+      "title": "Lua",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_29 (8).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        371,
+        384
+      ],
+      "outputBytes": 171044,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Sun",
+      "filename": "sun.png",
+      "imageset": "Sun.imageset",
+      "group": "study_objects",
+      "title": "Sol",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_29 (9).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        381,
+        384
+      ],
+      "outputBytes": 135373,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Hourglass",
+      "filename": "hourglass.png",
+      "imageset": "Hourglass.imageset",
+      "group": "study_objects",
+      "title": "Ampulheta",
+      "purpose": "Focus ambience selector; native caption and selected state.",
+      "source": "imgs capas/componentes novos/OBJETOS DE ESTUDO E PRODUTIVIDADE/ChatGPT Image 24 de set. de 2026, 15_19_30 (10).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        375,
+        384
+      ],
+      "outputBytes": 143357,
+      "transform": "alpha-crop; resize-max=384px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "TrebleClef",
+      "filename": "treble_clef.png",
+      "imageset": "TrebleClef.imageset",
+      "group": "ornaments",
+      "title": "Clé de Sol",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_29_57 (1).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        462,
+        512
+      ],
+      "outputBytes": 118051,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "MusicNotes",
+      "filename": "music_notes.png",
+      "imageset": "MusicNotes.imageset",
+      "group": "ornaments",
+      "title": "Notas Musicais",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_29_57 (2).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        488,
+        512
+      ],
+      "outputBytes": 270929,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "MusicStaff",
+      "filename": "music_staff.png",
+      "imageset": "MusicStaff.imageset",
+      "group": "ornaments",
+      "title": "Pauta Musical",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_29_58 (3).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        512,
+        503
+      ],
+      "outputBytes": 141349,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "StarOrnament",
+      "filename": "star_ornament.png",
+      "imageset": "StarOrnament.imageset",
+      "group": "ornaments",
+      "title": "Estrela Dourada",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_29_59 (4).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        508,
+        512
+      ],
+      "outputBytes": 271150,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "ConstellationOrnament",
+      "filename": "constellation_ornament.png",
+      "imageset": "ConstellationOrnament.imageset",
+      "group": "ornaments",
+      "title": "Constelação",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_30_00 (5).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        504,
+        512
+      ],
+      "outputBytes": 215350,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "LeafBranch",
+      "filename": "leaf_branch.png",
+      "imageset": "LeafBranch.imageset",
+      "group": "ornaments",
+      "title": "Ramo de Folhas",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_33 (1).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        512,
+        501
+      ],
+      "outputBytes": 319702,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "ClassicalColumn",
+      "filename": "classical_column.png",
+      "imageset": "ClassicalColumn.imageset",
+      "group": "ornaments",
+      "title": "Coluna Clássica",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_34 (2).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        461,
+        512
+      ],
+      "outputBytes": 159190,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "MarbleColumn",
+      "filename": "marble_column.png",
+      "imageset": "MarbleColumn.imageset",
+      "group": "ornaments",
+      "title": "Coluna de Mármore",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_35 (3).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        450,
+        512
+      ],
+      "outputBytes": 140157,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "FlourishOrnament",
+      "filename": "flourish_ornament.png",
+      "imageset": "FlourishOrnament.imageset",
+      "group": "ornaments",
+      "title": "Filigrana",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_35 (4).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        512,
+        488
+      ],
+      "outputBytes": 160280,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "GoldRibbon",
+      "filename": "gold_ribbon.png",
+      "imageset": "GoldRibbon.imageset",
+      "group": "ornaments",
+      "title": "Fita Dourada",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_37 (5).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        496,
+        512
+      ],
+      "outputBytes": 286503,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "BlackBow",
+      "filename": "black_bow.png",
+      "imageset": "BlackBow.imageset",
+      "group": "ornaments",
+      "title": "Laço Preto",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_37 (6).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        506,
+        512
+      ],
+      "outputBytes": 189455,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "Quill",
+      "filename": "quill.png",
+      "imageset": "Quill.imageset",
+      "group": "ornaments",
+      "title": "Pena",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_37 (7).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        512,
+        512
+      ],
+      "outputBytes": 445454,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "LyreEmblem",
+      "filename": "lyre_emblem.png",
+      "imageset": "LyreEmblem.imageset",
+      "group": "ornaments",
+      "title": "Lira",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_38 (8).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        512,
+        511
+      ],
+      "outputBytes": 260693,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "LaurelBranch",
+      "filename": "laurel_branch.png",
+      "imageset": "LaurelBranch.imageset",
+      "group": "ornaments",
+      "title": "Loureiro",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_38 (9).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        510,
+        512
+      ],
+      "outputBytes": 211920,
+      "transform": "alpha-crop; resize-max=512px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "GoldDivider",
+      "filename": "gold_divider.png",
+      "imageset": "GoldDivider.imageset",
+      "group": "ornaments",
+      "title": "Divisor Dourado",
+      "purpose": "Decorative-only accent; hidden from VoiceOver and used sparingly in section and card composition.",
+      "source": "imgs capas/componentes novos/miscelanious/ChatGPT Image 24 de set. de 2026, 15_35_39 (10).png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "outputSize": [
+        768,
+        237
+      ],
+      "outputBytes": 107059,
+      "transform": "alpha-crop; resize-max=768px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerPlay",
+      "filename": "player_play.png",
+      "imageset": "PlayerPlay.imageset",
+      "group": "player_controls",
+      "title": "Reproduzir",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_53 (1).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        219,
+        256
+      ],
+      "outputBytes": 51809,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerPause",
+      "filename": "player_pause.png",
+      "imageset": "PlayerPause.imageset",
+      "group": "player_controls",
+      "title": "Pausar",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_54 (2).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        208,
+        256
+      ],
+      "outputBytes": 54503,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerPrevious",
+      "filename": "player_previous.png",
+      "imageset": "PlayerPrevious.imageset",
+      "group": "player_controls",
+      "title": "Faixa Anterior",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_55 (3).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        234,
+        256
+      ],
+      "outputBytes": 56124,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerNext",
+      "filename": "player_next.png",
+      "imageset": "PlayerNext.imageset",
+      "group": "player_controls",
+      "title": "Próxima Faixa",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_55 (4).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        256,
+        243
+      ],
+      "outputBytes": 66115,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerShuffle",
+      "filename": "player_shuffle.png",
+      "imageset": "PlayerShuffle.imageset",
+      "group": "player_controls",
+      "title": "Aleatório",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_55 (5).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        256,
+        253
+      ],
+      "outputBytes": 64562,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerRepeat",
+      "filename": "player_repeat.png",
+      "imageset": "PlayerRepeat.imageset",
+      "group": "player_controls",
+      "title": "Repetir Faixa",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_56 (6).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        256,
+        247
+      ],
+      "outputBytes": 70683,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerVolume",
+      "filename": "player_volume.png",
+      "imageset": "PlayerVolume.imageset",
+      "group": "player_controls",
+      "title": "Silenciar",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_56 (7).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        256,
+        218
+      ],
+      "outputBytes": 70774,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerFavorite",
+      "filename": "player_favorite.png",
+      "imageset": "PlayerFavorite.imageset",
+      "group": "player_controls",
+      "title": "Favoritar",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_57 (8).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        256,
+        245
+      ],
+      "outputBytes": 75129,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerAdd",
+      "filename": "player_add.png",
+      "imageset": "PlayerAdd.imageset",
+      "group": "player_controls",
+      "title": "Adicionar à Fila",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_19_57 (9).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        256,
+        243
+      ],
+      "outputBytes": 46434,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    },
+    {
+      "asset": "PlayerMore",
+      "filename": "player_more.png",
+      "imageset": "PlayerMore.imageset",
+      "group": "player_controls",
+      "title": "Mais Opções",
+      "purpose": "Artwork inside a native SwiftUI control; tap target and VoiceOver label remain native.",
+      "source": "imgs capas/componentes novos/tocador player botoes/ChatGPT Image 24 de set. de 2026, 15_20_00 (10).png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "outputSize": [
+        256,
+        201
+      ],
+      "outputBytes": 37406,
+      "transform": "alpha-crop; resize-max=256px; optimized PNG",
+      "rightsStatus": "provenance_not_recorded"
+    }
+  ]
+}

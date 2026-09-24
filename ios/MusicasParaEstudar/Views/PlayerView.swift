@@ -6,6 +6,7 @@ struct ImmersivePlayerView: View {
     @ObservedObject var playback: PlaybackService
     @Environment(\.dismiss) private var dismiss
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @State private var activeSheet: PlayerSheet?
 
     var body: some View {
         Group {
@@ -20,6 +21,14 @@ struct ImmersivePlayerView: View {
             }
         }
         .background(Color(.systemBackground).ignoresSafeArea())
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .queue:
+                PlayerQueueSheet(model: model)
+            case .trackDetails(let track):
+                TrackDetailsSheet(track: track)
+            }
+        }
     }
 
     private func content(for track: Track) -> some View {
@@ -38,13 +47,21 @@ struct ImmersivePlayerView: View {
                 Spacer()
                 Text("Tocando agora").font(.footnote.weight(.medium)).foregroundStyle(.secondary)
                 Spacer()
-                Image(systemName: "heart").font(.headline).foregroundStyle(.secondary).padding(12)
+                Button {
+                    model.toggleFavorite(track)
+                } label: {
+                    PlayerControlArtwork(assetName: "PlayerFavorite", selected: model.isFavorite(track), size: 30)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(model.isFavorite(track) ? "Remover dos favoritos" : "Adicionar aos favoritos")
+                .accessibilityValue(model.isFavorite(track) ? "Favorito" : "")
+                .accessibilityIdentifier("player.favorite")
             }
             .padding(.horizontal)
 
             Spacer()
 
-            CategoryArtwork(category: track.category)
+            TrackArtwork(track: track)
                 .frame(width: artworkSide, height: artworkSide)
                 .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
                 .shadow(color: track.category.colors[0].opacity(0.45), radius: 34, y: 20)
@@ -74,24 +91,71 @@ struct ImmersivePlayerView: View {
             .padding(.horizontal, 32)
             .padding(.top, 28)
 
-            HStack(spacing: 52) {
-                Image(systemName: "gobackward.15")
+            HStack(spacing: 8) {
+                playerButton(assetName: "PlayerShuffle", title: "Aleatório", identifier: "player.shuffle", selected: model.shuffleEnabled) {
+                    model.shuffleEnabled.toggle()
+                }
+                playerButton(assetName: "PlayerPrevious", title: "Faixa anterior", identifier: "player.previous") {
+                    model.playPreviousTrack(from: track)
+                }
                 Button {
                     playback.toggle()
                 } label: {
-                    Image(systemName: playback.isPlaying ? "pause.fill" : "play.fill")
-                        .font(.system(size: 26, weight: .bold))
-                        .foregroundStyle(.white)
+                    Image(playback.isPlaying ? "PlayerPause" : "PlayerPlay")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 62, height: 62)
                         .frame(width: 76, height: 76)
                         .background(AppTheme.accent, in: Circle())
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(playback.isPlaying ? "Pausar" : "Reproduzir")
                 .accessibilityIdentifier("player.toggle")
-                Image(systemName: "goforward.15")
+                playerButton(assetName: "PlayerNext", title: "Próxima faixa", identifier: "player.next") {
+                    model.playNextTrack(after: track)
+                }
+                playerButton(assetName: "PlayerRepeat", title: "Repetir faixa", identifier: "player.repeat", selected: playback.isRepeating) {
+                    playback.toggleRepeat()
+                }
             }
-            .font(.title2)
-            .foregroundStyle(.primary)
             .padding(.top, 24)
+
+            HStack(spacing: 24) {
+                playerButton(
+                    assetName: "PlayerVolume",
+                    title: playback.isMuted ? "Ativar volume" : "Silenciar",
+                    identifier: "player.volume",
+                    selected: playback.isMuted
+                ) {
+                    playback.toggleMute()
+                }
+                playerButton(
+                    assetName: "PlayerAdd",
+                    title: model.isQueued(track) ? "Remover da fila" : "Adicionar à fila",
+                    identifier: "player.queue.add",
+                    selected: model.isQueued(track)
+                ) {
+                    if model.isQueued(track) { model.removeFromQueue(track) }
+                    else { model.enqueue(track) }
+                }
+                Menu {
+                    Button {
+                        activeSheet = .queue
+                    } label: {
+                        Label("Fila (\(model.queuedTracks.count))", systemImage: "text.line.first.and.arrowtriangle.forward")
+                    }
+                    Button {
+                        activeSheet = .trackDetails(track)
+                    } label: {
+                        Label("Informações e créditos", systemImage: "info.circle")
+                    }
+                } label: {
+                    PlayerControlArtwork(assetName: "PlayerMore", selected: false)
+                }
+                .accessibilityLabel("Mais opções")
+                .accessibilityIdentifier("player.more")
+            }
+            .padding(.top, 12)
 
             Spacer()
         }
@@ -116,5 +180,135 @@ struct ImmersivePlayerView: View {
 
     private static func format(_ seconds: Double) -> String {
         Track.format(seconds)
+    }
+}
+
+private enum PlayerSheet: Identifiable {
+    case queue
+    case trackDetails(Track)
+
+    var id: String {
+        switch self {
+        case .queue: "queue"
+        case .trackDetails(let track): "track-\(track.id)"
+        }
+    }
+}
+
+private func playerButton(
+    assetName: String,
+    title: String,
+    identifier: String,
+    selected: Bool = false,
+    action: @escaping () -> Void
+) -> some View {
+    Button(action: action) {
+        PlayerControlArtwork(assetName: assetName, selected: selected)
+    }
+    .buttonStyle(.plain)
+    .accessibilityLabel(title)
+    .accessibilityValue(selected ? "Ativado" : "")
+    .accessibilityIdentifier(identifier)
+}
+
+private struct PlayerControlArtwork: View {
+    let assetName: String
+    let selected: Bool
+    var size: CGFloat = 30
+
+    var body: some View {
+        Image(assetName)
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .frame(width: 48, height: 48)
+            .background(
+                selected ? AppTheme.accent.opacity(0.16) : Color(.secondarySystemGroupedBackground),
+                in: Circle()
+            )
+            .overlay(Circle().strokeBorder(.primary.opacity(0.05)))
+            .contentShape(Circle())
+    }
+}
+
+private struct PlayerQueueSheet: View {
+    @ObservedObject var model: AppModel
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if model.queuedTracks.isEmpty {
+                    ContentUnavailableView("Fila vazia", systemImage: "text.line.first.and.arrowtriangle.forward", description: Text("Adicione uma obra pelo botão + do player."))
+                } else {
+                    List {
+                        ForEach(model.queuedTracks) { track in
+                            Button {
+                                model.select(track)
+                                dismiss()
+                            } label: {
+                                HStack(spacing: 12) {
+                                    TrackArtwork(track: track)
+                                        .frame(width: 44, height: 44)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                    VStack(alignment: .leading) {
+                                        Text(track.work).font(.subheadline.weight(.semibold))
+                                        Text(track.composer).font(.caption).foregroundStyle(.secondary)
+                                    }
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityIdentifier("queue.track.\(track.id)")
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    model.removeFromQueue(track)
+                                } label: {
+                                    Label("Remover", systemImage: "trash")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Fila")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Concluir") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+    }
+}
+
+private struct TrackDetailsSheet: View {
+    let track: Track
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Obra") {
+                    LabeledContent("Título", value: track.work)
+                    LabeledContent("Compositor", value: track.composer)
+                }
+                Section("Gravação e direitos") {
+                    LabeledContent("Licença", value: track.license ?? "Não informada")
+                    LabeledContent("Situação", value: track.rightsStatus == "approved" ? "Aprovada" : "Em revisão")
+                    if let source = track.sourceUrl {
+                        Link("Abrir fonte da gravação", destination: source)
+                    }
+                }
+            }
+            .navigationTitle("Informações da faixa")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Concluir") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
     }
 }

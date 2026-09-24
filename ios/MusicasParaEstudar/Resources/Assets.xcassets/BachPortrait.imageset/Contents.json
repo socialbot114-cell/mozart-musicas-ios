@@ -1,13 +1,13 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "bach_portrait.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename": "bach_portrait.jpg",
+      "idiom": "universal",
+      "scale": "1x"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

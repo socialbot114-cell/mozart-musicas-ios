@@ -1,13 +1,13 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "beethoven_portrait.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename": "beethoven_portrait.jpg",
+      "idiom": "universal",
+      "scale": "1x"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

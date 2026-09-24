@@ -13,7 +13,7 @@ struct MiniPlayerView: View {
                         model.showPlayer = true
                     } label: {
                         HStack(spacing: 12) {
-                            CategoryArtwork(category: track.category)
+                            TrackArtwork(track: track)
                                 .frame(width: 44, height: 44)
                                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                             VStack(alignment: .leading, spacing: 2) {

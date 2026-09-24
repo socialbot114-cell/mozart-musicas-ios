@@ -13,7 +13,7 @@ struct HomeView: View {
                 } else {
                     header
                     hero
-                    momentsSection
+                    collectionsSection
                     if let current = model.selectedTrack {
                         continueListening(current)
                     }
@@ -81,28 +81,59 @@ struct HomeView: View {
         .padding(.horizontal)
     }
 
-    private var momentsSection: some View {
+    private var collectionsSection: some View {
         VStack(alignment: .leading, spacing: 14) {
-            sectionTitle("Momentos")
+            sectionTitle("Coleções em destaque")
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
-                    ForEach(model.categories) { category in
+                    ForEach(ArtworkCatalog.collections) { collection in
                         NavigationLink {
-                            CategoryDetailView(model: model, category: category)
+                            ExploreView(
+                                model: model,
+                                initialCategoryKey: collection.categoryKey,
+                                initialComposer: collection.composerSearchTerm
+                            )
                         } label: {
-                            VStack(alignment: .leading, spacing: 0) {
-                                CategoryArtwork(category: category)
-                                    .frame(width: 150, height: 96)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(category.title).font(.subheadline.weight(.semibold)).foregroundStyle(.primary).lineLimit(1)
-                                    Text("\(model.tracks(in: category).count) obras").font(.caption).foregroundStyle(.secondary)
+                            ZStack(alignment: .bottomLeading) {
+                                Image(collection.assetName)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 178, height: 154)
+                                    .clipped()
+                                LinearGradient(
+                                    colors: [.clear, .black.opacity(0.78)],
+                                    startPoint: .center,
+                                    endPoint: .bottom
+                                )
+                                Image(collection.ornamentAsset)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 34, height: 34)
+                                    .opacity(0.55)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                                    .padding(10)
+                                    .accessibilityHidden(true)
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text(collection.title)
+                                        .font(AppTheme.display(16, weight: .bold))
+                                        .foregroundStyle(.white)
+                                        .lineLimit(1)
+                                    Text(collection.subtitle)
+                                        .font(.caption)
+                                        .foregroundStyle(.white.opacity(0.82))
+                                        .lineLimit(1)
                                 }
                                 .padding(12)
                             }
-                            .frame(width: 150)
-                            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                            .frame(width: 178, height: 154)
+                            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                    .strokeBorder(.primary.opacity(0.06))
+                            }
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("collection.\(collection.id)")
                     }
                 }
                 .padding(.horizontal)

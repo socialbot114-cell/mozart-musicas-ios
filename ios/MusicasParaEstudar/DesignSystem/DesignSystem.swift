@@ -23,9 +23,13 @@ struct MusicCategory: Identifiable {
         switch key {
         case "foco_profundo": "FocusArtwork"
         case "piano_dormir": "PianoEveningArtwork"
+        case "piano_estudar": "ChopinMidnightArtwork"
+        case "classica_leitura": "MozartMorningArtwork"
         default: nil
         }
     }
+
+    var decorationAssets: [String] { ArtworkCatalog.categoryOrnaments[key] ?? [] }
 
     static let focoProfundo = MusicCategory(
         key: "foco_profundo", title: "Foco Profundo", subtitle: "Concentração sem distrações",
@@ -79,9 +83,46 @@ struct CategoryArtwork: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     .padding(18)
             }
+
+            ForEach(category.decorationAssets.indices, id: \.self) { index in
+                Image(category.decorationAssets[index])
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: index == 0 ? 76 : 54, height: index == 0 ? 76 : 54)
+                    .opacity(category.artworkAsset == nil ? 0.18 : 0.11)
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: index.isMultiple(of: 2) ? .topTrailing : .bottomTrailing
+                    )
+                    .padding(10)
+                    .accessibilityHidden(true)
+            }
         }
         .clipped()
         .accessibilityHidden(true)
+    }
+}
+
+struct TrackArtwork: View {
+    let track: Track
+
+    var body: some View {
+        Group {
+            if let portrait = ArtworkCatalog.portrait(for: track.composer) {
+                ZStack {
+                    LinearGradient(colors: track.category.colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+                    Image(portrait)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                }
+                .clipped()
+                .accessibilityHidden(true)
+            } else {
+                CategoryArtwork(category: track.category)
+            }
+        }
     }
 }
 
@@ -91,7 +132,7 @@ struct TrackRow: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            CategoryArtwork(category: track.category)
+            TrackArtwork(track: track)
                 .frame(width: 56, height: 56)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             VStack(alignment: .leading, spacing: 3) {
@@ -123,7 +164,7 @@ struct TrackCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            CategoryArtwork(category: track.category)
+            TrackArtwork(track: track)
                 .frame(height: 120)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .overlay(alignment: .bottomTrailing) {

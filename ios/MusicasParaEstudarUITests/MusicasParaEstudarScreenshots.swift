@@ -11,8 +11,9 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         openExplore(app)
         capture(app, name: "musicas-para-estudar-explorar")
 
-        // XCTest routes this nested horizontal tap through the split-view sidebar on iPad.
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        let isPhone = UIDevice.current.userInterfaceIdiom == .phone
+        // XCTest routes nested horizontal taps through the split-view sidebar on iPad.
+        if isPhone {
             let bachFilter = app.buttons["composer.bach"]
             XCTAssertTrue(bachFilter.waitForExistence(timeout: 4))
             bachFilter.tap()
@@ -24,6 +25,16 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
 
             bachFilter.tap()
             XCTAssertTrue(app.buttons["track.piano_dormir__claude_debussy_clair_de_lune"].waitForExistence(timeout: 4))
+
+            let artworkMode = app.segmentedControls["explore.artwork.mode"]
+            XCTAssertTrue(artworkMode.waitForExistence(timeout: 4))
+            artworkMode.buttons["Instrumentos"].tap()
+            XCTAssertTrue(app.buttons["instrument.GrandPiano"].waitForExistence(timeout: 4))
+            capture(app, name: "musicas-para-estudar-instrumentos")
+
+            openSection(app, "Foco")
+            XCTAssertTrue(app.buttons["focus.object.BooksStack"].waitForExistence(timeout: 4))
+            capture(app, name: "musicas-para-estudar-foco")
         }
 
         openHome(app)
@@ -32,6 +43,9 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
             hero.tap()
             if app.buttons["player.toggle"].waitForExistence(timeout: 4) {
                 capture(app, name: "musicas-para-estudar-player")
+                if isPhone {
+                    verifyPlayerArtworkControls(app)
+                }
             }
         }
     }
@@ -43,6 +57,40 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
 
     private func openHome(_ app: XCUIApplication) {
         openSection(app, "Início")
+    }
+
+    private func verifyPlayerArtworkControls(_ app: XCUIApplication) {
+        for identifier in [
+            "player.shuffle", "player.previous", "player.next", "player.repeat",
+            "player.volume", "player.favorite", "player.queue.add", "player.more"
+        ] {
+            XCTAssertTrue(app.buttons[identifier].waitForExistence(timeout: 3), "Missing player control: \(identifier)")
+        }
+
+        let shuffle = app.buttons["player.shuffle"]
+        shuffle.tap()
+        XCTAssertEqual(shuffle.value as? String, "Ativado")
+        shuffle.tap()
+
+        let repeatControl = app.buttons["player.repeat"]
+        repeatControl.tap()
+        XCTAssertEqual(repeatControl.value as? String, "Ativado")
+        repeatControl.tap()
+
+        let volume = app.buttons["player.volume"]
+        volume.tap()
+        XCTAssertEqual(volume.value as? String, "Ativado")
+        volume.tap()
+
+        let favorite = app.buttons["player.favorite"]
+        favorite.tap()
+        XCTAssertEqual(favorite.value as? String, "Favorito")
+        favorite.tap()
+
+        let queue = app.buttons["player.queue.add"]
+        queue.tap()
+        XCTAssertEqual(queue.value as? String, "Ativado")
+        queue.tap()
     }
 
     private func openSection(_ app: XCUIApplication, _ name: String) {

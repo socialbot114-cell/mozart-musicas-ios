@@ -8,9 +8,12 @@ final class PlaybackService: NSObject, ObservableObject {
     @Published private(set) var currentTrack: Track?
     @Published private(set) var currentTime: Double = 0
     @Published private(set) var duration: Double = 0
+    @Published private(set) var isRepeating = false
+    @Published private(set) var isMuted = false
 
     private let player = AVPlayer()
     private var timeObserver: Any?
+    private var repeatSeekInProgress = false
 
     override init() {
         super.init()
@@ -29,6 +32,7 @@ final class PlaybackService: NSObject, ObservableObject {
     func play(_ track: Track) {
         guard track.rightsStatus == "approved" else { return }
         currentTrack = track
+        repeatSeekInProgress = false
         if let url = Self.url(for: track) {
             player.replaceCurrentItem(with: AVPlayerItem(url: url))
             player.play()
@@ -68,6 +72,16 @@ final class PlaybackService: NSObject, ObservableObject {
         currentTime = clamped
     }
 
+    func toggleRepeat() {
+        isRepeating.toggle()
+        repeatSeekInProgress = false
+    }
+
+    func toggleMute() {
+        isMuted.toggle()
+        player.isMuted = isMuted
+    }
+
     private static func url(for track: Track) -> URL? {
         guard let value = track.audioPath, let path = BundleResourcePath(value) else { return nil }
         return path.url(in: .main)
@@ -85,7 +99,18 @@ final class PlaybackService: NSObject, ObservableObject {
                 if d.isFinite, d > 0 {
                     self.duration = d
                     if time.seconds >= d {
-                        self.isPlaying = false
+                        if self.isRepeating {
+                            if !self.repeatSeekInProgress {
+                                self.repeatSeekInProgress = true
+                                self.player.seek(to: .zero)
+                                self.player.play()
+                                self.isPlaying = true
+                            }
+                        } else {
+                            self.isPlaying = false
+                        }
+                    } else if time.seconds < d - 0.5 {
+                        self.repeatSeekInProgress = false
                     }
                 }
             }

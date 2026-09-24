@@ -15,6 +15,37 @@ struct LibraryView: View {
                 Text("Somente gravações com licença verificada são exibidas.")
             }
 
+            Section("Favoritos") {
+                if model.favoriteTracks.isEmpty {
+                    Label("Suas obras favoritas aparecerão aqui.", systemImage: "heart")
+                        .foregroundStyle(.secondary)
+                } else {
+                    ForEach(model.favoriteTracks) { track in
+                        Button {
+                            model.openPlayer(for: track)
+                        } label: {
+                            HStack(spacing: 12) {
+                                TrackArtwork(track: track)
+                                    .frame(width: 44, height: 44)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text(track.work).font(.subheadline.weight(.semibold)).lineLimit(1)
+                                    Text(track.composer).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                                }
+                                Spacer()
+                                Image("PlayerFavorite")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 26, height: 26)
+                                    .accessibilityHidden(true)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("favorite.\(track.id)")
+                    }
+                }
+            }
+
             Section {
                 NavigationLink {
                     CreditsView()
