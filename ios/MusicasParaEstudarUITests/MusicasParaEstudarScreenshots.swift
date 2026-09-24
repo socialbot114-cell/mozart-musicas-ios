@@ -46,6 +46,21 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
                 if isPhone {
                     verifyPlayerArtworkControls(app)
                 }
+
+                let closePlayer = app.buttons["player.dismiss"]
+                XCTAssertTrue(closePlayer.waitForExistence(timeout: 4))
+                closePlayer.tap()
+
+                let miniPlayer = app.buttons["miniplayer.open"]
+                XCTAssertTrue(miniPlayer.waitForExistence(timeout: 4))
+                XCTAssertTrue(miniPlayer.isHittable)
+                capture(app, name: "musicas-para-estudar-mini-player")
+
+                if isPhone {
+                    for tab in ["Início", "Explorar", "Foco", "Biblioteca"] {
+                        XCTAssertTrue(app.tabBars.buttons[tab].isHittable, "Tab bar item overlapped: \(tab)")
+                    }
+                }
             }
         }
     }

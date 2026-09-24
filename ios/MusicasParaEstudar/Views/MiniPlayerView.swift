@@ -24,7 +24,7 @@ struct MiniPlayerView: View {
                         }
                     }
                     .buttonStyle(.plain)
-                    .accessibilityIdentifier("miniplaer.open")
+                    .accessibilityIdentifier("miniplayer.open")
 
                     Spacer()
 
@@ -38,7 +38,7 @@ struct MiniPlayerView: View {
                             .background(AppTheme.accent, in: Circle())
                     }
                     .buttonStyle(.plain)
-                    .accessibilityIdentifier("miniplaer.toggle")
+                    .accessibilityIdentifier("miniplayer.toggle")
                 }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)

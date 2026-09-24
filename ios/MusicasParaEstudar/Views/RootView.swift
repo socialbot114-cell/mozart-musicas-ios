@@ -133,17 +133,20 @@ struct PhoneTabView: View {
 
     var body: some View {
         TabView {
-            NavigationStack { HomeView(model: model) }
+            NavigationStack { addingMiniPlayer(to: HomeView(model: model)) }
                 .tabItem { Label("Início", systemImage: "house.fill") }
-            NavigationStack { ExploreView(model: model) }
+            NavigationStack { addingMiniPlayer(to: ExploreView(model: model)) }
                 .tabItem { Label("Explorar", systemImage: "square.grid.2x2") }
-            NavigationStack { FocusView() }
+            NavigationStack { addingMiniPlayer(to: FocusView()) }
                 .tabItem { Label("Foco", systemImage: "timer") }
-            NavigationStack { LibraryView(model: model) }
+            NavigationStack { addingMiniPlayer(to: LibraryView(model: model)) }
                 .tabItem { Label("Biblioteca", systemImage: "books.vertical.fill") }
         }
         .tint(AppTheme.accent)
-        .safeAreaInset(edge: .bottom, spacing: 0) {
+    }
+
+    private func addingMiniPlayer<Content: View>(to content: Content) -> some View {
+        content.safeAreaInset(edge: .bottom, spacing: 0) {
             if model.selectedTrack != nil && !model.showPlayer {
                 MiniPlayerView(model: model, playback: model.playback)
             }
@@ -176,10 +179,10 @@ struct AdaptiveSplitView: View {
             case .focus: FocusView()
             case .library: LibraryView(model: model)
             }
-        }
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            if model.selectedTrack != nil && !model.showPlayer {
-                MiniPlayerView(model: model, playback: model.playback)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                if model.selectedTrack != nil && !model.showPlayer {
+                    MiniPlayerView(model: model, playback: model.playback)
+                }
             }
         }
     }
