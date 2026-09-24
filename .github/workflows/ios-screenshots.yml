@@ -1,4 +1,4 @@
-name: Mozart iOS Screenshots
+name: Músicas para Estudar iOS Screenshots
 
 on:
   workflow_dispatch:
@@ -34,13 +34,13 @@ jobs:
             -project MusicasParaEstudar.xcodeproj \
             -scheme MusicasParaEstudar \
             -destination 'platform=iOS Simulator,name=${{ matrix.device.name }},OS=26.5' \
-            -resultBundlePath "$RUNNER_TEMP/mozart-${{ matrix.device.slug }}.xcresult" \
+            -resultBundlePath "$RUNNER_TEMP/musicas-para-estudar-${{ matrix.device.slug }}.xcresult" \
             -only-testing:MusicasParaEstudarUITests \
             CODE_SIGNING_ALLOWED=NO
           xcrun xcresulttool export attachments \
-            --path "$RUNNER_TEMP/mozart-${{ matrix.device.slug }}.xcresult" \
-            --output-path "$RUNNER_TEMP/mozart-screenshots-${{ matrix.device.slug }}"
+            --path "$RUNNER_TEMP/musicas-para-estudar-${{ matrix.device.slug }}.xcresult" \
+            --output-path "$RUNNER_TEMP/musicas-para-estudar-screenshots-${{ matrix.device.slug }}"
       - uses: actions/upload-artifact@v4
         with:
-          name: mozart-ios-screenshots-${{ matrix.device.slug }}
-          path: ${{ runner.temp }}/mozart-screenshots-${{ matrix.device.slug }}
+          name: musicas-para-estudar-ios-screenshots-${{ matrix.device.slug }}
+          path: ${{ runner.temp }}/musicas-para-estudar-screenshots-${{ matrix.device.slug }}

@@ -1,4 +1,4 @@
-name: Mozart iOS TestFlight
+name: Músicas para Estudar iOS TestFlight
 
 on:
   workflow_dispatch:

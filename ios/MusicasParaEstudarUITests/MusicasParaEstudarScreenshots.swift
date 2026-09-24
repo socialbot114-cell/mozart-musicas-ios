@@ -20,6 +20,23 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         }
     }
 
+    func testComposerFilterShowsMatchingWorksAndClears() {
+        let app = XCUIApplication()
+        app.launch()
+        openExplore(app)
+
+        let bachFilter = app.buttons["composer.bach"]
+        XCTAssertTrue(bachFilter.waitForExistence(timeout: 4))
+        bachFilter.tap()
+
+        XCTAssertEqual(bachFilter.value as? String, "Selecionado")
+        XCTAssertTrue(app.buttons["track.barroco__j_s_bach_goldberg_variations"].waitForExistence(timeout: 4))
+        XCTAssertFalse(app.buttons["track.piano_dormir__claude_debussy_clair_de_lune"].exists)
+
+        bachFilter.tap()
+        XCTAssertTrue(app.buttons["track.piano_dormir__claude_debussy_clair_de_lune"].waitForExistence(timeout: 4))
+    }
+
     private func openExplore(_ app: XCUIApplication) {
         openSection(app, "Explorar")
         _ = app.buttons["chip.Todos"].waitForExistence(timeout: 3)

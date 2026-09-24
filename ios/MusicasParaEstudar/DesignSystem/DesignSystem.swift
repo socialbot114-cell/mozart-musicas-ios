@@ -19,6 +19,14 @@ struct MusicCategory: Identifiable {
 
     var id: String { key }
 
+    var artworkAsset: String? {
+        switch key {
+        case "foco_profundo": "FocusArtwork"
+        case "piano_dormir": "PianoEveningArtwork"
+        default: nil
+        }
+    }
+
     static let focoProfundo = MusicCategory(
         key: "foco_profundo", title: "Foco Profundo", subtitle: "Concentração sem distrações",
         symbol: "scope",
@@ -56,13 +64,24 @@ struct CategoryArtwork: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: category.colors, startPoint: .topLeading, endPoint: .bottomTrailing)
-            Image(systemName: category.symbol)
-                .font(.system(size: 90, weight: .ultraLight))
-                .foregroundStyle(.white.opacity(0.22))
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                .padding(18)
+            if let artworkAsset = category.artworkAsset {
+                Image(artworkAsset)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .clipped()
+                LinearGradient(colors: [.clear, .black.opacity(0.18)], startPoint: .center, endPoint: .bottom)
+            } else {
+                LinearGradient(colors: category.colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+                Image(systemName: category.symbol)
+                    .font(.system(size: 90, weight: .ultraLight))
+                    .foregroundStyle(.white.opacity(0.22))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                    .padding(18)
+            }
         }
+        .clipped()
+        .accessibilityHidden(true)
     }
 }
 

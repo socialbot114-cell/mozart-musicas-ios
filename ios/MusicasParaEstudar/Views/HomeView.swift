@@ -37,11 +37,11 @@ struct HomeView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            Image("MozartLogo")
-                .resizable()
-                .scaledToFit()
+            Image(systemName: "music.note.list")
+                .font(.system(size: 22, weight: .semibold))
+                .foregroundStyle(.white)
                 .frame(width: 48, height: 48)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .background(AppTheme.accent, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                 .accessibilityHidden(true)
         }
         .padding(.horizontal)

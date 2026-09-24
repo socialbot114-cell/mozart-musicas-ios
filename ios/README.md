@@ -11,4 +11,4 @@ xcodegen generate --spec ios/project.yml
 xcodebuild -project MusicasParaEstudar.xcodeproj -scheme MusicasParaEstudar test
 ```
 
-Run `python3 ios/Scripts/validate_catalog.py --distribution` from the repository root before creating any distributable archive.
+Run `python3 ios/Scripts/validate_artwork.py` from the repository root to verify the optimized asset catalog. Run `python3 ios/Scripts/validate_catalog.py --distribution` before creating any distributable archive.
