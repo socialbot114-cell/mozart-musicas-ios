@@ -10,21 +10,6 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         openExplore(app)
         capture(app, name: "musicas-para-estudar-explorar")
 
-        openHome(app)
-        let hero = app.buttons["hero.play"]
-        if hero.waitForExistence(timeout: 4) {
-            hero.tap()
-            if app.buttons["player.toggle"].waitForExistence(timeout: 4) {
-                capture(app, name: "musicas-para-estudar-player")
-            }
-        }
-    }
-
-    func testComposerFilterShowsMatchingWorksAndClears() {
-        let app = XCUIApplication()
-        app.launch()
-        openExplore(app)
-
         let bachFilter = app.buttons["composer.bach"]
         XCTAssertTrue(bachFilter.waitForExistence(timeout: 4))
         bachFilter.tap()
@@ -36,6 +21,15 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
 
         bachFilter.tap()
         XCTAssertTrue(app.buttons["track.piano_dormir__claude_debussy_clair_de_lune"].waitForExistence(timeout: 4))
+
+        openHome(app)
+        let hero = app.buttons["hero.play"]
+        if hero.waitForExistence(timeout: 4) {
+            hero.tap()
+            if app.buttons["player.toggle"].waitForExistence(timeout: 4) {
+                capture(app, name: "musicas-para-estudar-player")
+            }
+        }
     }
 
     private func openExplore(_ app: XCUIApplication) {
