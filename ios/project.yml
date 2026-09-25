@@ -41,6 +41,7 @@ targets:
       testTargets:
         - MusicasParaEstudarTests
         - MusicasParaEstudarUITests
+      storeKitConfiguration: StoreKit/Donation.storekit
   MusicasParaEstudarTests:
     type: bundle.unit-test
     platform: iOS

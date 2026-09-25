@@ -173,11 +173,13 @@ struct AdaptiveSplitView: View {
             }
             .navigationTitle("Músicas para Estudar")
         } detail: {
-            switch selection ?? .home {
-            case .home: HomeView(model: model)
-            case .explore: ExploreView(model: model)
-            case .focus: FocusView()
-            case .library: LibraryView(model: model)
+            Group {
+                switch selection ?? .home {
+                case .home: HomeView(model: model)
+                case .explore: ExploreView(model: model)
+                case .focus: FocusView()
+                case .library: LibraryView(model: model)
+                }
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if model.selectedTrack != nil && !model.showPlayer {

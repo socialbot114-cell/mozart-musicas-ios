@@ -1,0 +1,34 @@
+{
+  "identifier" : "E7544AE8-08C3-4B83-A4B2-9950F8E80B12",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "10.00",
+      "familyShareable" : false,
+      "internalID" : "19CF8D26-279C-4D1B-9930-5F68E73047B0",
+      "localizations" : [
+        {
+          "description" : "Contribuição avulsa para apoiar o desenvolvimento do app.",
+          "displayName" : "Contribuição de R$ 10",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "br.com.musicaspara.estudar.donation.r10",
+      "referenceName" : "Contribuição de R$ 10",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "0",
+    "_developerTeamID" : "",
+    "_failTransactionsEnabled" : false,
+    "_locale" : "pt_BR",
+    "_storefront" : "BRA",
+    "_timeRate" : 0
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

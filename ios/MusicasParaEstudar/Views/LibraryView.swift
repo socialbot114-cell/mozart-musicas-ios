@@ -3,6 +3,7 @@ import UIKit
 
 struct LibraryView: View {
     @ObservedObject var model: AppModel
+    @StateObject private var donationStore = DonationStore()
 
     var body: some View {
         List {
@@ -44,6 +45,56 @@ struct LibraryView: View {
                         .accessibilityIdentifier("favorite.\(track.id)")
                     }
                 }
+            }
+
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Se este app ajuda nos seus momentos de foco, você pode contribuir com o desenvolvimento. A contribuição é opcional, avulsa e não recorrente; o app continua gratuito e sem anúncios.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+
+                    if let product = donationStore.product {
+                        Button {
+                            Task { await donationStore.purchase() }
+                        } label: {
+                            HStack {
+                                if donationStore.isPurchasing {
+                                    ProgressView()
+                                        .tint(.white)
+                                }
+                                Text(donationStore.isPurchasing ? "Processando…" : "Contribuir")
+                                Spacer()
+                                Text(product.displayPrice)
+                                    .fontWeight(.semibold)
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(AppTheme.accent)
+                        .disabled(donationStore.isPurchasing)
+                        .accessibilityIdentifier("donation.purchase")
+                    } else if donationStore.isLoadingProduct {
+                        ProgressView("Carregando contribuição…")
+                    } else {
+                        Text("A contribuição está indisponível no momento.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    if let feedback = donationStore.feedback {
+                        Text(feedback)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .accessibilityIdentifier("donation.feedback")
+                    }
+                }
+                .padding(.vertical, 4)
+            } header: {
+                Text("Apoie o app")
+                    .accessibilityIdentifier("donation.section")
+            }
+            .task {
+                await donationStore.loadProduct()
             }
 
             Section {

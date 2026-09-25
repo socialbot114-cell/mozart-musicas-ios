@@ -37,6 +37,10 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
             capture(app, name: "musicas-para-estudar-foco")
         }
 
+        openSection(app, "Biblioteca")
+        app.swipeUp()
+        XCTAssertTrue(app.staticTexts["donation.section"].waitForExistence(timeout: 4))
+
         openHome(app)
         let hero = app.buttons["hero.play"]
         if hero.waitForExistence(timeout: 4) {
