@@ -1,10 +1,7 @@
 import XCTest
-import StoreKitTest
 import UIKit
 
 final class MusicasParaEstudarScreenshots: XCTestCase {
-    private var storeKitSession: SKTestSession?
-
     func testCaptureStoreScreens() {
         let app = XCUIApplication()
         app.launch()
@@ -73,14 +70,8 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
     }
 
     func testCaptureDonationReviewScreens() throws {
-        let session = try SKTestSession(configurationFileNamed: "Donation")
-        session.locale = Locale(identifier: "pt_BR")
-        session.storefront = "BRA"
-        session.clearTransactions()
-        session.disableDialogs = false
-        storeKitSession = session
-
         let app = XCUIApplication()
+        app.launchArguments.append("--review-donation-screenshot")
         app.launch()
         openSection(app, "Biblioteca")
         app.swipeUp()

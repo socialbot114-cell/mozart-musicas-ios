@@ -22,6 +22,8 @@ targets:
       - path: MusicasParaEstudar/Resources/Audio
         type: folder
         buildPhase: resources
+      - path: StoreKit/Donation.storekit
+        buildPhase: resources
       - path: Catalog
         type: folder
         buildPhase: resources
@@ -55,13 +57,9 @@ targets:
   MusicasParaEstudarUITests:
     type: bundle.ui-testing
     platform: iOS
-    sources:
-      - path: MusicasParaEstudarUITests
-      - path: StoreKit/Donation.storekit
-        buildPhase: resources
+    sources: [MusicasParaEstudarUITests]
     dependencies:
       - target: MusicasParaEstudar
-      - sdk: StoreKitTest.framework
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: br.com.musicaspara.estudar.uitests
       TEST_TARGET_NAME: MusicasParaEstudar
