@@ -6,7 +6,7 @@ import StoreKit
 final class DonationStore: ObservableObject {
     static let productID = "br.com.musicaspara.estudar.donation.r10"
 
-    @Published private(set) var product: Product?
+    @Published private(set) var product: StoreKit.Product?
     @Published private(set) var isLoadingProduct = false
     @Published private(set) var isPurchasing = false
     @Published private(set) var feedback: String?
@@ -33,7 +33,7 @@ final class DonationStore: ObservableObject {
         defer { isLoadingProduct = false }
 
         do {
-            let products = try await Product.products(for: [Self.productID])
+            let products = try await StoreKit.Product.products(for: [Self.productID])
             product = products.first
             if product == nil {
                 feedback = "A contribuição não está disponível no momento."
