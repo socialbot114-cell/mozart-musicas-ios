@@ -55,9 +55,13 @@ targets:
   MusicasParaEstudarUITests:
     type: bundle.ui-testing
     platform: iOS
-    sources: [MusicasParaEstudarUITests]
+    sources:
+      - path: MusicasParaEstudarUITests
+      - path: StoreKit/Donation.storekit
+        buildPhase: resources
     dependencies:
       - target: MusicasParaEstudar
+      - sdk: StoreKitTest.framework
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: br.com.musicaspara.estudar.uitests
       TEST_TARGET_NAME: MusicasParaEstudar

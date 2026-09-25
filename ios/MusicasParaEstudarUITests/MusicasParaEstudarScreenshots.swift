@@ -1,7 +1,10 @@
 import XCTest
+import StoreKitTest
 import UIKit
 
 final class MusicasParaEstudarScreenshots: XCTestCase {
+    private var storeKitSession: SKTestSession?
+
     func testCaptureStoreScreens() {
         let app = XCUIApplication()
         app.launch()
@@ -67,6 +70,31 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
                 }
             }
         }
+    }
+
+    func testCaptureDonationReviewScreens() throws {
+        let session = try SKTestSession(configurationFileNamed: "Donation")
+        session.locale = Locale(identifier: "pt_BR")
+        session.storefront = "BRA"
+        session.clearTransactions()
+        session.disableDialogs = false
+        storeKitSession = session
+
+        let app = XCUIApplication()
+        app.launch()
+        openSection(app, "Biblioteca")
+        app.swipeUp()
+        XCTAssertTrue(app.staticTexts["donation.section"].waitForExistence(timeout: 4))
+        let donationButton = app.buttons["donation.purchase"]
+        XCTAssertTrue(donationButton.waitForExistence(timeout: 8))
+        XCTAssertTrue(donationButton.label.contains("10"), "Donation button should show the configured R$ 10 price")
+        capture(app, name: "app-review-donation-offer")
+
+        donationButton.tap()
+        let cancelButton = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", "cancel")).firstMatch
+        XCTAssertTrue(cancelButton.waitForExistence(timeout: 8), "StoreKit purchase confirmation should be visible")
+        capture(app, name: "app-review-donation-payment")
+        cancelButton.tap()
     }
 
     private func openExplore(_ app: XCUIApplication) {
