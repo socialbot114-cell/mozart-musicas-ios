@@ -39,7 +39,7 @@ targets:
       PRIVACY_MANIFEST_FILE: MusicasParaEstudar/Resources/PrivacyInfo.xcprivacy
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       TARGETED_DEVICE_FAMILY: "1,2"
-      FRAMEWORK_SEARCH_PATHS: "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks"
+      FRAMEWORK_SEARCH_PATHS: "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks $(SDKROOT)/Developer/Library/Frameworks"
     scheme:
       testTargets:
         - MusicasParaEstudarTests
