@@ -2,6 +2,16 @@ name: Músicas para Estudar iOS Validation
 
 on:
   workflow_dispatch:
+    inputs:
+      run_xcode_cloud:
+        description: Start an Xcode Cloud build for this branch
+        required: false
+        type: boolean
+        default: false
+      xcode_cloud_workflow_name:
+        description: Required only when the app has multiple enabled Xcode Cloud workflows
+        required: false
+        type: string
   push:
     branches: [main]
   pull_request:
@@ -37,3 +47,21 @@ jobs:
             -scheme MusicasParaEstudar \
             -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.5' \
             CODE_SIGNING_ALLOWED=NO
+
+  xcode-cloud:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_xcode_cloud }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install App Store Connect JWT library
+        run: python3 -m pip install --disable-pip-version-check 'PyJWT[crypto]'
+      - name: Start Xcode Cloud build for this branch
+        env:
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+          XCODE_CLOUD_WORKFLOW_NAME: ${{ inputs.xcode_cloud_workflow_name }}
+        run: python3 ios/Scripts/trigger_xcode_cloud_build.py
