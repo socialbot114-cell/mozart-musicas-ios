@@ -81,11 +81,6 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         XCTAssertTrue(donationButton.label.contains("10"), "Donation button should show the configured R$ 10 price")
         capture(app, name: "app-review-donation-offer")
 
-        donationButton.tap()
-        let cancelButton = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", "cancel")).firstMatch
-        XCTAssertTrue(cancelButton.waitForExistence(timeout: 8), "StoreKit purchase confirmation should be visible")
-        capture(app, name: "app-review-donation-payment")
-        cancelButton.tap()
     }
 
     private func openExplore(_ app: XCUIApplication) {

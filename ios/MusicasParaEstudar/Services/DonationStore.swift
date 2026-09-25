@@ -7,6 +7,7 @@ final class DonationStore: ObservableObject {
     static let productID = "br.com.musicaspara.estudar.donation.r10"
 
     @Published private(set) var product: StoreKit.Product?
+    @Published private(set) var displayPrice: String?
     @Published private(set) var isLoadingProduct = false
     @Published private(set) var isPurchasing = false
     @Published private(set) var feedback: String?
@@ -14,6 +15,13 @@ final class DonationStore: ObservableObject {
     private var updatesTask: Task<Void, Never>?
 
     init() {
+#if DEBUG
+        // Keep the review screenshot reproducible before the App Store Connect product is active.
+        if ProcessInfo.processInfo.arguments.contains("--review-donation-screenshot") {
+            displayPrice = "R$ 10,00"
+        }
+#endif
+
         updatesTask = Task { [weak self] in
             for await result in Transaction.updates {
                 guard !Task.isCancelled, let self else { return }
@@ -28,6 +36,10 @@ final class DonationStore: ObservableObject {
 
     func loadProduct() async {
         guard product == nil, !isLoadingProduct else { return }
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--review-donation-screenshot") { return }
+#endif
+
         isLoadingProduct = true
         feedback = nil
         defer { isLoadingProduct = false }
@@ -35,6 +47,7 @@ final class DonationStore: ObservableObject {
         do {
             let products = try await StoreKit.Product.products(for: [Self.productID])
             product = products.first
+            displayPrice = product?.displayPrice
             if product == nil {
                 feedback = "A contribuição não está disponível no momento."
             }

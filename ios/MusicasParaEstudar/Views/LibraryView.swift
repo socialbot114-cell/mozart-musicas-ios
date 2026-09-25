@@ -54,7 +54,7 @@ struct LibraryView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
 
-                    if let product = donationStore.product {
+                    if let displayPrice = donationStore.displayPrice {
                         Button {
                             Task { await donationStore.purchase() }
                         } label: {
@@ -65,7 +65,7 @@ struct LibraryView: View {
                                 }
                                 Text(donationStore.isPurchasing ? "Processando…" : "Contribuir")
                                 Spacer()
-                                Text(product.displayPrice)
+                                Text(displayPrice)
                                     .fontWeight(.semibold)
                             }
                             .frame(maxWidth: .infinity)
