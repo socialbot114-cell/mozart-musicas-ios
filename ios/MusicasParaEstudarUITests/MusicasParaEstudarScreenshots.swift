@@ -49,6 +49,10 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         let playerToggle = app.buttons["player.toggle"]
         XCTAssertTrue(playerToggle.waitForExistence(timeout: 4))
         XCTAssertEqual(playerToggle.label, "Pausar", "Player screenshot should show a bundled recording playing")
+        let elapsedTime = app.staticTexts.matching(
+            NSPredicate(format: "label MATCHES %@", "0:0[1-9]|0:[1-9][0-9]")
+        ).firstMatch
+        XCTAssertTrue(elapsedTime.waitForExistence(timeout: 8), "Wait for real playback time before capturing the player")
         capture(app, name: "musicas-para-estudar-player")
         if isPhone {
             verifyPlayerArtworkControls(app)
