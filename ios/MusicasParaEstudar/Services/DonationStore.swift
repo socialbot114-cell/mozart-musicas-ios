@@ -4,24 +4,19 @@ import StoreKit
 
 @MainActor
 final class DonationStore: ObservableObject {
-    static let productID = "br.com.musicaspara.estudar.donation.r10"
+    static let productID = "musicapara.estudar.donation.r10"
 
     @Published private(set) var product: StoreKit.Product?
     @Published private(set) var displayPrice: String?
     @Published private(set) var isLoadingProduct = false
     @Published private(set) var isPurchasing = false
+    @Published private(set) var isRestoringPurchase = false
+    @Published private(set) var hasContributed = false
     @Published private(set) var feedback: String?
 
     private var updatesTask: Task<Void, Never>?
 
     init() {
-#if DEBUG
-        // Keep the review screenshot reproducible before the App Store Connect product is active.
-        if ProcessInfo.processInfo.arguments.contains("--review-donation-screenshot") {
-            displayPrice = "R$ 10,00"
-        }
-#endif
-
         updatesTask = Task { [weak self] in
             for await result in Transaction.updates {
                 guard !Task.isCancelled, let self else { return }
@@ -36,9 +31,6 @@ final class DonationStore: ObservableObject {
 
     func loadProduct() async {
         guard product == nil, !isLoadingProduct else { return }
-#if DEBUG
-        if ProcessInfo.processInfo.arguments.contains("--review-donation-screenshot") { return }
-#endif
 
         isLoadingProduct = true
         feedback = nil
@@ -48,6 +40,7 @@ final class DonationStore: ObservableObject {
             let products = try await StoreKit.Product.products(for: [Self.productID])
             product = products.first
             displayPrice = product?.displayPrice
+            await refreshContributionStatus()
             if product == nil {
                 feedback = "A contribuição não está disponível no momento."
             }
@@ -57,6 +50,11 @@ final class DonationStore: ObservableObject {
     }
 
     func purchase() async {
+        guard !hasContributed else {
+            feedback = "Esta contribuição já foi registrada para sua conta."
+            return
+        }
+
         guard let product else {
             feedback = "A contribuição não está disponível no momento."
             return
@@ -71,6 +69,7 @@ final class DonationStore: ObservableObject {
                 let transaction = try Self.verifiedTransaction(from: result)
                 guard transaction.productID == Self.productID else { return }
                 await transaction.finish()
+                hasContributed = true
                 feedback = "Obrigado por apoiar o desenvolvimento do app!"
             case .pending:
                 feedback = "A compra está aguardando confirmação da App Store."
@@ -84,15 +83,44 @@ final class DonationStore: ObservableObject {
         }
     }
 
+    func restorePurchases() async {
+        guard !isRestoringPurchase else { return }
+        isRestoringPurchase = true
+        defer { isRestoringPurchase = false }
+
+        do {
+            try await AppStore.sync()
+            await refreshContributionStatus()
+            feedback = hasContributed
+                ? "Sua contribuição foi restaurada. Obrigado!"
+                : "Nenhuma contribuição anterior foi encontrada."
+        } catch {
+            feedback = "Não foi possível restaurar a contribuição. Tente novamente."
+        }
+    }
+
     private func handleTransactionUpdate(_ result: VerificationResult<Transaction>) async {
         do {
             let transaction = try Self.verifiedTransaction(from: result)
             guard transaction.productID == Self.productID else { return }
             await transaction.finish()
+            hasContributed = true
             feedback = "Obrigado por apoiar o desenvolvimento do app!"
         } catch {
             feedback = "A App Store não conseguiu verificar a compra."
         }
+    }
+
+    private func refreshContributionStatus() async {
+        var foundContribution = false
+        for await result in StoreKit.Transaction.currentEntitlements {
+            guard case .verified(let transaction) = result,
+                  transaction.productID == Self.productID,
+                  transaction.revocationDate == nil else { continue }
+            foundContribution = true
+            break
+        }
+        hasContributed = foundContribution
     }
 
     private static func verifiedTransaction(

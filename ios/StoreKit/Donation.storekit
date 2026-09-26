@@ -13,9 +13,9 @@
           "locale" : "pt_BR"
         }
       ],
-      "productID" : "br.com.musicaspara.estudar.donation.r10",
+      "productID" : "musicapara.estudar.donation.r10",
       "referenceName" : "Contribuição de R$ 10",
-      "type" : "Consumable"
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {

@@ -38,7 +38,7 @@ targets:
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       TARGETED_DEVICE_FAMILY: "1,2"
       MARKETING_VERSION: "1.1"
-      CURRENT_PROJECT_VERSION: "16"
+      CURRENT_PROJECT_VERSION: "17"
     scheme:
       testTargets:
         - MusicasParaEstudarTests
@@ -47,9 +47,13 @@ targets:
   MusicasParaEstudarTests:
     type: bundle.unit-test
     platform: iOS
-    sources: [MusicasParaEstudarTests]
+    sources:
+      - path: MusicasParaEstudarTests
+      - path: StoreKit/Donation.storekit
+        buildPhase: resources
     dependencies:
       - target: MusicasParaEstudar
+      - sdk: StoreKitTest.framework
     settings:
       base:
         TEST_HOST: $(BUILT_PRODUCTS_DIR)/MusicasParaEstudar.app/MusicasParaEstudar

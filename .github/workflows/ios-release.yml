@@ -109,9 +109,12 @@ jobs:
           with open(sys.argv[1], 'rb') as file:
               info = plistlib.load(file)
           assert info.get('UILaunchStoryboardName') == 'LaunchScreen', 'launch storyboard missing'
+          assert info.get('CFBundleShortVersionString') == '1.1', 'unexpected marketing version'
+          assert info.get('CFBundleVersion') == '${{ github.run_number }}', 'unexpected build number'
           expected = {'UIInterfaceOrientationPortrait', 'UIInterfaceOrientationPortraitUpsideDown', 'UIInterfaceOrientationLandscapeLeft', 'UIInterfaceOrientationLandscapeRight'}
           assert expected.issubset(info.get('UISupportedInterfaceOrientations~ipad', [])), 'iPad orientations missing'
           PY
+          strings "${app[0]}/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "${app[0]}/Info.plist")" | grep -Fqx 'musicapara.estudar.donation.r10'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
           test -f "${app[0]}/Assets.car"
           test -f "${app[0]}/Catalog/catalog.json"

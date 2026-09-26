@@ -54,7 +54,11 @@ struct LibraryView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
 
-                    if let displayPrice = donationStore.displayPrice {
+                    if donationStore.hasContributed {
+                        Label("Obrigado por apoiar o desenvolvimento do app!", systemImage: "checkmark.seal.fill")
+                            .font(.subheadline.weight(.medium))
+                            .accessibilityIdentifier("donation.thankYou")
+                    } else if let displayPrice = donationStore.displayPrice {
                         Button {
                             Task { await donationStore.purchase() }
                         } label: {
@@ -81,6 +85,19 @@ struct LibraryView: View {
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
+
+                    Button {
+                        Task { await donationStore.restorePurchases() }
+                    } label: {
+                        Label(
+                            donationStore.isRestoringPurchase ? "Restaurando…" : "Restaurar compra",
+                            systemImage: "arrow.clockwise"
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    .font(.footnote)
+                    .disabled(donationStore.isRestoringPurchase || donationStore.isPurchasing)
+                    .accessibilityIdentifier("donation.restore")
 
                     if let feedback = donationStore.feedback {
                         Text(feedback)

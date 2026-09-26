@@ -69,20 +69,6 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         }
     }
 
-    func testCaptureDonationReviewScreens() throws {
-        let app = XCUIApplication()
-        app.launchArguments.append("--review-donation-screenshot")
-        app.launch()
-        openSection(app, "Biblioteca")
-        app.swipeUp()
-        XCTAssertTrue(app.staticTexts["donation.section"].waitForExistence(timeout: 4))
-        let donationButton = app.buttons["donation.purchase"]
-        XCTAssertTrue(donationButton.waitForExistence(timeout: 8))
-        XCTAssertTrue(donationButton.label.contains("10"), "Donation button should show the configured R$ 10 price")
-        capture(app, name: "app-review-donation-offer")
-
-    }
-
     private func openExplore(_ app: XCUIApplication) {
         openSection(app, "Explorar")
         _ = app.buttons["chip.Todos"].waitForExistence(timeout: 3)

@@ -8,6 +8,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+DONATION_PRODUCT_ID = "musicapara.estudar.donation.r10"
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--distribution",
@@ -65,3 +66,18 @@ print(f"Catalog {mode} validation passed: {len(tracks)} track(s), {len(catalog.g
 unverified = sum(item.get("rightsStatus") == "unverified" for item in tracks)
 if unverified:
     print(f"WARNING: {unverified} track(s) remain unverified and require rights review before App Review.")
+
+storekit_config = json.loads((ROOT / "StoreKit/Donation.storekit").read_text(encoding="utf-8"))
+donation_products = [
+    product for product in storekit_config.get("products", [])
+    if product.get("productID") == DONATION_PRODUCT_ID
+]
+assert len(donation_products) == 1, "StoreKit configuration must contain the App Store Connect donation Product ID"
+assert donation_products[0].get("type") == "NonConsumable", "Donation product must match the App Store Connect non-consumable type"
+donation_source = (ROOT / "MusicasParaEstudar/Services/DonationStore.swift").read_text(encoding="utf-8")
+assert f'static let productID = "{DONATION_PRODUCT_ID}"' in donation_source, "DonationStore Product ID does not match App Store Connect"
+assert any(
+    localization.get("locale") == "pt_BR"
+    for localization in donation_products[0].get("localizations", [])
+), "Donation product must have a Brazilian Portuguese localization"
+print(f"StoreKit IAP contract validation passed: {DONATION_PRODUCT_ID} (NonConsumable).")

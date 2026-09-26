@@ -13,6 +13,7 @@ Use este arquivo para preencher o App Store Connect. Os screenshots prontos est�
 - Preço: `Gratuito`
 - Bundle ID: `br.com.musicaspara.estudar`
 - Apple ID: `6813681353`
+- SKU: `mozart-musicas` (identificador interno do app; não é o Product ID do IAP)
 - Copyright: `2026 <CONFERIR titular>` *(preencha com o titular dos direitos)*
 
 ## Texto promocional
@@ -44,12 +45,13 @@ musica,classico,foco,estudo,concentracao,piano,leitura,relaxar,bach,mozart
 
 ## Compra no app
 
-- Product ID: `br.com.musicaspara.estudar.donation.r10`
-- Tipo: `Consumable` (contribuição avulsa, não recorrente)
+- Product ID: `musicapara.estudar.donation.r10` (copiado exatamente do App Store Connect; é diferente do Bundle ID)
+- Tipo: `Non-Consumable` / Não consumível (uma contribuição por Apple ID; oferecer restauração)
 - Nome: `Contribuição de R$ 10`
 - Preço de referência: `R$ 10,00` no Brasil
 - Localização: português do Brasil (`pt_BR`)
 - Descrição: `Contribuição avulsa para apoiar o desenvolvimento do app.`
+- Status informado: `Pronto para revisão`; vincular este IAP à versão 1.1 e submetê-lo junto do novo build.
 
 ## Novidades desta versão
 
@@ -87,8 +89,11 @@ Para testar:
 5. Abra a aba Explorar para buscar e filtrar por categoria.
 6. Abra a aba Foco para usar o timer.
 7. Em Biblioteca, veja a opção de contribuição avulsa e opcional para apoiar o app. O preço é exibido pela App Store.
+8. Toque em `Contribuir`, confirme a compra sandbox de R$ 10,00 e, quando aplicável, teste `Restaurar compra`.
 
 Não é necessário criar conta ou conceder permissões. A música funciona offline; a contribuição opcional é processada pela App Store e requer conexão. Não há anúncios, rastreamento ou conteúdo que exija autenticação. As gravações são de domínio público com origem verificada.
+
+Antes do reenvio, vincule o IAP `musicapara.estudar.donation.r10` (status informado: `Pronto para revisão`) à versão 1.1 e anexe em `App Review Information` uma gravação feita em aparelho físico que comece na tela de Início e mostre os recursos principais e uma compra sandbox concluída.
 
 Obrigado.
 
