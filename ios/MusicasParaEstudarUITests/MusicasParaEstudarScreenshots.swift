@@ -40,6 +40,9 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
         openSection(app, "Biblioteca")
         app.swipeUp()
         XCTAssertTrue(app.staticTexts["donation.section"].waitForExistence(timeout: 4))
+        let donationButton = app.buttons["donation.purchase"]
+        XCTAssertTrue(donationButton.waitForExistence(timeout: 8), "StoreKit should load the donation configured by the Xcode scheme")
+        XCTAssertTrue(donationButton.label.contains("10"))
         XCTAssertTrue(app.buttons["donation.restore"].waitForExistence(timeout: 4))
 
         openHome(app)
