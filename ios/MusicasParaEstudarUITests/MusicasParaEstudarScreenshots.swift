@@ -44,28 +44,28 @@ final class MusicasParaEstudarScreenshots: XCTestCase {
 
         openHome(app)
         let hero = app.buttons["hero.play"]
-        if hero.waitForExistence(timeout: 4) {
-            hero.tap()
-            if app.buttons["player.toggle"].waitForExistence(timeout: 4) {
-                capture(app, name: "musicas-para-estudar-player")
-                if isPhone {
-                    verifyPlayerArtworkControls(app)
-                }
+        XCTAssertTrue(hero.waitForExistence(timeout: 4))
+        hero.tap()
+        let playerToggle = app.buttons["player.toggle"]
+        XCTAssertTrue(playerToggle.waitForExistence(timeout: 4))
+        XCTAssertEqual(playerToggle.label, "Pausar", "Player screenshot should show a bundled recording playing")
+        capture(app, name: "musicas-para-estudar-player")
+        if isPhone {
+            verifyPlayerArtworkControls(app)
+        }
 
-                let closePlayer = app.buttons["player.dismiss"]
-                XCTAssertTrue(closePlayer.waitForExistence(timeout: 4))
-                closePlayer.tap()
+        let closePlayer = app.buttons["player.dismiss"]
+        XCTAssertTrue(closePlayer.waitForExistence(timeout: 4))
+        closePlayer.tap()
 
-                let miniPlayer = app.buttons["miniplayer.open"]
-                XCTAssertTrue(miniPlayer.waitForExistence(timeout: 4))
-                XCTAssertTrue(miniPlayer.isHittable)
-                capture(app, name: "musicas-para-estudar-mini-player")
+        let miniPlayer = app.buttons["miniplayer.open"]
+        XCTAssertTrue(miniPlayer.waitForExistence(timeout: 4))
+        XCTAssertTrue(miniPlayer.isHittable)
+        capture(app, name: "musicas-para-estudar-mini-player")
 
-                if isPhone {
-                    for tab in ["Início", "Explorar", "Foco", "Biblioteca"] {
-                        XCTAssertTrue(app.tabBars.buttons[tab].isHittable, "Tab bar item overlapped: \(tab)")
-                    }
-                }
+        if isPhone {
+            for tab in ["Início", "Explorar", "Foco", "Biblioteca"] {
+                XCTAssertTrue(app.tabBars.buttons[tab].isHittable, "Tab bar item overlapped: \(tab)")
             }
         }
     }
