@@ -47,13 +47,9 @@ targets:
   MusicasParaEstudarTests:
     type: bundle.unit-test
     platform: iOS
-    sources:
-      - path: MusicasParaEstudarTests
-      - path: StoreKit/Donation.storekit
-        buildPhase: resources
+    sources: [MusicasParaEstudarTests]
     dependencies:
       - target: MusicasParaEstudar
-      - sdk: StoreKitTest.framework
     settings:
       base:
         TEST_HOST: $(BUILT_PRODUCTS_DIR)/MusicasParaEstudar.app/MusicasParaEstudar
@@ -61,9 +57,13 @@ targets:
   MusicasParaEstudarUITests:
     type: bundle.ui-testing
     platform: iOS
-    sources: [MusicasParaEstudarUITests]
+    sources:
+      - path: MusicasParaEstudarUITests
+      - path: StoreKit/Donation.storekit
+        buildPhase: resources
     dependencies:
       - target: MusicasParaEstudar
+      - sdk: StoreKitTest.framework
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: br.com.musicaspara.estudar.uitests
       TEST_TARGET_NAME: MusicasParaEstudar

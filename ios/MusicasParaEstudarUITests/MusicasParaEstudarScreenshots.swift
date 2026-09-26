@@ -1,7 +1,25 @@
 import XCTest
+import StoreKit
+import StoreKitTest
 import UIKit
 
 final class MusicasParaEstudarScreenshots: XCTestCase {
+    @MainActor
+    func testStoreKitConfigurationReturnsDonationProduct() async throws {
+        let session = try SKTestSession(configurationFileNamed: "Donation")
+        session.locale = Locale(identifier: "pt_BR")
+        session.storefront = "BRA"
+        session.clearTransactions()
+        session.disableDialogs = true
+        defer { session.clearTransactions() }
+
+        let products = try await Product.products(for: ["musicapara.estudar.donation.r10"])
+        let product = try XCTUnwrap(products.first)
+        XCTAssertEqual(product.id, "musicapara.estudar.donation.r10")
+        XCTAssertEqual(product.type, .nonConsumable)
+        XCTAssertTrue(product.displayPrice.contains("10"))
+    }
+
     func testCaptureStoreScreens() {
         let app = XCUIApplication()
         app.launch()
