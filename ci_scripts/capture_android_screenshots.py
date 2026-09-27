@@ -61,6 +61,7 @@ def capture_screen(output_directory: Path, title: str, filename: str) -> None:
 
 def dismiss_system_ui_wait_dialog(width: int, height: int, density: int) -> None:
     # The emulator occasionally shows Android's "System UI isn't responding" dialog.
+    time.sleep(5)
     x = round(width * 0.32)
     y = round(height * 0.55)
     print(f"Dismiss transient system dialog at ({x}, {y})")
@@ -96,10 +97,13 @@ def main() -> None:
     dismiss_system_ui_wait_dialog(width, height, density)
     capture_screen(args.output, "Início", "01-inicio.png")
     tap_navigation_tab(1, width, height, density)
+    dismiss_system_ui_wait_dialog(width, height, density)
     capture_screen(args.output, "Explorar", "02-explorar.png")
     tap_navigation_tab(2, width, height, density)
+    dismiss_system_ui_wait_dialog(width, height, density)
     capture_screen(args.output, "Foco", "03-foco.png")
     tap_navigation_tab(3, width, height, density)
+    dismiss_system_ui_wait_dialog(width, height, density)
     capture_screen(args.output, "Biblioteca", "04-biblioteca.png")
 
 
