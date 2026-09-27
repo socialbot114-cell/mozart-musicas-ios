@@ -54,9 +54,24 @@ def capture_screenshot(output_directory: Path, filename: str) -> None:
 
 
 def capture_screen(output_directory: Path, title: str, filename: str) -> None:
-    time.sleep(2)
+    time.sleep(1)
     print(f"Capturing {title}")
     capture_screenshot(output_directory, filename)
+
+
+def dismiss_system_ui_wait_dialog(width: int, height: int) -> None:
+    # Pixel_2 at 720x1280 places Android's transient "Wait" action here.
+    x = round(width * 0.42)
+    y = round(height * 0.60)
+    run_adb("shell", "input", "tap", str(x), str(y))
+
+
+def select_tab(index: int, width: int, height: int, density: int) -> None:
+    tap_navigation_tab(index, width, height, density)
+    time.sleep(3)
+    dismiss_system_ui_wait_dialog(width, height)
+    tap_navigation_tab(index, width, height, density)
+    time.sleep(1)
 
 
 def main() -> None:
@@ -81,15 +96,17 @@ def main() -> None:
     if "Error:" in start_output:
         raise RuntimeError(f"App did not start successfully: {start_output}")
     print(start_output.strip())
-    time.sleep(5)
+    time.sleep(3)
 
     width, height, density = display_metrics()
+    dismiss_system_ui_wait_dialog(width, height)
+    tap_navigation_tab(0, width, height, density)
     capture_screen(args.output, "Início", "01-inicio.png")
-    tap_navigation_tab(1, width, height, density)
+    select_tab(1, width, height, density)
     capture_screen(args.output, "Explorar", "02-explorar.png")
-    tap_navigation_tab(2, width, height, density)
+    select_tab(2, width, height, density)
     capture_screen(args.output, "Foco", "03-foco.png")
-    tap_navigation_tab(3, width, height, density)
+    select_tab(3, width, height, density)
     capture_screen(args.output, "Biblioteca", "04-biblioteca.png")
 
 
