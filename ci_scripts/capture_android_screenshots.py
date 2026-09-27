@@ -4,16 +4,16 @@
 from __future__ import annotations
 
 import argparse
+import re
 import subprocess
 import time
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
 APP_PACKAGE = "br.com.musicaspara.estudar.debug"
 APP_ACTIVITY = "br.com.musicaspara.estudar.MainActivity"
-UI_HIERARCHY_PATH = "/sdcard/window.xml"
-UI_TIMEOUT_SECONDS = 45
+NAVIGATION_DESTINATIONS = 4
+BOTTOM_NAV_CENTER_OFFSET_DP = 64
 
 
 def run_adb(*arguments: str, timeout: int = 60) -> subprocess.CompletedProcess:
@@ -25,49 +25,22 @@ def run_adb(*arguments: str, timeout: int = 60) -> subprocess.CompletedProcess:
         raise RuntimeError(f"adb command failed: {command}: {details}") from error
 
 
-def read_hierarchy() -> ET.Element:
-    run_adb("shell", "uiautomator", "dump", "--compressed", UI_HIERARCHY_PATH)
-    result = run_adb("exec-out", "cat", UI_HIERARCHY_PATH)
-    return ET.fromstring(result.stdout)
+def display_metrics() -> tuple[int, int, int]:
+    size_output = run_adb("shell", "wm", "size").stdout.decode(errors="replace")
+    density_output = run_adb("shell", "wm", "density").stdout.decode(errors="replace")
+    sizes = re.findall(r"(?:Physical|Override) size:\s*(\d+)x(\d+)", size_output)
+    densities = re.findall(r"(?:Physical|Override) density:\s*(\d+)", density_output)
+    if not sizes or not densities:
+        raise RuntimeError(f"Could not read emulator display metrics: {size_output!r} {density_output!r}")
+    width, height = map(int, sizes[-1])
+    density = int(densities[-1])
+    return width, height, density
 
 
-def find_text(root: ET.Element, text: str) -> ET.Element | None:
-    for node in root.iter("node"):
-        if node.attrib.get("text") == text or node.attrib.get("content-desc") == text:
-            return node
-    return None
-
-
-def wait_for_text(text: str, timeout: int = UI_TIMEOUT_SECONDS) -> ET.Element:
-    deadline = time.monotonic() + timeout
-    last_root: ET.Element | None = None
-    while time.monotonic() < deadline:
-        last_root = read_hierarchy()
-        node = find_text(last_root, text)
-        if node is not None:
-            return node
-        time.sleep(1)
-
-    visible_texts = []
-    if last_root is not None:
-        visible_texts = [
-            node.attrib.get("text", "")
-            for node in last_root.iter("node")
-            if node.attrib.get("text")
-        ]
-    raise RuntimeError(f"Timed out waiting for {text!r}; visible text: {visible_texts}")
-
-
-def tap_node(node: ET.Element) -> None:
-    bounds = node.attrib.get("bounds", "")
-    values = [
-        int(value)
-        for value in bounds.replace("][", ",").replace("[", "").replace("]", "").split(",")
-    ]
-    if len(values) != 4:
-        raise RuntimeError(f"Cannot tap node with invalid bounds: {bounds!r}")
-    left, top, right, bottom = values
-    x, y = (left + right) // 2, (top + bottom) // 2
+def tap_navigation_tab(index: int, width: int, height: int, density: int) -> None:
+    x = round(width * (index + 0.5) / NAVIGATION_DESTINATIONS)
+    y = height - round(BOTTOM_NAV_CENTER_OFFSET_DP * density / 160)
+    print(f"Tap navigation destination {index + 1} at ({x}, {y})")
     run_adb("shell", "input", "tap", str(x), str(y))
 
 
@@ -80,9 +53,9 @@ def capture_screenshot(output_directory: Path, filename: str) -> None:
     print(f"Saved {output_path}")
 
 
-def capture_screen(output_directory: Path, ready_text: str, filename: str) -> None:
-    wait_for_text(ready_text)
-    time.sleep(1)
+def capture_screen(output_directory: Path, title: str, filename: str) -> None:
+    time.sleep(3)
+    print(f"Capturing {title}")
     capture_screenshot(output_directory, filename)
 
 
@@ -103,17 +76,20 @@ def main() -> None:
 
     run_adb("install", "-r", str(apk_path), timeout=600)
     run_adb("shell", "am", "force-stop", APP_PACKAGE)
-    run_adb(
+    start_result = run_adb(
         "shell", "am", "start", "-W", "-n", f"{APP_PACKAGE}/{APP_ACTIVITY}", timeout=60
     )
+    if b"Status: ok" not in start_result.stdout:
+        raise RuntimeError(f"App did not start successfully: {start_result.stdout.decode(errors='replace')}")
 
-    capture_screen(args.output, "Bom estudo", "01-inicio.png")
-    tap_node(wait_for_text("Explorar"))
-    capture_screen(args.output, "Estude do seu jeito", "02-explorar.png")
-    tap_node(wait_for_text("Foco"))
-    capture_screen(args.output, "Sessão de foco", "03-foco.png")
-    tap_node(wait_for_text("Biblioteca"))
-    capture_screen(args.output, "Biblioteca de compositores", "04-biblioteca.png")
+    width, height, density = display_metrics()
+    capture_screen(args.output, "Início", "01-inicio.png")
+    tap_navigation_tab(1, width, height, density)
+    capture_screen(args.output, "Explorar", "02-explorar.png")
+    tap_navigation_tab(2, width, height, density)
+    capture_screen(args.output, "Foco", "03-foco.png")
+    tap_navigation_tab(3, width, height, density)
+    capture_screen(args.output, "Biblioteca", "04-biblioteca.png")
 
 
 if __name__ == "__main__":
