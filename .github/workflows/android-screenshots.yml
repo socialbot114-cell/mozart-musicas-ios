@@ -6,6 +6,7 @@ on:
     branches: ["**"]
     paths:
       - "app/**"
+      - "ci_scripts/**"
       - "gradle/**"
       - "gradlew"
       - "build.gradle"
@@ -15,6 +16,7 @@ on:
     branches: [main]
     paths:
       - "app/**"
+      - "ci_scripts/**"
       - "gradle/**"
       - "gradlew"
       - "build.gradle"
@@ -37,8 +39,8 @@ jobs:
           java-version: "17"
           cache: gradle
 
-      - name: Build app and screenshot test
-        run: ./gradlew assembleDebug assembleDebugAndroidTest --console=plain
+      - name: Build app
+        run: ./gradlew assembleDebug --console=plain
 
       - name: Run app in Android emulator and capture screens
         uses: reactivecircus/android-emulator-runner@v2
@@ -50,15 +52,9 @@ jobs:
           script: |
             set -u
             sdkmanager "platforms;android-36" "build-tools;35.0.0" || exit $?
-            ./gradlew connectedDebugAndroidTest --console=plain
-            test_status=$?
             mkdir -p "$RUNNER_TEMP/android-screenshots"
-            adb pull \
-              /sdcard/Android/data/br.com.musicaspara.estudar.debug/files/github-actions-screenshots \
-              "$RUNNER_TEMP/android-screenshots"
-            pull_status=$?
-            if [ "$test_status" -ne 0 ]; then exit "$test_status"; fi
-            exit "$pull_status"
+            python3 ci_scripts/capture_android_screenshots.py \
+              --output "$RUNNER_TEMP/android-screenshots"
 
       - uses: actions/upload-artifact@v4
         if: always()
