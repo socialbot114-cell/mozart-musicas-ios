@@ -53,23 +53,46 @@ def capture_screenshot(output_directory: Path, filename: str) -> None:
     print(f"Saved {output_path}")
 
 
-def capture_screen(output_directory: Path, title: str, filename: str) -> None:
+def capture_screen(
+    output_directory: Path,
+    title: str,
+    filename: str,
+    width: int,
+    height: int,
+) -> None:
+    time.sleep(1)
+    dismiss_system_ui_anr_dialog(width, height)
     time.sleep(1)
     print(f"Capturing {title}")
     capture_screenshot(output_directory, filename)
 
 
 def dismiss_system_ui_anr_dialog(width: int, height: int) -> None:
-    window_dump = run_adb("shell", "dumpsys", "window", "windows").stdout.decode(errors="replace").lower()
-    if "not responding" not in window_dump:
-        print("No system ANR dialog detected")
-        return
-
-    # The emulator may show a transient ANR dialog from Settings or System UI.
     x = round(width * 0.32)
     y = round(height * 0.55)
-    print(f"Dismiss system ANR dialog at ({x}, {y})")
-    run_adb("shell", "input", "tap", str(x), str(y))
+    for attempt in range(5):
+        window_dump = (
+            run_adb("shell", "dumpsys", "window", "windows")
+            .stdout.decode(errors="replace")
+            .lower()
+        )
+        if "not responding" not in window_dump:
+            print("No system ANR dialog detected")
+            return
+
+        # The emulator may show consecutive ANR dialogs from Settings or System UI.
+        print(f"Dismiss system ANR dialog ({attempt + 1}/5) at ({x}, {y})")
+        run_adb("shell", "input", "tap", str(x), str(y))
+        time.sleep(3)
+
+    window_dump = (
+        run_adb("shell", "dumpsys", "window", "windows")
+        .stdout.decode(errors="replace")
+        .lower()
+    )
+    if "not responding" in window_dump:
+        raise RuntimeError("System ANR dialog remained visible after five wait attempts")
+    print("System ANR dialog dismissed")
 
 
 def select_tab(index: int, width: int, height: int, density: int) -> None:
@@ -106,13 +129,13 @@ def main() -> None:
     print(start_output.strip())
 
     width, height, density = display_metrics()
-    capture_screen(args.output, "Início", "01-inicio.png")
+    capture_screen(args.output, "Início", "01-inicio.png", width, height)
     select_tab(1, width, height, density)
-    capture_screen(args.output, "Explorar", "02-explorar.png")
+    capture_screen(args.output, "Explorar", "02-explorar.png", width, height)
     select_tab(2, width, height, density)
-    capture_screen(args.output, "Foco", "03-foco.png")
+    capture_screen(args.output, "Foco", "03-foco.png", width, height)
     select_tab(3, width, height, density)
-    capture_screen(args.output, "Biblioteca", "04-biblioteca.png")
+    capture_screen(args.output, "Biblioteca", "04-biblioteca.png", width, height)
 
 
 if __name__ == "__main__":
