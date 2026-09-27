@@ -45,7 +45,7 @@ jobs:
           profile: pixel_2
           disable-animations: true
           script: |
-            set -euo pipefail
+            set -eu
             sdkmanager "platforms;android-36" "build-tools;35.0.0"
             ./gradlew connectedDebugAndroidTest
             mkdir -p "$RUNNER_TEMP/android-screenshots"
