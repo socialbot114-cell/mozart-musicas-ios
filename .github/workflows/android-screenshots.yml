@@ -37,11 +37,6 @@ jobs:
           java-version: "17"
           cache: gradle
 
-      - uses: android-actions/setup-android@v3
-
-      - name: Install Android 36 compile SDK
-        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
-
       - name: Run app in Android emulator and capture screens
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -51,6 +46,7 @@ jobs:
           disable-animations: true
           script: |
             set -euo pipefail
+            sdkmanager "platforms;android-36" "build-tools;35.0.0"
             ./gradlew connectedDebugAndroidTest
             mkdir -p "$RUNNER_TEMP/android-screenshots"
             adb pull \
