@@ -11,18 +11,18 @@ from pathlib import Path
 
 
 APP_PACKAGE = "br.com.musicaspara.estudar.debug"
-APP_ACTIVITY = "br.com.musicasparaestudar.MainActivity"
+APP_ACTIVITY = "br.com.musicaspara.estudar.MainActivity"
 UI_HIERARCHY_PATH = "/sdcard/window.xml"
 UI_TIMEOUT_SECONDS = 45
 
 
 def run_adb(*arguments: str, timeout: int = 60) -> subprocess.CompletedProcess:
-    return subprocess.run(
-        ["adb", *arguments],
-        check=True,
-        capture_output=True,
-        timeout=timeout,
-    )
+    command = ["adb", *arguments]
+    try:
+        return subprocess.run(command, check=True, capture_output=True, timeout=timeout)
+    except subprocess.CalledProcessError as error:
+        details = (error.stderr or error.stdout or b"").decode(errors="replace").strip()
+        raise RuntimeError(f"adb command failed: {command}: {details}") from error
 
 
 def read_hierarchy() -> ET.Element:
