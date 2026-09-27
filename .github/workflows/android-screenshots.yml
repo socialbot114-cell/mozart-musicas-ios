@@ -70,7 +70,7 @@ jobs:
           api-level: 30
           arch: x86_64
           profile: pixel_2
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 3072 -skin 720x1280 -dpi-device 320
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 3072 -skin 900x1600 -dpi-device 360
           disable-animations: false
           script: |
             set -u

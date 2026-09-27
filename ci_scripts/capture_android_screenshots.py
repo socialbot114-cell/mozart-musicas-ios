@@ -59,17 +59,23 @@ def capture_screen(output_directory: Path, title: str, filename: str) -> None:
     capture_screenshot(output_directory, filename)
 
 
-def dismiss_system_ui_wait_dialog(width: int, height: int) -> None:
-    # Pixel_2 at 720x1280 places Android's transient "Wait" action here.
+def dismiss_system_ui_anr_dialog(width: int, height: int) -> None:
+    window_dump = run_adb("shell", "dumpsys", "window", "windows").stdout.decode(errors="replace").lower()
+    if "not responding" not in window_dump:
+        print("No system ANR dialog detected")
+        return
+
+    # The emulator may show a transient ANR dialog from Settings or System UI.
     x = round(width * 0.42)
-    y = round(height * 0.60)
+    y = round(height * 0.50)
+    print(f"Dismiss system ANR dialog at ({x}, {y})")
     run_adb("shell", "input", "tap", str(x), str(y))
 
 
 def select_tab(index: int, width: int, height: int, density: int) -> None:
     tap_navigation_tab(index, width, height, density)
     time.sleep(3)
-    dismiss_system_ui_wait_dialog(width, height)
+    dismiss_system_ui_anr_dialog(width, height)
     tap_navigation_tab(index, width, height, density)
     time.sleep(1)
 
@@ -99,7 +105,7 @@ def main() -> None:
     time.sleep(3)
 
     width, height, density = display_metrics()
-    dismiss_system_ui_wait_dialog(width, height)
+    dismiss_system_ui_anr_dialog(width, height)
     tap_navigation_tab(0, width, height, density)
     capture_screen(args.output, "Início", "01-inicio.png")
     select_tab(1, width, height, density)
