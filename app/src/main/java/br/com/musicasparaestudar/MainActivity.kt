@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.res.AssetManager
 import android.content.ComponentName
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -279,27 +280,44 @@ class StudyStatsViewModel(application: Application) : AndroidViewModel(applicati
 @Composable
 private fun StudyMusicApp() {
     var screen by remember { mutableIntStateOf(0) }
-    var selectedTrack by remember { mutableStateOf(catalog.first()) }
+    var selectedTrack by remember { mutableStateOf<Track?>(null) }
     val focusSession: FocusSessionViewModel = viewModel()
     val audioPlayer: AudioPlayerViewModel = viewModel()
     val studyStats: StudyStatsViewModel = viewModel()
+    BackHandler(enabled = screen == 5) { screen = 0 }
+    val continueTrack = audioPlayer.currentResource?.let { resource ->
+        catalog.firstOrNull { it.audioResource == resource }
+    }
     MaterialTheme {
         Scaffold(
             containerColor = Ivory,
             bottomBar = {
                 Column {
-                    MiniPlayer(audioPlayer, selectedTrack, studyStats, onOpen = { screen = 3 })
+                    MiniPlayer(audioPlayer, selectedTrack ?: catalog.first(), studyStats, onOpen = { screen = 2 })
                     AppNavigation(screen, onSelect = { screen = it })
                 }
             }
         ) { padding ->
             when (screen) {
-                0 -> HomeScreen(Modifier.padding(padding), selectedTrack, onTrackSelect = { selectedTrack = it; screen = 3 }, onOpenFocus = { screen = 3 })
-                1 -> ExploreScreen(Modifier.padding(padding), onTrackSelect = { selectedTrack = it; screen = 3 })
-                2 -> UniverseScreen(Modifier.padding(padding), onTrackSelect = { selectedTrack = it; screen = 3 })
-                3 -> FocusScreen(Modifier.padding(padding), selectedTrack, focusSession, audioPlayer)
-                4 -> LibraryScreen(Modifier.padding(padding), onTrackSelect = { selectedTrack = it; screen = 3 })
-                else -> ProfileScreen(Modifier.padding(padding), studyStats)
+                0 -> HomeScreen(
+                    Modifier.padding(padding), continueTrack,
+                    onTrackSelect = { selectedTrack = it; screen = 2 },
+                    onOpenFocus = { screen = 2 },
+                    onOpenProfile = { screen = 5 }
+                )
+                1 -> ExploreScreen(
+                    Modifier.padding(padding),
+                    onTrackSelect = { selectedTrack = it; screen = 2 },
+                    onOpenUniverse = { screen = 4 }
+                )
+                2 -> FocusScreen(Modifier.padding(padding), selectedTrack ?: catalog.first(), focusSession, audioPlayer)
+                3 -> LibraryScreen(Modifier.padding(padding), onTrackSelect = { selectedTrack = it; screen = 2 })
+                4 -> UniverseScreen(
+                    Modifier.padding(padding),
+                    onTrackSelect = { selectedTrack = it; screen = 2 },
+                    onBack = { screen = 1 }
+                )
+                else -> ProfileScreen(Modifier.padding(padding), studyStats, onBack = { screen = 0 })
             }
         }
     }
@@ -336,11 +354,18 @@ private fun MiniPlayer(audioPlayer: AudioPlayerViewModel, track: Track, stats: S
 }
 
 @Composable
-private fun ProfileScreen(modifier: Modifier, stats: StudyStatsViewModel) {
+private fun ProfileScreen(modifier: Modifier, stats: StudyStatsViewModel, onBack: () -> Unit) {
     LazyColumn(modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         item {
-            Text("Seu perfil", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Night)
-            Text("Acompanhe seu ritmo de concentração.", color = Ink.copy(alpha = .72f), fontSize = 16.sp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.AutoMirrored.Outlined.ArrowBack, "Voltar")
+                }
+                Column {
+                    Text("Seu perfil", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Night)
+                    Text("Acompanhe seu ritmo de concentração.", color = Ink.copy(alpha = .72f), fontSize = 16.sp)
+                }
+            }
         }
         item {
             Card(colors = CardDefaults.cardColors(containerColor = Night), shape = RoundedCornerShape(24.dp)) {
@@ -379,23 +404,46 @@ private fun StatCard(value: String, label: String, modifier: Modifier) {
 
 @Composable
 private fun AppNavigation(selected: Int, onSelect: (Int) -> Unit) {
-    val items = listOf("Início", "Explorar", "Universo", "Foco", "Biblioteca", "Perfil")
-    val icons = listOf(Icons.Outlined.Home, Icons.Outlined.Explore, Icons.Outlined.Book, Icons.Outlined.Timer, Icons.Outlined.Book, Icons.Outlined.Person)
+    val destinations = listOf(
+        0 to ("Início" to Icons.Outlined.Home),
+        1 to ("Explorar" to Icons.Outlined.Explore),
+        2 to ("Foco" to Icons.Outlined.Timer),
+        3 to ("Biblioteca" to Icons.Outlined.Book)
+    )
+    val selectedDestination = when (selected) {
+        4 -> 1
+        5 -> 0
+        else -> selected
+    }
     NavigationBar(containerColor = Color.White) {
-        items.forEachIndexed { index, label ->
-            NavigationBarItem(selected = selected == index, onClick = { onSelect(index) }, icon = {
-                Icon(icons[index], contentDescription = null)
+        destinations.forEach { (destination, item) ->
+            val (label, icon) = item
+            NavigationBarItem(selected = selectedDestination == destination, onClick = { onSelect(destination) }, icon = {
+                Icon(icon, contentDescription = null)
             }, label = { Text(label, fontSize = 14.sp) })
         }
     }
 }
 
 @Composable
-private fun HomeScreen(modifier: Modifier, selectedTrack: Track, onTrackSelect: (Track) -> Unit, onOpenFocus: () -> Unit) {
+private fun HomeScreen(
+    modifier: Modifier,
+    selectedTrack: Track?,
+    onTrackSelect: (Track) -> Unit,
+    onOpenFocus: () -> Unit,
+    onOpenProfile: () -> Unit
+) {
     LazyColumn(modifier = modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         item {
-            Text("Bom estudo", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Night)
-            Text("Pequenos momentos, grandes conquistas.", color = Ink.copy(alpha = .7f))
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text("Bom estudo", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Night)
+                    Text("Pequenos momentos, grandes conquistas.", color = Ink.copy(alpha = .7f))
+                }
+                IconButton(onClick = onOpenProfile) {
+                    Icon(Icons.Outlined.Person, contentDescription = "Abrir perfil", tint = Night)
+                }
+            }
         }
         item {
             Card(colors = CardDefaults.cardColors(containerColor = Night), shape = RoundedCornerShape(24.dp)) {
@@ -425,14 +473,19 @@ private fun HomeScreen(modifier: Modifier, selectedTrack: Track, onTrackSelect: 
                 MomentCard("Brasil\ninstrumental", "Brasil", Modifier.weight(1f)) { onTrackSelect(catalog.firstOrNull { it.category == "Brasileira" } ?: catalog.first()) }
             }
         }
-        item { SectionTitle("Continue ouvindo") }
-        item { MiniTrack(selectedTrack, onClick = onOpenFocus) }
+        if (selectedTrack != null) {
+            item { SectionTitle("Continue ouvindo") }
+            item { MiniTrack(selectedTrack, onClick = onOpenFocus) }
+        }
     }
 }
 
 @Composable
-private fun UniverseScreen(modifier: Modifier, onTrackSelect: (Track) -> Unit) {
+private fun UniverseScreen(modifier: Modifier, onTrackSelect: (Track) -> Unit, onBack: () -> Unit) {
     var selected by remember { mutableStateOf<ComposerProfile?>(null) }
+    BackHandler {
+        if (selected != null) selected = null else onBack()
+    }
     val profile = selected
     if (profile != null) {
         LazyColumn(modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
@@ -454,8 +507,15 @@ private fun UniverseScreen(modifier: Modifier, onTrackSelect: (Track) -> Unit) {
     } else {
         LazyColumn(modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
             item {
-                Text("Universo Musical", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Night)
-                Text("Conheça as histórias por trás das obras.", color = Ink.copy(alpha = .72f), fontSize = 16.sp)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Outlined.ArrowBack, "Voltar para Explorar")
+                    }
+                    Column {
+                        Text("Universo Musical", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Night)
+                        Text("Conheça as histórias por trás das obras.", color = Ink.copy(alpha = .72f), fontSize = 16.sp)
+                    }
+                }
             }
             item {
                 Card(colors = CardDefaults.cardColors(containerColor = Night), shape = RoundedCornerShape(24.dp)) {
@@ -505,27 +565,87 @@ private fun MomentCard(title: String, tag: String, modifier: Modifier, onClick: 
 }
 
 @Composable
-private fun ExploreScreen(modifier: Modifier, onTrackSelect: (Track) -> Unit) {
-    var filter by remember { mutableStateOf("Foco") }
-    val filtered = catalog.filter { filter == "Foco" || (filter == "Leitura" && it.category == "Clássica") || (filter == "Sono" && it.category == "Piano") || (filter == "ENEM" && it.category != "Brasileira") }
+@OptIn(ExperimentalMaterial3Api::class)
+private fun ExploreScreen(modifier: Modifier, onTrackSelect: (Track) -> Unit, onOpenUniverse: () -> Unit) {
+    var query by remember { mutableStateOf("") }
+    var filter by remember { mutableStateOf("Todas") }
+    val filters = listOf("Todas", "Piano", "Barroco", "Clássica", "Brasileira")
+    val filtered = catalog.filter { track ->
+        (filter == "Todas" || track.category == filter) &&
+            (query.isBlank() || track.title.contains(query, ignoreCase = true) || track.composer.contains(query, ignoreCase = true))
+    }
     LazyColumn(modifier = modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         item {
             Text("Estude do seu jeito", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Night)
             Text("Música certa para cada momento da sua jornada.", color = Ink.copy(alpha = .7f))
         }
-        item { FilterRow(filter, onFilter = { filter = it }) }
-        items(filtered.take(6)) { track -> PlaylistCard(track.title, "${track.composer} · ${track.note}", track.category, onClick = { onTrackSelect(track) }) }
-        item { SectionTitle("Compositores em destaque") }
-        item { Text("Bach · Chopin · Debussy · Satie", color = Ink.copy(alpha = .75f), fontSize = 16.sp) }
+        item {
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) },
+                trailingIcon = {
+                    if (query.isNotEmpty()) {
+                        IconButton(onClick = { query = "" }) {
+                            Icon(Icons.Outlined.Close, contentDescription = "Limpar busca")
+                        }
+                    }
+                },
+                placeholder = { Text("Buscar compositor ou obra") },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                singleLine = true
+            )
+        }
+        item { FilterRow(filter, filters, onFilter = { filter = it }) }
+        item {
+            Text(
+                "${filtered.size} ${if (filtered.size == 1) "faixa" else "faixas"}",
+                color = Ink.copy(alpha = .65f),
+                fontSize = 14.sp
+            )
+        }
+        item {
+            Card(
+                Modifier.fillMaxWidth().clickable(onClick = onOpenUniverse),
+                colors = CardDefaults.cardColors(containerColor = Night),
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text("Universo musical", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text("Conheça compositores e suas histórias", color = Color.White.copy(alpha = .78f), fontSize = 14.sp)
+                    }
+                    Icon(Icons.Outlined.Book, contentDescription = null, tint = Lavender)
+                }
+            }
+        }
+        if (filtered.isEmpty()) {
+            item {
+                Column(
+                    Modifier.fillMaxWidth().padding(vertical = 28.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(Icons.Outlined.Search, contentDescription = null, tint = Ink.copy(alpha = .55f), modifier = Modifier.size(32.dp))
+                    Text("Nenhuma faixa encontrada", color = Night, fontWeight = FontWeight.SemiBold)
+                    Text("Mude o termo ou escolha outra categoria.", color = Ink.copy(alpha = .7f))
+                }
+            }
+        } else {
+            items(filtered) { track ->
+                PlaylistCard(track.title, "${track.composer} · ${track.note}", track.category, onClick = { onTrackSelect(track) })
+            }
+        }
     }
 }
 
 @Composable
-private fun FilterRow(selected: String, onFilter: (String) -> Unit) {
+private fun FilterRow(selected: String, options: List<String>, onFilter: (String) -> Unit) {
     Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        listOf("Foco", "Leitura", "Sono", "ENEM").forEach { label ->
+        options.forEach { label ->
             Surface(shape = CircleShape, color = if (label == selected) Lavender else Color.White, modifier = Modifier.clickable { onFilter(label) }) {
-                Text(label, Modifier.padding(horizontal = 16.dp, vertical = 10.dp), color = Night, fontSize = 14.sp)
+                Text(label, Modifier.padding(horizontal = 16.dp, vertical = 16.dp), color = Night, fontSize = 14.sp)
             }
         }
     }
@@ -629,7 +749,7 @@ private fun LibraryFilterRow(selected: String, onFilter: (String) -> Unit) {
     Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         listOf("Todos", "Clássica", "Brasileira", "Piano", "Barroco").forEach { label ->
             Surface(shape = CircleShape, color = if (label == selected) Lavender else Color.White, modifier = Modifier.clickable { onFilter(label) }) {
-                Text(label, Modifier.padding(horizontal = 12.dp, vertical = 10.dp), color = Night, fontSize = 14.sp)
+                Text(label, Modifier.padding(horizontal = 12.dp, vertical = 16.dp), color = Night, fontSize = 14.sp)
             }
         }
     }

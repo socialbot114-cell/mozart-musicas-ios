@@ -1,0 +1,66 @@
+name: Músicas para Estudar Android Screenshots
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["**"]
+    paths:
+      - "app/**"
+      - "gradle/**"
+      - "gradlew"
+      - "build.gradle"
+      - "settings.gradle"
+      - ".github/workflows/android-screenshots.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/**"
+      - "gradle/**"
+      - "gradlew"
+      - "build.gradle"
+      - "settings.gradle"
+      - ".github/workflows/android-screenshots.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install Android 36 compile SDK
+        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
+
+      - name: Run app in Android emulator and capture screens
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: |
+            set -euo pipefail
+            ./gradlew connectedDebugAndroidTest
+            mkdir -p "$RUNNER_TEMP/android-screenshots"
+            adb pull \
+              /sdcard/Android/data/br.com.musicaspara.estudar.debug/files/github-actions-screenshots \
+              "$RUNNER_TEMP/android-screenshots"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: musicas-para-estudar-android-screenshots
+          path: ${{ runner.temp }}/android-screenshots/
+          if-no-files-found: warn
+          retention-days: 14

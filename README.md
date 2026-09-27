@@ -42,4 +42,8 @@ O release atual usa `versionCode 4`.
 
 O player possui mini-player persistente acima da navegação, controles de pausa/retomada/parada e `PlaybackService` para permitir reprodução em segundo plano e integração com os controles de mídia do Android.
 
-A aba Perfil apresenta minutos estudados e músicas iniciadas, salvos localmente no aparelho.
+A tela Perfil, acessível pelo ícone de pessoa em Início, apresenta minutos estudados e músicas iniciadas, salvos localmente no aparelho.
+
+## Capturas Android no GitHub Actions
+
+Execute o workflow **Músicas para Estudar Android Screenshots** em `Actions` → `Músicas para Estudar Android Screenshots` → `Run workflow`. Ao terminar, baixe o artefato `musicas-para-estudar-android-screenshots` para revisar as telas Início, Explorar, Foco e Biblioteca. O workflow também roda automaticamente em pushes e pull requests que alterem o app ou sua configuração de build.
