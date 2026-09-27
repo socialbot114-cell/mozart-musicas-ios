@@ -44,6 +44,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -65,6 +66,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -303,6 +305,17 @@ private fun StudyMusicApp() {
                     Modifier.padding(padding), continueTrack,
                     onTrackSelect = { selectedTrack = it; screen = 2 },
                     onOpenFocus = { screen = 2 },
+                    onStartFocus = {
+                        val track = continueTrack ?: selectedTrack ?: catalog.first()
+                        selectedTrack = track
+                        if (track.audioResource != null &&
+                            (audioPlayer.currentResource != track.audioResource || !audioPlayer.isPlaying)
+                        ) {
+                            audioPlayer.toggle(track)
+                        }
+                        focusSession.start()
+                        screen = 2
+                    },
                     onOpenProfile = { screen = 5 }
                 )
                 1 -> ExploreScreen(
@@ -431,6 +444,7 @@ private fun HomeScreen(
     selectedTrack: Track?,
     onTrackSelect: (Track) -> Unit,
     onOpenFocus: () -> Unit,
+    onStartFocus: () -> Unit,
     onOpenProfile: () -> Unit
 ) {
     LazyColumn(modifier = modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
@@ -446,16 +460,32 @@ private fun HomeScreen(
             }
         }
         item {
-            Card(colors = CardDefaults.cardColors(containerColor = Night), shape = RoundedCornerShape(24.dp)) {
-                Column(Modifier.padding(24.dp)) {
-            Text("FOCO PROFUNDO", color = Lavender, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-                    Spacer(Modifier.height(32.dp))
-                    Text("Piano suave para entrar no ritmo", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                    Spacer(Modifier.height(16.dp))
-                    Button(onClick = onOpenFocus, colors = ButtonDefaults.buttonColors(containerColor = Gold, contentColor = Night)) {
-                        Icon(Icons.Outlined.PlayArrow, null)
-                        Spacer(Modifier.width(8.dp))
-                        Text("Começar agora")
+            Card(shape = RoundedCornerShape(24.dp)) {
+                Box(Modifier.fillMaxWidth().height(190.dp).clip(RoundedCornerShape(24.dp))) {
+                    Image(
+                        painterResource(R.drawable.cover_foco),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                    Box(
+                        Modifier.fillMaxSize().background(
+                            Brush.verticalGradient(
+                                listOf(Night.copy(alpha = .28f), Night.copy(alpha = .96f))
+                            )
+                        )
+                    )
+                    Column(
+                        Modifier.align(Alignment.CenterStart).padding(horizontal = 20.dp, vertical = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text("FOCO PROFUNDO", color = Lavender, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                        Text("Piano suave para entrar no ritmo", color = Color.White, fontSize = 23.sp, fontWeight = FontWeight.Bold, lineHeight = 27.sp)
+                        Button(onClick = onStartFocus, colors = ButtonDefaults.buttonColors(containerColor = Gold, contentColor = Night)) {
+                            Icon(Icons.Outlined.PlayArrow, null)
+                            Spacer(Modifier.width(8.dp))
+                            Text("Começar sessão")
+                        }
                     }
                 }
             }
@@ -605,21 +635,6 @@ private fun ExploreScreen(modifier: Modifier, onTrackSelect: (Track) -> Unit, on
                 fontSize = 14.sp
             )
         }
-        item {
-            Card(
-                Modifier.fillMaxWidth().clickable(onClick = onOpenUniverse),
-                colors = CardDefaults.cardColors(containerColor = Night),
-                shape = RoundedCornerShape(20.dp)
-            ) {
-                Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text("Universo musical", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Text("Conheça compositores e suas histórias", color = Color.White.copy(alpha = .78f), fontSize = 14.sp)
-                    }
-                    Icon(Icons.Outlined.Book, contentDescription = null, tint = Lavender)
-                }
-            }
-        }
         if (filtered.isEmpty()) {
             item {
                 Column(
@@ -635,6 +650,18 @@ private fun ExploreScreen(modifier: Modifier, onTrackSelect: (Track) -> Unit, on
         } else {
             items(filtered) { track ->
                 PlaylistCard(track.title, "${track.composer} · ${track.note}", track.category, onClick = { onTrackSelect(track) })
+            }
+        }
+        item {
+            Card(
+                Modifier.fillMaxWidth().clickable(onClick = onOpenUniverse),
+                colors = CardDefaults.cardColors(containerColor = Night),
+                shape = RoundedCornerShape(18.dp)
+            ) {
+                Row(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text("Conheça os compositores", Modifier.weight(1f), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Icon(Icons.Outlined.Book, contentDescription = null, tint = Lavender)
+                }
             }
         }
     }
@@ -654,14 +681,14 @@ private fun FilterRow(selected: String, options: List<String>, onFilter: (String
 @Composable
 private fun PlaylistCard(title: String, subtitle: String, category: String, onClick: () -> Unit) {
     Card(Modifier.fillMaxWidth().clickable(onClick = onClick), colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(20.dp)) {
-        Row(Modifier.padding(18.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(82.dp).clip(RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
+        Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(68.dp).clip(RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
                 Image(painterResource(coverResource(category)), "Capa de $category", Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
             }
-            Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
-                Text(title, fontWeight = FontWeight.Bold, color = Night)
-                Text(subtitle, color = Ink.copy(alpha = .68f), fontSize = 14.sp)
+                Text(title, fontWeight = FontWeight.Bold, color = Night, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(subtitle, color = Ink.copy(alpha = .68f), fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             Icon(Icons.Outlined.PlayArrow, null, tint = Gold)
         }
@@ -674,29 +701,70 @@ private fun FocusScreen(modifier: Modifier, track: Track, session: FocusSessionV
     val seconds = session.remainingSeconds
     val minutes = seconds / 60
     val remainingSeconds = seconds % 60
-    LazyColumn(modifier = modifier.fillMaxSize().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(18.dp)) {
+    val totalSeconds = (session.selectedDuration * 60).coerceAtLeast(1)
+    val timerProgress = (seconds.toFloat() / totalSeconds).coerceIn(0f, 1f)
+
+    LazyColumn(
+        modifier = modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         item {
-            Text("Sessão de foco", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Night)
-            Text("Sem anúncios durante seu foco.", color = Ink.copy(alpha = .7f))
-        }
-        item {
-            Box(Modifier.size(210.dp).clip(RoundedCornerShape(28.dp)).background(Night), contentAlignment = Alignment.Center) {
-                Image(painterResource(coverResource(track.category)), "Capa de ${track.category}", Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text("Sessão de foco", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Night)
+                Text("Sem anúncios durante seu foco.", color = Ink.copy(alpha = .7f), fontSize = 14.sp)
             }
         }
         item {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(track.title, color = Night, fontSize = 20.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(track.composer, color = Ink.copy(alpha = .7f))
-                Text(if (track.audioResource == null) "Áudio ainda não disponível para esta obra." else "Áudio local incluído no catálogo.", color = Sage, fontSize = 14.sp, modifier = Modifier.padding(top = 8.dp))
-                if (track.audioResource != null) {
-                    Text("Fonte: Wikimedia Commons · referência em catalogo.json", color = Ink.copy(alpha = .65f), fontSize = 14.sp)
+            Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(20.dp)) {
+                Row(
+                    Modifier.fillMaxWidth().padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Image(
+                        painterResource(coverResource(track.category)),
+                        "Capa de ${track.category}",
+                        Modifier.size(112.dp).clip(RoundedCornerShape(16.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                        Text(track.title, color = Night, fontSize = 18.sp, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                        Text(track.composer, color = Ink.copy(alpha = .72f), fontSize = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(
+                            if (track.audioResource == null) "Áudio indisponível" else "Áudio local incluído",
+                            color = Sage,
+                            fontSize = 12.sp,
+                            maxLines = 1
+                        )
+                        if (track.audioResource != null) {
+                            Text(
+                                "Fonte: Wikimedia Commons · catalogo.json",
+                                color = Ink.copy(alpha = .62f),
+                                fontSize = 11.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
                 }
             }
         }
         item {
-            Surface(shape = CircleShape, color = Color.White, tonalElevation = 2.dp) {
-                Text(String.format(Locale.ROOT, "%02d:%02d", minutes, remainingSeconds), Modifier.padding(28.dp), fontSize = 38.sp, color = Night, fontWeight = FontWeight.Bold)
+            Box(Modifier.size(132.dp), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(
+                    progress = { timerProgress },
+                    modifier = Modifier.fillMaxSize().padding(4.dp),
+                    color = Lavender,
+                    trackColor = Lavender.copy(alpha = .22f),
+                    strokeWidth = 8.dp
+                )
+                Text(
+                    String.format(Locale.ROOT, "%02d:%02d", minutes, remainingSeconds),
+                    fontSize = 31.sp,
+                    color = Night,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
         item {
@@ -704,16 +772,33 @@ private fun FocusScreen(modifier: Modifier, track: Track, session: FocusSessionV
                 if (track.audioResource != null) audioPlayer.toggle(track)
                 if (isRunning) session.pause() else session.start()
             }, colors = ButtonDefaults.buttonColors(containerColor = Night), modifier = Modifier.fillMaxWidth().height(52.dp)) {
-                Icon(if (audioPlayer.isPlaying) Icons.Outlined.Pause else Icons.Outlined.PlayArrow, null)
+                Icon(
+                    when {
+                        isRunning -> Icons.Outlined.Pause
+                        track.audioResource == null -> Icons.Outlined.Timer
+                        else -> Icons.Outlined.PlayArrow
+                    },
+                    null
+                )
                 Spacer(Modifier.width(8.dp))
-                Text(if (isRunning) "Pausar sessão" else "Iniciar sessão")
+                Text(when {
+                    isRunning -> "Pausar sessão"
+                    track.audioResource == null -> "Iniciar timer"
+                    else -> "Iniciar sessão"
+                })
             }
         }
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf(25, 50, 90).forEach { duration ->
-                    Surface(shape = CircleShape, color = if (session.selectedDuration == duration) Lavender else Color.White, modifier = Modifier.size(width = 88.dp, height = 48.dp).clickable { session.setDuration(duration) }) {
-                        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) { Text("$duration min", color = Night, fontSize = 14.sp) }
+                    Surface(
+                        shape = CircleShape,
+                        color = if (session.selectedDuration == duration) Lavender else Color.White,
+                        modifier = Modifier.size(width = 88.dp, height = 44.dp).clickable(enabled = !isRunning) { session.setDuration(duration) }
+                    ) {
+                        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                            Text("$duration min", color = Night, fontSize = 14.sp)
+                        }
                     }
                 }
             }
@@ -726,19 +811,53 @@ private fun FocusScreen(modifier: Modifier, track: Track, session: FocusSessionV
 private fun LibraryScreen(modifier: Modifier, onTrackSelect: (Track) -> Unit) {
     var query by remember { mutableStateOf("") }
     var filter by remember { mutableStateOf("Todos") }
-    val tracks = catalog.filter { it.composer.contains(query, true) || it.title.contains(query, true) }
-    Column(modifier = modifier.fillMaxSize().padding(20.dp)) {
-        Text("Biblioteca de compositores", fontSize = 26.sp, fontWeight = FontWeight.Bold, color = Night)
-        Text("Obras que inspiram mentes curiosas.", color = Ink.copy(alpha = .7f))
-        Spacer(Modifier.height(16.dp))
-        OutlinedTextField(value = query, onValueChange = { query = it }, leadingIcon = { Icon(Icons.Outlined.Search, null) }, placeholder = { Text("Buscar compositor ou obra") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp))
-        Spacer(Modifier.height(12.dp))
+    val filteredTracks = catalog.filter {
+        (filter == "Todos" || it.category == filter) &&
+            (query.isBlank() || it.composer.contains(query, true) || it.title.contains(query, true))
+    }
+    Column(modifier = modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 14.dp)) {
+        Text("Biblioteca de compositores", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Night)
+        Text("Obras que inspiram mentes curiosas.", color = Ink.copy(alpha = .7f), fontSize = 14.sp)
+        Spacer(Modifier.height(10.dp))
+        OutlinedTextField(
+            value = query,
+            onValueChange = { query = it },
+            leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) },
+            trailingIcon = {
+                if (query.isNotEmpty()) {
+                    IconButton(onClick = { query = "" }) {
+                        Icon(Icons.Outlined.Close, contentDescription = "Limpar busca")
+                    }
+                }
+            },
+            placeholder = { Text("Buscar compositor ou obra") },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            singleLine = true
+        )
+        Spacer(Modifier.height(6.dp))
         LibraryFilterRow(filter, onFilter = { filter = it })
-        Spacer(Modifier.height(12.dp))
-            Text("Catálogo inicial", color = Ink.copy(alpha = .65f), fontSize = 14.sp)
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            items(tracks.filter { filter == "Todos" || it.category == filter }) { track ->
-                TrackRow(track, onClick = { onTrackSelect(track) })
+        Spacer(Modifier.height(4.dp))
+        Text("${filteredTracks.size} ${if (filteredTracks.size == 1) "faixa" else "faixas"}", color = Ink.copy(alpha = .65f), fontSize = 13.sp)
+        if (filteredTracks.isEmpty()) {
+            Column(
+                Modifier.fillMaxWidth().weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Icon(Icons.Outlined.Search, contentDescription = null, tint = Ink.copy(alpha = .55f), modifier = Modifier.size(32.dp))
+                Spacer(Modifier.height(8.dp))
+                Text("Nenhuma faixa encontrada", color = Night, fontWeight = FontWeight.SemiBold)
+                Text("Tente outro termo ou filtro.", color = Ink.copy(alpha = .7f), fontSize = 14.sp)
+            }
+        } else {
+            LazyColumn(
+                Modifier.fillMaxWidth().weight(1f),
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                items(filteredTracks) { track ->
+                    TrackRow(track, onClick = { onTrackSelect(track) })
+                }
             }
         }
     }
@@ -757,15 +876,18 @@ private fun LibraryFilterRow(selected: String, onFilter: (String) -> Unit) {
 
 @Composable
 private fun TrackRow(track: Track, onClick: () -> Unit) {
-    Row(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(64.dp).clip(RoundedCornerShape(12.dp)), contentAlignment = Alignment.Center) {
-                Image(painterResource(coverResource(track.category)), "Capa de ${track.category}", Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+    Row(
+        Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(Modifier.size(56.dp).clip(RoundedCornerShape(12.dp)), contentAlignment = Alignment.Center) {
+            Image(painterResource(coverResource(track.category)), "Capa de ${track.category}", Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
         }
         Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            Text(track.composer, fontWeight = FontWeight.Bold, color = Night)
-            Text(track.title, color = Ink.copy(alpha = .72f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text("Composição em domínio público; licença da gravação em verificação", color = Sage, fontSize = 14.sp)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(track.title, fontWeight = FontWeight.Bold, color = Night, fontSize = 16.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(track.composer, color = Ink.copy(alpha = .72f), fontSize = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text("Domínio público · gravação em revisão", color = Sage, fontSize = 11.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         Icon(Icons.Outlined.PlayArrow, null, tint = Gold)
     }
