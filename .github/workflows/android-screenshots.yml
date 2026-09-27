@@ -70,7 +70,8 @@ jobs:
           api-level: 30
           arch: x86_64
           profile: pixel_2
-          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 3072 -skin 720x1280 -dpi-device 320
+          disable-animations: false
           script: |
             set -u
             sdkmanager "platforms;android-36" "build-tools;35.0.0" || exit $?
