@@ -105,17 +105,14 @@ def main() -> None:
     time.sleep(3)
 
     width, height, density = display_metrics()
-    dismiss_system_ui_anr_dialog(width, height)
-    tap_navigation_tab(0, width, height, density)
-    time.sleep(3)
-    dismiss_system_ui_anr_dialog(width, height)
-    capture_screen(args.output, "Início", "01-inicio.png")
     select_tab(1, width, height, density)
     capture_screen(args.output, "Explorar", "02-explorar.png")
     select_tab(2, width, height, density)
     capture_screen(args.output, "Foco", "03-foco.png")
     select_tab(3, width, height, density)
     capture_screen(args.output, "Biblioteca", "04-biblioteca.png")
+    select_tab(0, width, height, density)
+    capture_screen(args.output, "Início", "01-inicio.png")
 
 
 if __name__ == "__main__":
