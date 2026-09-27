@@ -96,7 +96,7 @@ def main() -> None:
     if not apk_path.is_file():
         raise FileNotFoundError(f"Debug APK not found: {apk_path}")
 
-    run_adb("install", "-r", str(apk_path), timeout=180)
+    run_adb("install", "-r", str(apk_path), timeout=600)
     run_adb("shell", "am", "force-stop", APP_PACKAGE)
     run_adb(
         "shell", "am", "start", "-W", "-n", f"{APP_PACKAGE}/{APP_ACTIVITY}", timeout=60
