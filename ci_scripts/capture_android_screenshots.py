@@ -89,10 +89,15 @@ def capture_screen(output_directory: Path, ready_text: str, filename: str) -> No
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument(
+        "--apk",
+        type=Path,
+        default=Path("app/build/outputs/apk/debug/app-debug.apk"),
+    )
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
-    apk_path = Path("app/build/outputs/apk/debug/app-debug.apk")
+    apk_path = args.apk
     if not apk_path.is_file():
         raise FileNotFoundError(f"Debug APK not found: {apk_path}")
 
