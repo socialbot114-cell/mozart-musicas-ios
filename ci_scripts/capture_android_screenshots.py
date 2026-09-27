@@ -102,17 +102,16 @@ def main() -> None:
     if "Error:" in start_output:
         raise RuntimeError(f"App did not start successfully: {start_output}")
     print(start_output.strip())
-    time.sleep(3)
+    time.sleep(1)
 
     width, height, density = display_metrics()
+    capture_screen(args.output, "Início", "01-inicio.png")
     select_tab(1, width, height, density)
     capture_screen(args.output, "Explorar", "02-explorar.png")
     select_tab(2, width, height, density)
     capture_screen(args.output, "Foco", "03-foco.png")
     select_tab(3, width, height, density)
     capture_screen(args.output, "Biblioteca", "04-biblioteca.png")
-    select_tab(0, width, height, density)
-    capture_screen(args.output, "Início", "01-inicio.png")
 
 
 if __name__ == "__main__":
