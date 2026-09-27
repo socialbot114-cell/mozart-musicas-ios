@@ -66,8 +66,8 @@ def dismiss_system_ui_anr_dialog(width: int, height: int) -> None:
         return
 
     # The emulator may show a transient ANR dialog from Settings or System UI.
-    x = round(width * 0.42)
-    y = round(height * 0.50)
+    x = round(width * 0.32)
+    y = round(height * 0.55)
     print(f"Dismiss system ANR dialog at ({x}, {y})")
     run_adb("shell", "input", "tap", str(x), str(y))
 
