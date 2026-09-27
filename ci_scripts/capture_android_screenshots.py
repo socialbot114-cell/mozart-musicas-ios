@@ -53,6 +53,28 @@ def capture_screenshot(output_directory: Path, filename: str) -> None:
     print(f"Saved {output_path}")
 
 
+def wait_for_app_text(expected_text: str, timeout: int = 60) -> None:
+    deadline = time.monotonic() + timeout
+    last_status = "UI hierarchy did not contain the expected text"
+    print(f"Waiting up to {timeout}s for app content: {expected_text}")
+
+    while time.monotonic() < deadline:
+        try:
+            run_adb("shell", "uiautomator", "dump", "--compressed", "/sdcard/window.xml", timeout=20)
+            hierarchy = run_adb("shell", "cat", "/sdcard/window.xml", timeout=10).stdout.decode(errors="replace")
+        except (RuntimeError, subprocess.TimeoutExpired) as error:
+            last_status = str(error)
+        else:
+            if expected_text in hierarchy:
+                print(f"App content is ready: {expected_text}")
+                return
+            last_status = f"{expected_text!r} is not present in the UI hierarchy yet"
+
+        time.sleep(2)
+
+    raise RuntimeError(f"App did not render {expected_text!r} within {timeout}s: {last_status}")
+
+
 def capture_screen(output_directory: Path, title: str, filename: str) -> None:
     time.sleep(1)
     print(f"Capturing {title}")
@@ -102,7 +124,7 @@ def main() -> None:
     if "Error:" in start_output:
         raise RuntimeError(f"App did not start successfully: {start_output}")
     print(start_output.strip())
-    time.sleep(1)
+    wait_for_app_text("Bom estudo")
 
     width, height, density = display_metrics()
     capture_screen(args.output, "Início", "01-inicio.png")

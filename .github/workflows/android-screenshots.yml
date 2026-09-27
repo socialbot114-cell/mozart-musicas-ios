@@ -70,7 +70,7 @@ jobs:
           api-level: 30
           arch: x86_64
           profile: pixel_2
-          disable-animations: false
+          disable-animations: true
           script: |
             set -u
             sdkmanager "platforms;android-36" "build-tools;35.0.0" || exit $?
