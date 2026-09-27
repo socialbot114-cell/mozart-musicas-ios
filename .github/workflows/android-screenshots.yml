@@ -37,6 +37,9 @@ jobs:
           java-version: "17"
           cache: gradle
 
+      - name: Build app and screenshot test
+        run: ./gradlew assembleDebug assembleDebugAndroidTest --console=plain
+
       - name: Run app in Android emulator and capture screens
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -45,13 +48,17 @@ jobs:
           profile: pixel_2
           disable-animations: true
           script: |
-            set -eu
-            sdkmanager "platforms;android-36" "build-tools;35.0.0"
-            ./gradlew connectedDebugAndroidTest
+            set -u
+            sdkmanager "platforms;android-36" "build-tools;35.0.0" || exit $?
+            ./gradlew connectedDebugAndroidTest --console=plain
+            test_status=$?
             mkdir -p "$RUNNER_TEMP/android-screenshots"
             adb pull \
               /sdcard/Android/data/br.com.musicaspara.estudar.debug/files/github-actions-screenshots \
               "$RUNNER_TEMP/android-screenshots"
+            pull_status=$?
+            if [ "$test_status" -ne 0 ]; then exit "$test_status"; fi
+            exit "$pull_status"
 
       - uses: actions/upload-artifact@v4
         if: always()
