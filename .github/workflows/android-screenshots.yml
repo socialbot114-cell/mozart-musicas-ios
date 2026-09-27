@@ -53,8 +53,7 @@ jobs:
             set -u
             sdkmanager "platforms;android-36" "build-tools;35.0.0" || exit $?
             mkdir -p "$RUNNER_TEMP/android-screenshots"
-            python3 ci_scripts/capture_android_screenshots.py \
-              --output "$RUNNER_TEMP/android-screenshots"
+            python3 ci_scripts/capture_android_screenshots.py --output "$RUNNER_TEMP/android-screenshots"
 
       - uses: actions/upload-artifact@v4
         if: always()
