@@ -76,11 +76,12 @@ def main() -> None:
 
     run_adb("install", "-r", str(apk_path), timeout=600)
     run_adb("shell", "am", "force-stop", APP_PACKAGE)
-    start_result = run_adb(
-        "shell", "am", "start", "-W", "-n", f"{APP_PACKAGE}/{APP_ACTIVITY}", timeout=60
-    )
-    if b"Status: ok" not in start_result.stdout:
-        raise RuntimeError(f"App did not start successfully: {start_result.stdout.decode(errors='replace')}")
+    start_result = run_adb("shell", "am", "start", "-n", f"{APP_PACKAGE}/{APP_ACTIVITY}", timeout=60)
+    start_output = start_result.stdout.decode(errors="replace")
+    if "Error:" in start_output:
+        raise RuntimeError(f"App did not start successfully: {start_output}")
+    print(start_output.strip())
+    time.sleep(25)
 
     width, height, density = display_metrics()
     capture_screen(args.output, "Início", "01-inicio.png")
